@@ -1,13 +1,25 @@
 # danielbeck.dev
 
-The personal technical website of Daniel Beck — Senior Software Engineer,
-"Building Reliable Systems at Scale." A durable, self-owned platform for
-long-form writing, YouTube, and open source, where each article anchors a
-content cluster (post → video → repo → LinkedIn → talk).
+The personal technical website of Daniel Beck, Senior Software Engineer.
+It is a durable, self-owned platform for long-form writing, YouTube, and open
+source, where each article anchors a content cluster: post, video, repo,
+LinkedIn, talk.
 
 **Stack:** [Astro](https://astro.build) (static, no adapter) · MDX content
 collections · [Tailwind CSS v4](https://tailwindcss.com) · self-hosted fonts ·
 build-time OG images · deployed on **Cloudflare Pages**. No CMS, no database.
+
+## If you are an AI agent
+
+Start with [docs/README.md](./docs/README.md) and
+[docs/ai-agent-guide.md](./docs/ai-agent-guide.md). The short version is:
+
+- Identity lives in `src/consts/site.ts`.
+- Content lives in collections and data files, not page templates.
+- Visible copy follows [docs/writing/voice-and-tone.md](./docs/writing/voice-and-tone.md).
+- Run `npm run check` before you finish.
+- `agent-map.json` gives a machine-readable map of the same rules and file
+  paths.
 
 ## Commands
 
@@ -48,8 +60,7 @@ placeholder to swap before launch.
 ## Writing a new article
 
 1. Create `src/content/blog/<slug>.mdx`.
-2. Add frontmatter (validated at build — a bad `category` or dangling cross-link
-   fails the build):
+2. Add frontmatter. A bad `category` or dangling cross-link fails the build:
 
    ```yaml
    ---
@@ -73,9 +84,9 @@ placeholder to swap before launch.
 `<YouTubeEmbed id="..." />`, `<ArticleCard>`, `<ProjectCard>`,
 `<NewsletterSignup />`. Plain fenced code is syntax-highlighted automatically
    (dual light/dark themes, with a copy button).
-4. `npm run dev` to preview; flip `draft: false` when ready.
-5. Commit & push — Cloudflare rebuilds. Tags, categories, RSS, sitemap, and the
-   OG image regenerate automatically.
+4. `npm run dev` to preview. Flip `draft: false` when ready.
+5. Commit and push. Cloudflare rebuilds. Tags, categories, RSS, sitemap, and
+   the OG image regenerate automatically.
 
 **Videos** live in `src/data/videos.yaml` and **talks/podcasts** in
 `src/content/speaking/*.md`; their `relatedPost` fields wire up cross-links,
@@ -85,7 +96,7 @@ validated at build time.
 
 The Open Source page lists your **merged pull requests to external libraries**,
 pulled live from GitHub at build time. You only maintain a list of repos in
-**`src/consts/contributions.ts`** — add an `owner/name` entry and the page
+**`src/consts/contributions.ts`**: add an `owner/name` entry and the page
 auto-populates that repo's PRs, description, stars, and language:
 
 ```ts
@@ -93,7 +104,7 @@ export const trackedRepos = [{ repo: 'QwikDev/partytown' }, { repo: 'module-fede
 ```
 
 The author is taken from `siteConfig.githubUsername`. Without a token the fetch
-works at low volume but GitHub may rate-limit CI IPs — in that case each repo
+works at low volume, but GitHub may rate-limit CI IPs. In that case each repo
 still renders with its fallback blurb and a link to the live PR list, so the
 page is never empty. Set **`GITHUB_TOKEN`** in Cloudflare for reliable builds.
 

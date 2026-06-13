@@ -5,7 +5,7 @@ interface Props {
   as?: keyof HTMLElementTagNameMap;
   class?: string;
 }
-const { width = 'wide', as = 'div', class: className = '' } = Astro.props;
+const { width = 'wide', as = 'div', class: className = '' } = Astro.props as Props;
 const Tag = as;
 const widths: Record<Width, string> = {
   wide: 'max-w-wide',

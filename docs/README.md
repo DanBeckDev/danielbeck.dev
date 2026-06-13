@@ -2,14 +2,15 @@
 
 This folder explains how the site is built and how to add to it. It is written
 for both humans and AI assistants. If you are an AI agent making changes, read
+[ai-agent-guide.md](./ai-agent-guide.md) first, then
 [writing/voice-and-tone.md](./writing/voice-and-tone.md) before writing any
 copy, and follow it exactly.
 
 ## The golden rules
 
-1. **No em dashes (`—`) in any visible copy.** They read as AI-written. Use a
-   full stop, a comma, a colon, or parentheses instead. Normal hyphens in
-   compound words (`senior-level`, `open-source`) are fine. See
+1. **No em dashes or en dashes in any visible copy.** They read as AI-written.
+   Use a full stop, a comma, a colon, or parentheses instead. Normal hyphens
+   in compound words (`senior-level`, `open-source`) are fine. See
    [writing/voice-and-tone.md](./writing/voice-and-tone.md).
 2. **All identity lives in `src/consts/site.ts`.** Name, role, email, social
    links, handles. Never hard-code these anywhere else.
@@ -24,6 +25,10 @@ copy, and follow it exactly.
 
 | You want to...                         | Read                                                               |
 | -------------------------------------- | ------------------------------------------------------------------ |
+| Get the fast AI-agent version         | [ai-agent-guide.md](./ai-agent-guide.md)                           |
+| Get a machine-readable map            | [agent-map.json](../agent-map.json)                                |
+| Write a blog post with an agent       | [content/blog-agent-playbook.md](./content/blog-agent-playbook.md) |
+| Check blog quality                     | [writing/technical-blog-quality.md](./writing/technical-blog-quality.md) |
 | Understand the stack and layout        | [architecture/overview.md](./architecture/overview.md)             |
 | Understand collections and cross-links | [architecture/content-model.md](./architecture/content-model.md)   |
 | Change styles, colours, or dark mode   | [architecture/styling.md](./architecture/styling.md)               |

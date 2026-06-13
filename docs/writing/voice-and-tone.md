@@ -19,25 +19,25 @@ engineering. The voice is:
   the basics or talk down.
 - **Honest about scope.** If something is unfinished or simplified, say so.
 
-## Rule 1: no em dashes
+## Rule 1: no long dashes
 
-Do not use em dashes (`—`) or en dashes (`–`) in visible copy. They are the
-clearest tell of AI-generated text and Daniel does not write with them.
+Do not use long dash characters in visible copy. They are the clearest tell of
+AI-generated text and Daniel does not write with them.
 
 Use a full stop, a comma, a colon, or parentheses instead. Normal hyphens inside
 compound words are fine (`senior-level`, `open-source`, `AI-augmented`).
 
 Before and after:
 
-| Avoid                                             | Write instead                                    |
-| ------------------------------------------------- | ------------------------------------------------ |
-| `I build platforms — and the tooling in between.` | `I build platforms, and the tooling in between.` |
-| `It does one thing — render.`                     | `It does one thing: render.`                     |
-| `The fix is simple — diff first.`                 | `The fix is simple. Diff first.`                 |
-| `React, ReactDOM — plus a JSX transform.`         | `React and ReactDOM, plus a JSX transform.`      |
-| `It's changing how I work — fundamentally.`       | `It's fundamentally changing how I work.`        |
+| Avoid a long dash here                          | Write instead                                    |
+| ----------------------------------------------- | ------------------------------------------------ |
+| `I build platforms and the tooling in between.` | `I build platforms, and the tooling in between.` |
+| `It does one thing render.`                     | `It does one thing: render.`                     |
+| `The fix is simple diff first.`                 | `The fix is simple. Diff first.`                 |
+| `React, ReactDOM plus a JSX transform.`         | `React and ReactDOM, plus a JSX transform.`      |
+| `It's changing how I work fundamentally.`       | `It's fundamentally changing how I work.`        |
 
-If you find yourself wanting an em dash, the sentence usually wants to be two
+If you find yourself wanting a long dash, the sentence usually wants to be two
 sentences.
 
 ## Rule 2: avoid the other AI tells
@@ -79,7 +79,7 @@ sentences.
 
 ## Pre-publish checklist
 
-1. Search the text for `—` and `–`. There should be zero.
+1. Search the text for long dash characters. There should be none.
 2. Read it out loud. If a sentence sounds like a brochure or a chatbot, rewrite
    it shorter and plainer.
 3. Cut the first sentence if it is a warm-up. Start at the real point.

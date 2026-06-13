@@ -7,6 +7,11 @@ becomes the slug and the URL: `building-react-from-scratch.mdx` is served at
 Read [../writing/voice-and-tone.md](../writing/voice-and-tone.md) before writing
 the body.
 
+If you are an AI agent, also read
+[./blog-agent-playbook.md](./blog-agent-playbook.md) before drafting, then
+[../writing/technical-blog-quality.md](../writing/technical-blog-quality.md)
+before you polish the draft.
+
 ## Frontmatter
 
 ```mdx

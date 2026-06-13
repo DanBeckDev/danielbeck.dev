@@ -1,0 +1,41 @@
+{
+  "project": "danielbeck.dev",
+  "purpose": "Machine-readable map for AI agents and tooling.",
+  "read_first": [
+    "docs/README.md",
+    "docs/ai-agent-guide.md",
+    "docs/content/blog-agent-playbook.md",
+    "docs/writing/technical-blog-quality.md",
+    "docs/writing/voice-and-tone.md",
+    "docs/architecture/content-model.md",
+    "docs/architecture/styling.md"
+  ],
+  "source_of_truth": {
+    "identity": "src/consts/site.ts",
+    "navigation": "src/consts/site.ts",
+    "categories": "src/consts/categories.ts",
+    "tracked_repos": "src/consts/contributions.ts",
+    "content_schemas": "src/content.config.ts",
+    "blog_posts": "src/content/blog/*.mdx",
+    "videos": "src/data/videos.yaml",
+    "speaking": "src/content/speaking/*.md",
+    "global_styles": "src/styles/global.css"
+  },
+  "commands": {
+    "dev": "npm run dev",
+    "check": "npm run check",
+    "build": "npm run build",
+    "format": "npm run format"
+  },
+  "blog_guidance": {
+    "playbook": "docs/content/blog-agent-playbook.md",
+    "quality": "docs/writing/technical-blog-quality.md",
+    "post_doc": "docs/content/blog-posts.md"
+  },
+  "rules": [
+    "No em dashes or en dashes in visible copy.",
+    "Identity lives only in src/consts/site.ts.",
+    "Content belongs in collections and data files, not templates.",
+    "Run npm run check before committing."
+  ]
+}

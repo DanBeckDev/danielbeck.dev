@@ -2,9 +2,9 @@
 # used by automated systems. search = include in search results; ai-input = use
 # in AI-generated answers (e.g. assistants, AI overviews); ai-train = use to
 # train or fine-tune AI models. These are preferences, honoured by participating
-# crawlers. Change ai-train to "yes" if you are happy for content to train models.
+# crawlers. All set to yes: full visibility, citation, and training permitted.
 User-agent: *
-Content-Signal: search=yes, ai-input=yes, ai-train=no
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://danielbeck.dev/sitemap-index.xml

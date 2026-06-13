@@ -13,7 +13,12 @@ import { siteConfig } from '../consts/site';
  */
 
 const USERNAME = siteConfig.githubUsername;
-const TOKEN = import.meta.env.GITHUB_TOKEN as string | undefined;
+
+// Read the token from Vite's env or the build process env. Cloudflare exposes
+// build variables via process.env, so check both.
+const TOKEN = (import.meta.env.GITHUB_TOKEN ??
+  (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env
+    ?.GITHUB_TOKEN) as string | undefined;
 
 export interface ContributionPR {
   title: string;

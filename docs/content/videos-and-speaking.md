@@ -1,7 +1,24 @@
 # Videos and speaking
 
 Both are small content collections. Videos are one YAML file; talks are one
-markdown file each.
+markdown file each. The YouTube page shows two sections: a curated **Featured**
+list (from `videos.yaml`) and an automatic **Latest from the channel** feed.
+
+## Latest from the channel (automatic)
+
+The "Latest from the channel" section pulls recent uploads from YouTube's public
+RSS feed at build time (no API key). It only renders once you set the channel id
+in `src/consts/site.ts`:
+
+```ts
+youtubeChannelId: 'UCxxxxxxxxxxxxxxxxxxxxxx',
+```
+
+This is the `UC...` channel id, not the `@handle`. To find it: open
+`youtube.com/@danielbeckdev`, View Source, and search for `"channelId"`. With it
+empty (the default), the section is simply hidden and the fetch never runs. The
+fetch fails gracefully, so a YouTube outage will not break the build. Code is in
+`src/lib/youtube.ts`.
 
 ## Videos (`src/data/videos.yaml`)
 

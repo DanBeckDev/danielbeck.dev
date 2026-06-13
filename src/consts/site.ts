@@ -29,6 +29,12 @@ export const siteConfig = {
   youtubeChannelId: '',
   twitterHandle: '@DanielBeckDev',
 
+  /** Cloudflare Web Analytics beacon token (a public token, safe to commit).
+   *  Get it from the Cloudflare dashboard: Web Analytics → Add a site → copy
+   *  the token. The beacon only loads in production when this is set; leave
+   *  empty to disable. Privacy-friendly, no cookies, no consent banner needed. */
+  cloudflareAnalyticsToken: '',
+
   // OpenGraph / Person
   jobTitle: 'Senior Software Engineer',
   knowsAbout: [

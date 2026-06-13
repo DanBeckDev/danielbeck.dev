@@ -4,13 +4,18 @@ import PageHeader from '../../components/ui/PageHeader.astro';
 import Container from '../../components/ui/Container.astro';
 import VideoCard from '../../components/youtube/VideoCard.astro';
 import SubscribeCTA from '../../components/youtube/SubscribeCTA.astro';
+import YouTubeEmbed from '../../components/mdx/YouTubeEmbed.astro';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import { getVideos } from '../../lib/content';
+import { getLatestChannelVideos } from '../../lib/youtube';
 import { videoJsonLd, ogImageUrl } from '../../lib/seo';
+import { formatDateShort, isoDate } from '../../lib/date';
 import { siteConfig } from '../../consts/site';
 
 const videos = await getVideos();
+const channelVideos = await getLatestChannelVideos(6);
 const schema = videos.map((v) => videoJsonLd(v));
+const hasAny = videos.length > 0 || channelVideos.length > 0;
 ---
 
 <BaseLayout
@@ -30,30 +35,74 @@ const schema = videos.map((v) => videoJsonLd(v));
     <SubscribeCTA />
 
     {
-      videos.length === 0 ? (
-        <p class="empty">Videos are on the way. Subscribe to catch the first one.</p>
-      ) : (
-        <div class="grid">
-          {videos.map((video) => (
-            <VideoCard video={video} titleAs="h2" />
-          ))}
-        </div>
+      videos.length > 0 && (
+        <section class="vsection">
+          <h2 class="vsection__title">Featured</h2>
+          <div class="grid">
+            {videos.map((video) => (
+              <VideoCard video={video} titleAs="h3" />
+            ))}
+          </div>
+        </section>
       )
     }
+
+    {
+      channelVideos.length > 0 && (
+        <section class="vsection">
+          <h2 class="vsection__title">Latest from the channel</h2>
+          <div class="grid">
+            {channelVideos.map((v) => (
+              <article class="cv">
+                <YouTubeEmbed id={v.id} title={v.title} />
+                <h3 class="cv__title">{v.title}</h3>
+                <time class="cv__date" datetime={isoDate(v.publishedAt)}>
+                  {formatDateShort(v.publishedAt)}
+                </time>
+              </article>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {!hasAny && <p class="empty">Videos are on the way. Subscribe to catch the first one.</p>}
   </Container>
 </BaseLayout>
 
 <style>
+  .vsection {
+    margin-top: 2.75rem;
+  }
+  .vsection__title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-faint);
+    margin: 0 0 1.25rem;
+  }
   .grid {
     display: grid;
     gap: 2.5rem;
     grid-template-columns: 1fr;
-    margin-top: 2.5rem;
   }
   @media (min-width: 768px) {
     .grid {
       grid-template-columns: repeat(2, 1fr);
     }
+  }
+  .cv__title {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+  .cv__date {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--color-faint);
   }
   .empty {
     margin-top: 2rem;

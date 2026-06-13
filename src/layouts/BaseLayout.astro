@@ -105,6 +105,18 @@ const resolvedCanonical = canonical ?? new URL(Astro.url.pathname, Astro.site).h
     </main>
     <Footer />
 
+    {/* Cloudflare Web Analytics (production only, no-op until a token is set). */}
+    {
+      import.meta.env.PROD && siteConfig.cloudflareAnalyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={`{"token": "${siteConfig.cloudflareAnalyticsToken}"}`}
+        />
+      )
+    }
+
     {/* Progressive enhancements: header scroll state + copy buttons on code blocks. */}
     <script>
       // Header hairline: present `data-scroll-top` only while at the very top.

@@ -76,3 +76,10 @@ domain.
 
 At build time Astro also generates the RSS feed (`/rss.xml`), the sitemap
 (`/sitemap-index.xml`), and a social image per page under `/og/`.
+
+## Analytics
+
+Cloudflare Web Analytics (privacy-friendly, cookieless, no consent banner). The
+beacon is in `BaseLayout.astro` and only loads in production when
+`siteConfig.cloudflareAnalyticsToken` is set. Get the token from the Cloudflare
+dashboard under Web Analytics. Leave it empty to disable.

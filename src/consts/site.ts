@@ -24,9 +24,9 @@ export const siteConfig = {
   },
   githubUsername: 'DanBeckDev',
   youtubeHandle: '@danielbeckdev',
-  /** Resolve once at https://www.youtube.com/@danielbeckdev (View source → channelId)
-   *  to enable the optional build-time "latest videos" RSS fetch. */
-  youtubeChannelId: '',
+  /** Channel id (UC...) for the build-time "latest videos" RSS fetch. The
+   *  feed renders automatically once the channel has uploads. */
+  youtubeChannelId: 'UCAdBTWlnlVbpcTa1DIUm9EQ',
   twitterHandle: '@DanielBeckDev',
 
   /** Cloudflare Web Analytics beacon token (a public token, safe to commit).

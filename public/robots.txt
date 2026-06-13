@@ -1,4 +1,10 @@
+# Content Signals (https://contentsignals.org) declare how this content may be
+# used by automated systems. search = include in search results; ai-input = use
+# in AI-generated answers (e.g. assistants, AI overviews); ai-train = use to
+# train or fine-tune AI models. These are preferences, honoured by participating
+# crawlers. Change ai-train to "yes" if you are happy for content to train models.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
 Sitemap: https://danielbeck.dev/sitemap-index.xml

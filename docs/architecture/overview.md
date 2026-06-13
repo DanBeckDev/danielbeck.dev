@@ -82,4 +82,21 @@ At build time Astro also generates the RSS feed (`/rss.xml`), the sitemap
 Cloudflare Web Analytics (privacy-friendly, cookieless, no consent banner). The
 beacon is in `BaseLayout.astro` and only loads in production when
 `siteConfig.cloudflareAnalyticsToken` is set. Get the token from the Cloudflare
-dashboard under Web Analytics. Leave it empty to disable.
+dashboard under Web Analytics. Leave it empty to disable. (The live site uses
+Cloudflare's automatic edge injection instead, so the code beacon stays off.)
+
+## AI / agent readiness
+
+The site is a static content site, not an API or agent service, so it does the
+things that help AI tools read and cite content, and skips the API/auth/MCP
+discovery files that would only apply to a service:
+
+- `public/robots.txt` carries Content Signals (`search`, `ai-input`, `ai-train`)
+  declaring how content may be used. See [contentsignals.org](https://contentsignals.org).
+- `src/pages/llms.txt.ts` generates `/llms.txt`, a markdown index of pages and
+  posts for LLMs ([llmstxt.org](https://llmstxt.org)). It rebuilds from content,
+  so new posts appear automatically.
+- "Markdown for Agents" (HTML to markdown on `Accept: text/markdown`) is a
+  Cloudflare dashboard toggle under AI Crawl Control, not code.
+- Whether AI crawlers are allowed at all is controlled in Cloudflare's AI Crawl
+  Control, not in this repo.

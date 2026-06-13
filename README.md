@@ -97,25 +97,37 @@ works at low volume but GitHub may rate-limit CI IPs — in that case each repo
 still renders with its fallback blurb and a link to the live PR list, so the
 page is never empty. Set **`GITHUB_TOKEN`** in Cloudflare for reliable builds.
 
-## Deployment — Cloudflare Pages (Git integration)
+## Deployment (Cloudflare Workers, static assets)
 
-This is a fully static site, so **no adapter is needed**.
+This is a fully static site: no adapter, no Worker script. It deploys to
+Cloudflare Workers as static assets, configured by `wrangler.jsonc`:
 
-1. Push this repo to GitHub.
-2. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**.
-3. Pick the repo. Cloudflare detects the Astro preset; confirm:
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Environment variable:** `NODE_VERSION = 24`
-4. Deploy. Every push to `main` rebuilds and deploys automatically.
-5. Add the custom domain `danielbeck.dev` in the Pages project.
+```jsonc
+{
+  "name": "danielbeckdev",
+  "compatibility_date": "2026-06-13",
+  "assets": { "directory": "./dist" }
+}
+```
 
-> Make sure the project is created under **Pages** (serves at `*.pages.dev`),
-> not Workers.
+The project/worker **name cannot contain a dot** (lowercase letters, numbers,
+and dashes only), so it is `danielbeckdev`. The domain `danielbeck.dev` is added
+separately as a custom domain.
+
+1. Push to GitHub.
+2. Cloudflare dashboard: **Workers & Pages**, then **Import a repository**, and
+   pick `DanBeckDev/danielbeck.dev`.
+3. Build command `npm run build`; the build deploys via the committed
+   `wrangler.jsonc`. Set `NODE_VERSION = 24`.
+4. Every push to `main` rebuilds and deploys.
+5. Add the custom domain `danielbeck.dev` under the project's Domains & Routes.
+
+Classic Cloudflare Pages also works (build `npm run build`, output `dist`);
+either way the project name cannot contain a dot.
 
 ### Recommended: `GITHUB_TOKEN` for the Open Source page
 
 Set a `GITHUB_TOKEN` build environment variable in Cloudflare so the Open Source
 page reliably fetches your merged PRs (see above). A read-only token with no
-scopes is enough — it only reads public data. Without it the build still
+scopes is enough; it only reads public data. Without it the build still
 succeeds; the contributions section just falls back to repo links.

@@ -59,14 +59,20 @@ Node 22.12 or newer is required (see `.nvmrc`, which pins 24 for Cloudflare).
 
 ## Build and deploy
 
-The site is fully static, so no adapter is involved. Cloudflare Pages builds it
-on every push to `main` through the dashboard Git integration:
+The site is fully static, so there is no adapter and no Worker script. It
+deploys to Cloudflare Workers as static assets, configured by `wrangler.jsonc`
+at the repo root (`name: "danielbeckdev"`, `assets.directory: "./dist"`).
+Cloudflare rebuilds on every push to `main`.
 
 - Build command: `npm run build`
-- Output directory: `dist`
+- Output directory: `dist` (served via the `assets` config in `wrangler.jsonc`)
 - Environment variable: `NODE_VERSION = 24`
 - Optional: `GITHUB_TOKEN` so the Open Source page fetches contributions
   reliably (see [content/open-source.md](../content/open-source.md)).
+
+Note: the Cloudflare project/worker name cannot contain a dot, so it is
+`danielbeckdev`. The domain `danielbeck.dev` is attached separately as a custom
+domain.
 
 At build time Astro also generates the RSS feed (`/rss.xml`), the sitemap
 (`/sitemap-index.xml`), and a social image per page under `/og/`.

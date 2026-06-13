@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "danielbeckdev",
+  "compatibility_date": "2026-06-13",
+  // Pure static site: no Worker script (`main`), just serve the built output.
+  // The custom domain (danielbeck.dev) is added separately in the Cloudflare
+  // dashboard; the project/worker name must be dotless.
+  "assets": {
+    "directory": "./dist"
+  }
+}

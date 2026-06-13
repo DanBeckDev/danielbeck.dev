@@ -6,6 +6,6 @@
   // The custom domain (danielbeck.dev) is added separately in the Cloudflare
   // dashboard; the project/worker name must be dotless.
   "assets": {
-    "directory": "./dist"
-  }
+    "directory": "./dist",
+  },
 }

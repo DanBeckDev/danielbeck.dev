@@ -14,19 +14,20 @@ export const siteConfig = {
   description:
     'Daniel Beck is a senior software engineer specialising in frontend architecture at scale: micro-frontends, design systems, and developer experience. He also builds AI-augmented engineering systems, where autonomous agents implement, test, and ship code.',
 
-  // Identity. PLACEHOLDERS — replace with real handles when ready.
+  // Identity. Email is still a placeholder; the rest are real.
   email: 'hello@danielbeck.dev',
   social: {
     github: 'https://github.com/DanBeckDev',
-    linkedin: 'https://www.linkedin.com/in/danielbeck',
+    linkedin: 'https://www.linkedin.com/in/daniel-beck-dev',
     youtube: 'https://www.youtube.com/@danielbeckdev',
+    x: 'https://x.com/DanBeckDev',
   },
   githubUsername: 'DanBeckDev',
   youtubeHandle: '@danielbeckdev',
   /** Resolve once at https://www.youtube.com/@danielbeckdev (View source → channelId)
    *  to enable the optional build-time "latest videos" RSS fetch. */
   youtubeChannelId: '',
-  twitterHandle: '@danielbeckdev',
+  twitterHandle: '@DanBeckDev',
 
   // OpenGraph / Person
   jobTitle: 'Senior Software Engineer',

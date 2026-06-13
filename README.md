@@ -39,11 +39,11 @@ src/
 
 ## Editing identity & links
 
-All identity lives in **`src/consts/site.ts`**: email, GitHub, LinkedIn,
+All identity lives in **`src/consts/site.ts`**: email, GitHub, LinkedIn, X,
 YouTube, handles, and channel id. Change it once and it updates the header,
-footer, contact page, Person JSON-LD, OG tags, and RSS. GitHub is the real
-account (`github.com/DanBeckDev`); LinkedIn (`linkedin.com/in/danielbeck`) and
-email (`hello@danielbeck.dev`) are still placeholders to swap before launch.
+footer, contact page, Person JSON-LD, OG tags, and RSS. GitHub, LinkedIn, X, and
+YouTube are real accounts; only email (`hello@danielbeck.dev`) is still a
+placeholder to swap before launch.
 
 ## Writing a new article
 
@@ -106,7 +106,7 @@ Cloudflare Workers as static assets, configured by `wrangler.jsonc`:
 {
   "name": "danielbeckdev",
   "compatibility_date": "2026-06-13",
-  "assets": { "directory": "./dist" }
+  "assets": { "directory": "./dist" },
 }
 ```
 

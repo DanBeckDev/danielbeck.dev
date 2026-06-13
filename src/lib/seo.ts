@@ -20,7 +20,12 @@ export function personJsonLd() {
     description: siteConfig.description,
     email: `mailto:${siteConfig.email}`,
     knowsAbout: [...siteConfig.knowsAbout],
-    sameAs: [siteConfig.social.github, siteConfig.social.linkedin, siteConfig.social.youtube],
+    sameAs: [
+      siteConfig.social.github,
+      siteConfig.social.linkedin,
+      siteConfig.social.youtube,
+      siteConfig.social.x,
+    ],
   };
 }
 

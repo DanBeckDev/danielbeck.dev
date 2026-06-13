@@ -20,14 +20,14 @@ export const siteConfig = {
     github: 'https://github.com/DanBeckDev',
     linkedin: 'https://www.linkedin.com/in/daniel-beck-dev',
     youtube: 'https://www.youtube.com/@danielbeckdev',
-    x: 'https://x.com/DanBeckDev',
+    x: 'https://x.com/DanielBeckDev',
   },
   githubUsername: 'DanBeckDev',
   youtubeHandle: '@danielbeckdev',
   /** Resolve once at https://www.youtube.com/@danielbeckdev (View source → channelId)
    *  to enable the optional build-time "latest videos" RSS fetch. */
   youtubeChannelId: '',
-  twitterHandle: '@DanBeckDev',
+  twitterHandle: '@DanielBeckDev',
 
   // OpenGraph / Person
   jobTitle: 'Senior Software Engineer',

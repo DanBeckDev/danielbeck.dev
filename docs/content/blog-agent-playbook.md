@@ -5,6 +5,9 @@ It is the blog-specific companion to [../ai-agent-guide.md](../ai-agent-guide.md
 and [../writing/voice-and-tone.md](../writing/voice-and-tone.md).
 For quality standards, also read
 [../writing/technical-blog-quality.md](../writing/technical-blog-quality.md).
+Before drafting, read [../writing/blog-agent-rules.md](../writing/blog-agent-rules.md).
+Before handing back a draft, run the loop in
+[../writing/blog-editing-loop.md](../writing/blog-editing-loop.md).
 
 ## What a good post does here
 
@@ -120,8 +123,9 @@ or leave it out.
 3. Write a section outline with 3 to 5 headings.
 4. Draft the body with code and examples.
 5. Write the description last.
-6. Check frontmatter, links, and tone.
-7. Run `npm run check`.
+6. Run the editing loop in `docs/writing/blog-editing-loop.md`.
+7. Check frontmatter, links, and tone.
+8. Run `npm run check`.
 
 ## Final pass
 

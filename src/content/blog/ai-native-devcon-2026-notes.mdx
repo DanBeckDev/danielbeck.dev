@@ -1,0 +1,213 @@
+---
+title: 'AI Native DevCon 2026: The Model Is Not the Bottleneck'
+description: >-
+  Notes from AI Native DevCon London 2026 on skills as code, harness
+  engineering, shared context, agent experience, sandboxing, and team judgment.
+pubDate: 2026-06-13
+category: AI Engineering
+tags: [ai-engineering, agents, skills, context-engineering, harness-engineering]
+draft: false
+---
+
+I spent two days at
+[AI Native DevCon London 2026](https://tessl.io/devcon/) and wanted to get my
+notes down while they are still fresh.
+
+The talks kept coming back to the same point: useful agents are not just better
+models. They are better systems around the model.
+
+The ideas I am taking forward:
+
+- Treat skills like code: version them, review them, test them, and retire them.
+- Put reliability in the harness: context, tools, feedback loops, and checks.
+- Make context owned and inspectable, not scattered across meetings and notes.
+- Design for agents as real users of your logs, APIs, CLIs, and CI.
+- Give autonomous agents real security boundaries.
+- Move review upstream, before the agent generates a large diff.
+
+That was the shape of the conference for me. We are past the point where "the
+model can write code" is the interesting observation. The work now is making the
+whole system around the model dependable enough to trust.
+
+## Skills are not prompt snippets
+
+Guy Podjarny's keynote, "Skills Are the New Code", gave the event its clearest
+frame. A skill is not a nicer prompt. It is a production artifact that changes
+how an agent behaves.
+
+That means the boring disciplines matter again:
+
+- static analysis
+- evals
+- security testing
+- dependency management
+- observability
+
+The security examples made this feel less theoretical. The risks were not vague
+"AI safety" risks. They were concrete software risks: malicious skills, skills
+with no safety boundaries, and skills that leak tokens to logs.
+
+That changes how I think about skill files. If a skill can steer an agent into
+editing code, calling tools, or touching secrets, then it deserves the same
+treatment as code. Version it. Review it. Give it an owner. Delete it when it is
+stale.
+
+Kevin Groetzinger made the maintenance side explicit. Skills need trigger
+phrases, ownership, and a path to retirement. Otherwise the team ends up with
+skill sprawl: a drawer full of clever instructions that nobody trusts enough to
+use or delete.
+
+Macey Baker and Baruch Sadogursky had the most useful breakdown of the day:
+rules, skills, scripts, hooks, and evals. That is the decomposition I want to
+use more. Rules constrain. Skills carry judgment. Scripts do deterministic work.
+Hooks connect the system. Evals tell you whether the whole thing still behaves.
+
+That is a better shape than one huge prompt trying to be policy, memory,
+workflow, and test suite at the same time.
+
+## Reliability comes from the harness
+
+Ryan Lopopolo's harness engineering talk connected a lot of the conference for
+me. The harness is the deterministic software around the probabilistic model:
+the context you provide, the tools you expose, the autonomy you allow, the
+feedback loop, and the verification after the work is done.
+
+[OpenAI's write-up on harness engineering](https://openai.com/index/harness-engineering/)
+uses the same framing for Codex. The useful question is not just whether the
+agent is smart enough. It is whether the harness helps the agent recover when it
+is wrong.
+
+That is the reliability lever I care about.
+
+If a test fails, does that failure feed back into the next run? If the agent used
+the wrong file, does the context packet improve? If it needed too much access,
+does the tool boundary get narrower? If it made the same mistake twice, does an
+eval catch it the third time?
+
+A demo only has to work once. A harness has to learn from the misses.
+
+## Context is product work
+
+Rob Sloan pushed harness thinking beyond code, which I found useful. Agents do
+not just need source files and commands. They need product goals, design intent,
+constraints, acceptance criteria, and decisions.
+
+Most teams already have that context. The problem is where it lives.
+
+It is in meeting notes, Slack threads, ticket comments, private docs, and the
+heads of people who have been around long enough to know why something is weird.
+A human can fill in those gaps from memory. An agent will act on whatever is
+actually present.
+
+That makes context a product surface. It needs an owner. It needs review. It
+needs provenance. It needs to be easy to inspect.
+
+Lamis from Anthropic described memory in a way that matched this: markdown,
+search, versioning, permissions, and human review. The phrase that stuck with me
+was filesystem-as-memory. Not because it sounds sophisticated. Because it does
+not. It is the kind of thing engineers can actually maintain.
+
+The "dreaming" idea was the interesting layer on top. An out-of-band process
+reviews past transcripts, spots patterns, and proposes memory updates for a
+human to approve. That is the right level of automation for shared memory: let
+the agent notice the pattern, but keep the update visible and reviewed.
+
+## Agent experience is developer experience with fewer excuses
+
+Dana Lawson's Netlify talk was my favourite because it was painfully practical.
+Netlify was built around a human loop. Then agents started using it and exposed
+the weak spots.
+
+Humans skim logs. Agents retry.
+
+Humans infer intent from a dashboard. Agents need structured state.
+
+Humans carry tribal knowledge. Agents need blueprints, recipes, and decision
+records.
+
+That is Agent Experience, or AX. I like the term because it points at real
+interfaces: logs, APIs, CLIs, CI output, deploy flows, docs, errors, rollbacks.
+All the places where a human can improvise but an agent cannot.
+
+The useful twist is that improving AX also improves developer experience.
+Machine-readable build errors help agents, and they make dashboards clearer.
+Intent-level capabilities help agents, and they make APIs less awkward for
+people.
+
+The same theme showed up in Oleg Selajev's Docker talk from the security side:
+prompts are not security boundaries. If agents can run commands, edit files,
+call tools, and move between repos, isolation is part of the product. Not a
+policy paragraph. Not a "click yes to continue" prompt. The product.
+
+That means hard isolation, controlled file sharing, network policy, secret
+isolation, sandbox policy, and audit logs. None of that is glamorous. It is just
+what makes speed survivable.
+
+## Review moves before the diff
+
+Hannah Foxwell's talk made the team impact feel concrete. If agents make
+implementation faster, the bottleneck moves upstream.
+
+Product clarity matters more. Spec quality matters more. Release safety matters
+more. Operations matter more. A manual review step that used to be annoying can
+become the place everything queues up.
+
+The review point stayed with me. Reviewing thousands of lines of generated code
+is miserable. The better review target is earlier: the goal, the constraints,
+the acceptance criteria, and the shape of the solution.
+
+That changes what senior engineering work looks like. Less waiting until the end
+to bless a diff. More shaping the work before the agent starts producing it.
+
+Robert Overweg's "one brain" talk connected to the same problem. Teams need a
+shared, inspectable knowledge surface with provenance and review. People and
+agents should draw from the same source instead of each building their own
+private pile of notes.
+
+This maps directly to a problem I keep seeing: context loss between meetings,
+docs, tickets, transcripts, and skills. If every person and every agent carries
+a different version of the truth, agent speed just spreads confusion faster.
+
+## The plumbing is still early
+
+Shaun Smith's MCP talk was the infrastructure reminder. MCP, the Model Context
+Protocol, is how agents connect to tools and data. His point was that the
+current plumbing still has too much connection setup, repeated tool discovery,
+and stateful protocol work.
+
+The direction he described felt like normal web infrastructure catching up:
+stateless HTTP transport, shared tool lists, routing through headers, and one
+authorised URL for a scoped set of tools.
+
+Less exciting than an agent demo. More important if agents are going to fit into
+real infrastructure.
+
+The line from the Q&A was blunt: what separates real agent infrastructure from
+wrapping LLM APIs? Testing, mostly.
+
+That was a useful place to end, because testing was the subtext of the whole
+conference. Skills need evals. Harnesses need verification. Context updates need
+review. Sandboxes need audit logs. Teams need earlier checks on intent.
+
+## What I am changing
+
+The conference did not leave me thinking "use agents more". It left me thinking
+our agent systems need more engineering around them.
+
+For me, that means:
+
+- Treat skills as production artifacts, not docs with ambition.
+- Add small eval suites next to the skills we rely on.
+- Make context packets explicit: goal, constraints, decisions, acceptance
+  criteria, and owner.
+- Design logs, APIs, CLIs, and CI output for agents as real users.
+- Sandbox agent work by default.
+- Review the spec before the agent creates the diff.
+- Move team knowledge into one shared, inspectable place.
+
+The biggest immediate gap is evals. A small suite per skill would give us a way
+to change context with confidence instead of vibes.
+
+The hard part is not proving that an agent can do useful work once. It is
+building enough taste, context, and discipline around it that the work can be
+trusted again tomorrow.

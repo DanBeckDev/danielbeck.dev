@@ -7,8 +7,10 @@ import { formatDate, isoDate } from '../../lib/date';
 
 interface Props {
   talk: Talk;
+  titleAs?: 'h2' | 'h3';
 }
-const { talk } = Astro.props;
+const { talk, titleAs = 'h3' } = Astro.props;
+const TitleTag = titleAs;
 const d = talk.data;
 const relatedPost = d.relatedPost ? await getEntry('blog', d.relatedPost) : undefined;
 
@@ -26,9 +28,15 @@ const typeLabel: Record<string, string> = {
     <div class="talk__top">
       <time datetime={isoDate(d.date)}>{formatDate(d.date)}</time>
       <span class="talk__type">{typeLabel[d.type]}</span>
-      {d.status !== 'past' && <span class="talk__status" data-status={d.status}>{d.status}</span>}
+      {
+        d.status !== 'past' && (
+          <span class="talk__status" data-status={d.status}>
+            {d.status}
+          </span>
+        )
+      }
     </div>
-    <h3 class="talk__title">{d.title}</h3>
+    <TitleTag class="talk__title">{d.title}</TitleTag>
     <p class="talk__event">
       {d.event}{d.location ? ` · ${d.location}` : ''}
     </p>

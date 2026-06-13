@@ -39,7 +39,10 @@ export default defineConfig({
     processor: unified({
       rehypePlugins: [
         rehypeSlug,
-        [rehypeAutolinkHeadings, { behavior: 'wrap', properties: { className: ['heading-anchor'] } }],
+        [
+          rehypeAutolinkHeadings,
+          { behavior: 'wrap', properties: { className: ['heading-anchor'] } },
+        ],
         [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
       ],
     }),

@@ -3,12 +3,21 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/ui/PageHeader.astro';
 import Container from '../../../components/ui/Container.astro';
 import { getAllTags, tagUrl } from '../../../lib/content';
+import { ogImageUrl } from '../../../lib/seo';
 
 const tags = await getAllTags();
 ---
 
-<BaseLayout title="Tags" description="Browse all topics written about on danielbeck.dev.">
-  <PageHeader eyebrow="Index" title="Tags" lead="Every topic, sized by how much I've written about it." />
+<BaseLayout
+  title="Tags"
+  description="Browse all topics written about on danielbeck.dev."
+  image={ogImageUrl('writing')}
+>
+  <PageHeader
+    eyebrow="Index"
+    title="Tags"
+    lead="Every topic, sized by how much I've written about it."
+  />
 
   <Container width="content" class="pb-20">
     {
@@ -50,7 +59,9 @@ const tags = await getAllTags();
     padding: 0.35rem 0.75rem;
     border: 1px solid var(--color-line);
     border-radius: 6px;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
   }
   .cloud a:hover {
     color: var(--color-accent);

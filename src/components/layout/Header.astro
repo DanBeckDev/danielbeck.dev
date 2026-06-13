@@ -10,35 +10,39 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(href
 ---
 
 <header class="header">
-  <Container width="wide" class="header__inner">
-    <a href="/" class="wordmark" aria-label={`${siteConfig.name} — home`}>
-      daniel<span class="wordmark__accent">beck</span><span class="wordmark__tld">.dev</span>
-    </a>
+  <Container width="wide">
+    <div class="header__inner">
+      <a href="/" class="wordmark" aria-label={`${siteConfig.name}, home`}>
+        daniel<span class="wordmark__accent">beck</span><span class="wordmark__tld">.dev</span>
+      </a>
 
-    <div class="header__right">
-      <Nav pathname={pathname} class="header__nav" />
-      <div class="header__actions">
-        <a
-          class="header__icon"
-          href={siteConfig.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-        >
-          <Icon name="simple-icons:github" aria-hidden="true" />
-        </a>
-        <ThemeToggle />
-        <button
-          id="menu-btn"
-          class="header__menu-btn"
-          type="button"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-        >
-          <Icon name="lucide:menu" class="header__menu-open" aria-hidden="true" />
-          <Icon name="lucide:x" class="header__menu-close" aria-hidden="true" />
-        </button>
+      <div class="header__right">
+        <div class="header__desktop-nav">
+          <Nav pathname={pathname} />
+        </div>
+        <div class="header__actions">
+          <a
+            class="header__icon"
+            href={siteConfig.social.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+          >
+            <Icon name="simple-icons:github" aria-hidden="true" />
+          </a>
+          <ThemeToggle />
+          <button
+            id="menu-btn"
+            class="header__menu-btn"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <Icon name="lucide:menu" class="header__menu-open" aria-hidden="true" />
+            <Icon name="lucide:x" class="header__menu-close" aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </div>
   </Container>
@@ -79,7 +83,12 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(href
   });
   menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') setOpen(false);
+    // Only act when the menu is open, and return focus to the trigger so the
+    // disclosure pattern stays keyboard-navigable.
+    if (e.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      btn.focus();
+    }
   });
 </script>
 
@@ -131,6 +140,9 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(href
     display: flex;
     align-items: center;
     gap: 1.5rem;
+  }
+  .header__desktop-nav {
+    display: flex;
   }
   .header__actions {
     display: flex;
@@ -205,7 +217,7 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(href
   }
 
   @media (max-width: 767px) {
-    .header__nav {
+    .header__desktop-nav {
       display: none;
     }
     .header__menu-btn {

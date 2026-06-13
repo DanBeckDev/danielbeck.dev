@@ -57,12 +57,14 @@ const resolvedCanonical = canonical ?? new URL(Astro.url.pathname, Astro.site).h
     <link
       rel="alternate"
       type="application/rss+xml"
-      title={`${siteConfig.name} — Writing`}
+      title={`Writing by ${siteConfig.name}`}
       href="/rss.xml"
     />
 
-    {/* No-FOUC theme bootstrap — runs before first paint. Dark-first: defaults
-        to dark unless a stored preference or the OS explicitly asks for light. */}
+    {
+      /* No-FOUC theme bootstrap — runs before first paint. Dark-first: defaults
+        to dark unless a stored preference or the OS explicitly asks for light. */
+    }
     <script is:inline>
       (() => {
         try {

@@ -15,27 +15,27 @@ const schema = videos.map((v) => videoJsonLd(v));
 
 <BaseLayout
   title="YouTube"
-  description={`Practical, senior-level engineering videos from ${siteConfig.name} — infrastructure, network automation, Kubernetes, and the systems that keep them reliable.`}
+  description={`Talks, podcast appearances, and walkthroughs from ${siteConfig.name} on frontend architecture, design systems, micro-frontends, and AI-driven development.`}
   image={ogImageUrl('youtube')}
 >
   {schema.length > 0 && <JsonLd slot="head" schema={schema} />}
 
   <PageHeader
     eyebrow="YouTube"
-    title="The channel"
-    lead="Practical, senior-level engineering — real architectures and the trade-offs behind them, not beginner tutorials. Every video has a companion write-up and runnable code."
+    title="Talks, podcasts & walkthroughs"
+    lead="Practical, senior-level engineering: frontend architecture, design systems, and AI-driven development. Real trade-offs, not beginner tutorials, with companion write-ups and code."
   />
 
-  <Container width="content" class="stack">
+  <Container width="content" class="pb-20">
     <SubscribeCTA />
 
     {
       videos.length === 0 ? (
-        <p class="empty">Videos are on the way — subscribe to catch the first one.</p>
+        <p class="empty">Videos are on the way. Subscribe to catch the first one.</p>
       ) : (
         <div class="grid">
           {videos.map((video) => (
-            <VideoCard video={video} />
+            <VideoCard video={video} titleAs="h2" />
           ))}
         </div>
       )
@@ -44,9 +44,6 @@ const schema = videos.map((v) => videoJsonLd(v));
 </BaseLayout>
 
 <style>
-  .stack {
-    padding-bottom: 5rem;
-  }
   .grid {
     display: grid;
     gap: 2.5rem;

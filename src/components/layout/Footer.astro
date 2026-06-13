@@ -15,39 +15,48 @@ const socials = [
 ---
 
 <footer class="footer">
-  <Container width="wide" class="footer__inner">
-    <div class="footer__brand">
-      <a href="/" class="wordmark">daniel<span class="wordmark__accent">beck</span><span class="wordmark__tld">.dev</span></a>
-      <p class="footer__tagline">{siteConfig.tagline}</p>
+  <Container width="wide">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="/" class="wordmark"
+          >daniel<span class="wordmark__accent">beck</span><span class="wordmark__tld">.dev</span
+          ></a
+        >
+        <p class="footer__tagline">{siteConfig.tagline}</p>
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer">
+        {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href="/contact/">Contact</a>
+      </nav>
+
+      <ul class="footer__social">
+        {
+          socials.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                aria-label={s.label}
+                {...(s.href.startsWith('http')
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
+              >
+                <Icon name={s.icon} aria-hidden="true" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
-
-    <nav class="footer__nav" aria-label="Footer">
-      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
-      <a href="/contact/">Contact</a>
-    </nav>
-
-    <ul class="footer__social">
-      {
-        socials.map((s) => (
-          <li>
-            <a
-              href={s.href}
-              aria-label={s.label}
-              {...s.href.startsWith('http')
-                ? { target: '_blank', rel: 'noopener noreferrer' }
-                : {}}
-            >
-              <Icon name={s.icon} aria-hidden="true" />
-            </a>
-          </li>
-        ))
-      }
-    </ul>
   </Container>
 
-  <Container width="wide" class="footer__bar">
-    <p>© {year} {siteConfig.name}</p>
-    <p>Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a></p>
+  <Container width="wide">
+    <div class="footer__bar">
+      <p>© {year} {siteConfig.name}</p>
+      <p>
+        Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>
+      </p>
+    </div>
   </Container>
 </footer>
 

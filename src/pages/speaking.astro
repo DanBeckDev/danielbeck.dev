@@ -8,18 +8,18 @@ import { getSpeaking } from '../lib/content';
 import { ogImageUrl } from '../lib/seo';
 
 const talks = await getSpeaking();
-const topics = ['Network Automation', 'Kubernetes & Platform Engineering', 'Production Reliability'];
+const topics = ['Micro-Frontends', 'Design Systems', 'AI-Driven Development'];
 ---
 
 <BaseLayout
   title="Speaking"
-  description="Daniel Beck speaks on infrastructure, Kubernetes, network automation, and production engineering — talks, podcasts, and workshops."
+  description="Daniel Beck speaks on frontend architecture, micro-frontends, design systems, and AI-driven development, across talks, podcasts, and workshops."
   image={ogImageUrl('speaking')}
 >
   <PageHeader
     eyebrow="Speaking"
     title="Speaking"
-    lead="Available for conference talks, podcasts, and workshops on infrastructure, Kubernetes, network automation, and what it takes to keep systems reliable in production."
+    lead="Available for talks, podcasts, and workshops on frontend architecture, micro-frontends, design systems, developer experience, and AI-augmented engineering."
   >
     <div class="cta">
       <a class="cta__btn" href="/contact/">
@@ -35,12 +35,12 @@ const topics = ['Network Automation', 'Kubernetes & Platform Engineering', 'Prod
     {
       talks.length === 0 ? (
         <p class="empty">
-          No talks scheduled yet — this is where past and upcoming appearances will live.
+          No talks scheduled yet. This is where past and upcoming appearances will live.
         </p>
       ) : (
         <div class="timeline">
           {talks.map((talk) => (
-            <TalkCard talk={talk} />
+            <TalkCard talk={talk} titleAs="h2" />
           ))}
         </div>
       )

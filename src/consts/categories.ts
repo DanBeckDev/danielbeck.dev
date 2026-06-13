@@ -6,15 +6,51 @@
  */
 
 export const categories = [
-  { slug: 'infrastructure', name: 'Infrastructure', blurb: 'Platforms, provisioning, and the foundations systems run on.' },
-  { slug: 'network-automation', name: 'Network Automation', blurb: 'Source of truth, config pipelines, and programmable networks.' },
-  { slug: 'kubernetes', name: 'Kubernetes', blurb: 'Operating workloads on Kubernetes without surprises.' },
-  { slug: 'cloud', name: 'Cloud', blurb: 'Cloud-native architecture and the tradeoffs that come with it.' },
-  { slug: 'architecture', name: 'Architecture', blurb: 'Designing systems that hold up as they grow.' },
-  { slug: 'python', name: 'Python', blurb: 'Python for automation, tooling, and backend services.' },
-  { slug: 'go', name: 'Go', blurb: 'Go for infrastructure, CLIs, and high-throughput services.' },
-  { slug: 'open-source', name: 'Open Source', blurb: 'Building, maintaining, and contributing to open source.' },
-  { slug: 'engineering-leadership', name: 'Engineering Leadership', blurb: 'Growing as a senior engineer and raising the bar.' },
+  {
+    slug: 'frontend-architecture',
+    name: 'Frontend Architecture',
+    blurb: 'Designing frontends that hold up as teams and codebases grow.',
+  },
+  {
+    slug: 'micro-frontends',
+    name: 'Micro-Frontends',
+    blurb: 'Composing independently-deployable frontends without the chaos.',
+  },
+  {
+    slug: 'design-systems',
+    name: 'Design Systems',
+    blurb: 'Shared component libraries, tokens, and the contracts behind them.',
+  },
+  {
+    slug: 'developer-experience',
+    name: 'Developer Experience',
+    blurb: 'Tooling, build pipelines, and the ergonomics that make teams fast.',
+  },
+  {
+    slug: 'ai-engineering',
+    name: 'AI Engineering',
+    blurb: 'Autonomous agents and AI-augmented workflows that ship real code.',
+  },
+  {
+    slug: 'typescript',
+    name: 'TypeScript',
+    blurb: 'Types, patterns, and tooling for frontend at scale.',
+  },
+  {
+    slug: 'web-performance',
+    name: 'Web Performance',
+    blurb: 'Shipping fast, resilient interfaces and keeping them fast.',
+  },
+  {
+    slug: 'open-source',
+    name: 'Open Source',
+    blurb: 'Building, maintaining, and contributing to open source.',
+  },
+  {
+    slug: 'engineering-leadership',
+    name: 'Engineering Leadership',
+    blurb: 'Mentoring, raising the bar, and growing as a senior engineer.',
+  },
 ] as const;
 
 export type CategorySlug = (typeof categories)[number]['slug'];

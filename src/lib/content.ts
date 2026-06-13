@@ -1,7 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type Post = CollectionEntry<'blog'>;
-export type Project = CollectionEntry<'projects'>;
 export type Video = CollectionEntry<'videos'>;
 export type Talk = CollectionEntry<'speaking'>;
 
@@ -18,10 +17,12 @@ export function slugify(input: string): string {
 export const postUrl = (id: string) => `/blog/${id}/`;
 export const tagUrl = (tag: string) => `/blog/tags/${slugify(tag)}/`;
 export const categoryUrl = (categorySlug: string) => `/blog/category/${categorySlug}/`;
-export const projectUrl = (id: string) => `/open-source/#${id}`;
 
 const isProd = import.meta.env.PROD;
-const byDateDesc = (a: { data: { pubDate?: Date; publishedAt?: Date; date?: Date } }, b: typeof a) => {
+const byDateDesc = (
+  a: { data: { pubDate?: Date; publishedAt?: Date; date?: Date } },
+  b: typeof a,
+) => {
   const da = a.data.pubDate ?? a.data.publishedAt ?? a.data.date ?? new Date(0);
   const db = b.data.pubDate ?? b.data.publishedAt ?? b.data.date ?? new Date(0);
   return db.getTime() - da.getTime();
@@ -32,20 +33,6 @@ const byDateDesc = (a: { data: { pubDate?: Date; publishedAt?: Date; date?: Date
 export async function getPosts(): Promise<Post[]> {
   const posts = await getCollection('blog', ({ data }) => !isProd || data.draft !== true);
   return posts.sort(byDateDesc);
-}
-
-export async function getFeaturedPosts(limit = 3): Promise<Post[]> {
-  const posts = await getPosts();
-  const featured = posts.filter((p) => p.data.featured);
-  return (featured.length ? featured : posts).slice(0, limit);
-}
-
-export async function getPostsByCategoryName(name: string): Promise<Post[]> {
-  return (await getPosts()).filter((p) => p.data.category === name);
-}
-
-export async function getPostsByTagSlug(tagSlug: string): Promise<Post[]> {
-  return (await getPosts()).filter((p) => p.data.tags.some((t) => slugify(t) === tagSlug));
 }
 
 export type TagInfo = { tag: string; slug: string; count: number };
@@ -93,47 +80,15 @@ function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`[content] ${message}`);
 }
 
-export async function getProjects(): Promise<Project[]> {
-  const [projects, posts, videos] = await Promise.all([
-    getCollection('projects'),
-    getPosts(),
-    getCollection('videos'),
-  ]);
-  const postIds = new Set(posts.map((p) => p.id));
-  const videoIds = new Set(videos.map((v) => v.id));
-  for (const project of projects) {
-    for (const slug of project.data.relatedPosts) {
-      assert(postIds.has(slug), `project "${project.id}" references missing post "${slug}"`);
-    }
-    for (const id of project.data.relatedVideos) {
-      assert(videoIds.has(id), `project "${project.id}" references missing video "${id}"`);
-    }
-  }
-  return projects.sort(
-    (a, b) => a.data.order - b.data.order || a.data.displayName.localeCompare(b.data.displayName),
-  );
-}
-
-export async function getFeaturedProjects(limit = 3): Promise<Project[]> {
-  const projects = await getProjects();
-  const featured = projects.filter((p) => p.data.featured);
-  return (featured.length ? featured : projects).slice(0, limit);
-}
-
 export async function getVideos(): Promise<Video[]> {
-  const [videos, posts, projects] = await Promise.all([
-    getCollection('videos'),
-    getPosts(),
-    getCollection('projects'),
-  ]);
+  const [videos, posts] = await Promise.all([getCollection('videos'), getPosts()]);
   const postIds = new Set(posts.map((p) => p.id));
-  const projectIds = new Set(projects.map((p) => p.id));
   for (const video of videos) {
     if (video.data.relatedPost) {
-      assert(postIds.has(video.data.relatedPost), `video "${video.id}" references missing post "${video.data.relatedPost}"`);
-    }
-    if (video.data.relatedProject) {
-      assert(projectIds.has(video.data.relatedProject), `video "${video.id}" references missing project "${video.data.relatedProject}"`);
+      assert(
+        postIds.has(video.data.relatedPost),
+        `video "${video.id}" references missing post "${video.data.relatedPost}"`,
+      );
     }
   }
   return videos.sort(byDateDesc);
@@ -150,7 +105,10 @@ export async function getSpeaking(): Promise<Talk[]> {
   const postIds = new Set(posts.map((p) => p.id));
   for (const talk of talks) {
     if (talk.data.relatedPost) {
-      assert(postIds.has(talk.data.relatedPost), `talk "${talk.id}" references missing post "${talk.data.relatedPost}"`);
+      assert(
+        postIds.has(talk.data.relatedPost),
+        `talk "${talk.id}" references missing post "${talk.data.relatedPost}"`,
+      );
     }
   }
   return talks.sort(byDateDesc);

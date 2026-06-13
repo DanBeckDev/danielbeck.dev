@@ -8,7 +8,7 @@ const { code, title } = Astro.props;
 ---
 
 <figure class="mermaid-fig not-prose">
-  <pre class="mermaid" data-src={code} set:text={code}></pre>
+  <pre class="mermaid" data-src={code} set:text={code} />
   {title && <figcaption class="mermaid-fig__caption">{title}</figcaption>}
 </figure>
 
@@ -16,8 +16,7 @@ const { code, title } = Astro.props;
   // Mermaid (~0.5 MB) is loaded lazily — only fetched once a diagram nears the
   // viewport, keeping it out of the initial page bundle.
   const MONO = "'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace";
-  const themeFor = () =>
-    document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
+  const themeFor = () => (document.documentElement.classList.contains('dark') ? 'dark' : 'neutral');
 
   type Mermaid = typeof import('mermaid').default;
   let mermaidPromise: Promise<Mermaid> | null = null;
@@ -49,17 +48,20 @@ const { code, title } = Astro.props;
 
   const first = document.querySelector('pre.mermaid');
   if (first) {
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) {
-        io.disconnect();
-        renderAll();
-        // Re-render with the matching theme whenever the dark class toggles.
-        new MutationObserver(() => renderAll()).observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ['class'],
-        });
-      }
-    }, { rootMargin: '200px' });
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          renderAll();
+          // Re-render with the matching theme whenever the dark class toggles.
+          new MutationObserver(() => renderAll()).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class'],
+          });
+        }
+      },
+      { rootMargin: '200px' },
+    );
     io.observe(first);
   }
 </script>

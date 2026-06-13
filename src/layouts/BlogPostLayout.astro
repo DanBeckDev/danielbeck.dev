@@ -92,7 +92,10 @@ const breadcrumb = breadcrumbJsonLd([
         post.data.video && (
           <section class="post__rep">
             <h2 class="post__rep-title">Watch the walkthrough</h2>
-            <YouTubeEmbed id={post.data.video.youtubeId} title={post.data.video.title ?? post.data.title} />
+            <YouTubeEmbed
+              id={post.data.video.youtubeId}
+              title={post.data.video.title ?? post.data.title}
+            />
           </section>
         )
       }
@@ -130,7 +133,13 @@ const breadcrumb = breadcrumbJsonLd([
         )
       }
 
-      {post.data.tags.length > 0 && <div class="post__tags"><TagList tags={post.data.tags} /></div>}
+      {
+        post.data.tags.length > 0 && (
+          <div class="post__tags">
+            <TagList tags={post.data.tags} />
+          </div>
+        )
+      }
 
       <RelatedContent posts={related} />
 

@@ -1,0 +1,121 @@
+---
+title: 'Building React from Scratch'
+description: >-
+  A from-scratch reimplementation of React and ReactDOM, plus a custom Babel JSX
+  transform, so you can see exactly what happens between writing JSX and a node
+  showing up in the DOM.
+pubDate: 2026-06-10
+updatedDate: 2026-06-12
+category: Frontend Architecture
+tags: [react, javascript, jsx, babel, virtual-dom]
+featured: true
+repo:
+  url: https://github.com/DanBeckDev/react-clone
+  name: DanBeckDev/react-clone
+  description: A minimal React + ReactDOM clone with a hand-written JSX transform.
+  language: JavaScript
+discussion:
+  linkedinUrl: https://www.linkedin.com/in/danielbeck
+---
+
+We write JSX every day and trust the framework to turn it into pixels. The best
+way to stop treating that as magic is to rebuild it. So I wrote
+[react-clone](https://github.com/DanBeckDev/react-clone): a tiny version of
+React and ReactDOM, plus my own Babel plugin to compile the JSX. It's small
+enough to read top to bottom.
+
+There are three moving parts, and together they cover the whole mental model of
+React.
+
+<MermaidDiagram
+  title="From JSX to DOM"
+  code={`flowchart LR
+  A[JSX source] -->|jsx-dansform transform| B[createElement calls]
+  B --> C[Virtual element tree]
+  C -->|render then mount| D[Real DOM nodes]`}
+/>
+
+## 1. JSX is just function calls
+
+JSX isn't part of JavaScript. A compiler rewrites it before the browser ever
+sees it. Instead of reaching for the official transform, I wrote a Babel plugin
+called `jsx-dansform` that walks every `JSXElement` node and rebuilds it as a
+`createElement` call, constructing the AST by hand with Babel's type helpers. So
+this:
+
+```jsx
+function App() {
+  return <h2 style={{ color: 'yellow', textTransform: 'uppercase' }}>Test</h2>;
+}
+```
+
+becomes a plain function call:
+
+```js
+createElement('h2', { style: { color: 'yellow', textTransform: 'uppercase' } }, 'Test');
+```
+
+<Callout type="tip" title="JSX is sugar, nothing more">
+  The tag name becomes the first argument. Attributes become the props object. Children become the
+  rest. Once you've written the transform yourself, JSX stops feeling like framework magic and
+  starts looking obviously mechanical.
+</Callout>
+
+## 2. createElement builds a virtual tree
+
+`createElement` never touches the DOM. It just returns a plain object that
+describes what you want. The whole `react-clone` package is basically this:
+
+```js
+export function createElement(type, props, ...children) {
+  return {
+    type,
+    props: {
+      ...props,
+      children,
+    },
+  };
+}
+```
+
+Nest those calls and you get a tree of plain objects. That tree is the virtual
+DOM. It's cheap to build, cheap to inspect, and has nothing to do with the real
+document yet.
+
+## 3. render walks the tree into the DOM
+
+`react-dom-clone` takes the tree and mounts it. For a host element it creates a
+real node, copies the props across (with a special case for `style` objects),
+then recurses into the children, appending text nodes for strings and numbers:
+
+```js
+function mountHost({ type, props }) {
+  const node = document.createElement(type);
+  updateDOMProperties(props, node);
+  createInitialDOMChildren(props.children, node);
+  return node;
+}
+
+export function render(reactElement, domElement) {
+  domElement.appendChild(mount(reactElement));
+}
+```
+
+And that's the full round trip. JSX becomes `createElement` calls, those build a
+tree of objects, and the tree becomes real DOM.
+
+<Callout type="note" title="Where it goes next">
+  This handles host elements and a working JSX transform. The interesting layers come after:
+  rendering function components, adding `useState` and `useEffect`, and reconciliation, where a
+  re-render diffs against the previous tree instead of throwing it away and starting over. That last
+  part is what really makes React feel like React.
+</Callout>
+
+## Takeaways
+
+- JSX is just `createElement` calls, and writing the transform yourself proves it.
+- The virtual DOM is nothing more than plain objects describing the output you want.
+- Rendering is a recursive walk from that tree down into real DOM nodes.
+
+The full source is on GitHub if you want to clone it and step through the
+pipeline yourself.

@@ -6,7 +6,7 @@ import { siteConfig } from '../consts/site';
 export async function GET(context: APIContext) {
   const posts = await getPosts();
   return rss({
-    title: `${siteConfig.name} — Writing`,
+    title: `Writing by ${siteConfig.name}`,
     description: siteConfig.description,
     site: context.site ?? siteConfig.url,
     items: posts.map((post) => ({
@@ -16,6 +16,6 @@ export async function GET(context: APIContext) {
       link: `/blog/${post.id}/`,
       categories: [post.data.category, ...post.data.tags],
     })),
-    customData: `<language>en-us</language>`,
+    customData: `<language>en-gb</language>`,
   });
 }

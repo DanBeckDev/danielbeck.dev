@@ -1,25 +1,31 @@
 ---
+import { Icon } from 'astro-icon/components';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
 import Section from '../components/ui/Section.astro';
 import Container from '../components/ui/Container.astro';
 import ArticleCard from '../components/mdx/ArticleCard.astro';
-import ProjectCard from '../components/mdx/ProjectCard.astro';
 import VideoCard from '../components/youtube/VideoCard.astro';
 import SubscribeCTA from '../components/youtube/SubscribeCTA.astro';
 import NewsletterSignup from '../components/mdx/NewsletterSignup.astro';
-import { getPosts, getFeaturedProjects, getFeaturedVideos } from '../lib/content';
-import { enrichProjects } from '../lib/github';
+import { getPosts, getFeaturedVideos } from '../lib/content';
+import { getContributions } from '../lib/contributions';
 import { siteConfig } from '../consts/site';
 import { ogImageUrl } from '../lib/seo';
 
 const posts = (await getPosts()).slice(0, 3);
 const videos = (await getFeaturedVideos(3)).slice(0, 3);
-const projects = await getFeaturedProjects(3);
-const stars = await enrichProjects(projects);
+const contributions = (await getContributions()).filter((c) => c.prs.length > 0).slice(0, 4);
+const contributionsToShow = contributions.length
+  ? contributions
+  : (await getContributions()).slice(0, 4);
 ---
 
-<BaseLayout fullTitle={siteConfig.title} image={ogImageUrl('home')}>
+<BaseLayout
+  fullTitle={siteConfig.title}
+  description="Senior software engineer working on frontend architecture at scale: micro-frontends, design systems, developer experience, and AI-augmented engineering."
+  image={ogImageUrl('home')}
+>
   <Hero />
 
   {
@@ -36,8 +42,8 @@ const stars = await enrichProjects(projects);
 
   {
     videos.length > 0 && (
-      <Section eyebrow="YouTube" title="Latest videos" href="/youtube/" hrefLabel="All videos">
-        <div class="grid grid--3">
+      <Section eyebrow="YouTube" title="Talks & podcasts" href="/youtube/" hrefLabel="All videos">
+        <div class="grid--3 grid">
           {videos.map((video) => (
             <VideoCard video={video} />
           ))}
@@ -50,17 +56,34 @@ const stars = await enrichProjects(projects);
   }
 
   {
-    projects.length > 0 && (
-      <Section eyebrow="Open Source" title="Featured projects" href="/open-source/">
-        <div class="grid grid--3">
-          {projects.map((project) => (
-            <ProjectCard
-              project={project}
-              stars={stars.get(project.id)?.stars}
-              forks={stars.get(project.id)?.forks}
-            />
+    contributionsToShow.length > 0 && (
+      <Section eyebrow="Open Source" title="Open source contributions" href="/open-source/">
+        <ul class="contrib-rows">
+          {contributionsToShow.map((c) => (
+            <li>
+              <a href={c.url} target="_blank" rel="noopener noreferrer">
+                <Icon name="simple-icons:github" class="contrib-rows__gh" aria-hidden="true" />
+                <span class="contrib-rows__repo">
+                  <span class="contrib-rows__owner">{c.owner}/</span>
+                  {c.name}
+                </span>
+                <span class="contrib-rows__meta">
+                  {c.prs.length > 0 && (
+                    <span>
+                      {c.prs.length} merged {c.prs.length === 1 ? 'PR' : 'PRs'}
+                    </span>
+                  )}
+                  {typeof c.stars === 'number' && (
+                    <span class="contrib-rows__stars">
+                      <Icon name="lucide:star" aria-hidden="true" />{' '}
+                      {c.stars.toLocaleString('en-US')}
+                    </span>
+                  )}
+                </span>
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       </Section>
     )
   }
@@ -88,5 +111,58 @@ const stars = await enrichProjects(projects);
     .grid--3 {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
+  .contrib-rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .contrib-rows a {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    background-color: var(--color-surface);
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+  .contrib-rows a:hover {
+    border-color: color-mix(in oklab, var(--color-accent) 50%, var(--color-line));
+  }
+  .contrib-rows__gh {
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--color-muted);
+    flex: none;
+  }
+  .contrib-rows__repo {
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    color: var(--color-ink);
+  }
+  .contrib-rows__owner {
+    color: var(--color-faint);
+  }
+  .contrib-rows__meta {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-faint);
+  }
+  .contrib-rows__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .contrib-rows__stars :global(svg) {
+    width: 0.8rem;
+    height: 0.8rem;
   }
 </style>

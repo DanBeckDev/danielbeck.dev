@@ -9,8 +9,14 @@ interface Props {
   width?: 'wide' | 'content' | 'reading';
   class?: string;
 }
-const { eyebrow, title, href, hrefLabel = 'View all', width = 'wide', class: className = '' } =
-  Astro.props;
+const {
+  eyebrow,
+  title,
+  href,
+  hrefLabel = 'View all',
+  width = 'wide',
+  class: className = '',
+} = Astro.props;
 ---
 
 <section class:list={['py-14 sm:py-20', className]}>
@@ -23,10 +29,7 @@ const { eyebrow, title, href, hrefLabel = 'View all', width = 'wide', class: cla
             {title && <h2 class="text-2xl font-semibold sm:text-3xl">{title}</h2>}
           </div>
           {href && (
-            <a
-              href={href}
-              class="text-muted hover:text-accent link-underline text-sm font-medium"
-            >
+            <a href={href} class="text-muted hover:text-accent link-underline text-sm font-medium">
               {hrefLabel} →
             </a>
           )}

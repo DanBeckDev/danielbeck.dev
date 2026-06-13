@@ -1,28 +1,16 @@
-# YouTube videos shown on /youtube/ and cross-linked from posts/projects.
-# PLACEHOLDER entries — replace `youtubeId` with real 11-char video IDs.
-# Each entry needs a unique `id` (used by relatedVideos on projects).
+# Videos shown on /youtube/ and cross-linked from posts/projects.
+# Each entry needs a unique `id`.
 
-- id: nautobot-ansible-idempotent-pipeline
-  youtubeId: dBeckDemo01
-  title: 'Idempotent Network Automation with Nautobot + Ansible'
+# REAL appearance — The Coder Career podcast (guest). The youtubeId is real,
+# so its thumbnail loads. `publishedAt` is approximate — update if you have it.
+- id: coder-career-podcast
+  youtubeId: XYDUfa08-r8
+  title: 'The Coder Career Podcast: JavaScript, Self-Teaching & Productivity'
   description: >-
-    A walkthrough of treating Nautobot as the source of truth and Ansible as
-    the converging engine, so config pushes are safe to re-run.
-  publishedAt: 2026-06-09
-  duration: 'PT12M40s'
-  tags: [network-automation, ansible, nautobot]
-  relatedPost: building-idempotent-network-config-pipelines
-  relatedProject: netconfig-pipeline
+    Joining The Coder Career podcast to talk about JavaScript, self-teaching,
+    productivity, and how to actually understand concepts and apply them.
+  publishedAt: 2021-06-01
+  tags: [javascript, career, learning]
   featured: true
-
-- id: gnmi-telemetry-in-15-minutes
-  youtubeId: dBeckDemo02
-  title: 'Streaming Network Telemetry with gNMI in 15 Minutes'
-  description: >-
-    Subscribing to device telemetry over gNMI/OpenConfig and shipping it into
-    Prometheus without drowning in cardinality.
-  publishedAt: 2026-05-22
-  duration: 'PT15M05s'
-  tags: [gnmi, observability, go]
-  relatedProject: gnmi-telemetry-collector
-  featured: true
+# Add more videos here. `relatedPost` (a blog post id) links a video to its
+# companion article and shows a "Read the write-up" link on the card.

@@ -2,7 +2,13 @@
 import { Icon } from 'astro-icon/components';
 ---
 
-<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch theme" aria-pressed="false">
+<button
+  id="theme-toggle"
+  class="theme-toggle"
+  type="button"
+  aria-label="Switch to light theme"
+  aria-pressed="true"
+>
   <Icon name="lucide:sun" class="theme-toggle__icon theme-toggle__sun" aria-hidden="true" />
   <Icon name="lucide:moon" class="theme-toggle__icon theme-toggle__moon" aria-hidden="true" />
 </button>

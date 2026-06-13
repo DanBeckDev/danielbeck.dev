@@ -24,13 +24,13 @@ const usedCategories = categories.filter((c) => posts.some((p) => p.data.categor
 
 <BaseLayout
   title="Writing"
-  description="Long-form articles on infrastructure, network automation, Kubernetes, cloud-native systems, and building software that stays reliable at scale."
+  description="Long-form articles on frontend architecture, micro-frontends, design systems, developer experience, and AI-augmented engineering."
   image={ogImageUrl('writing')}
 >
   <PageHeader
     eyebrow="Writing"
     title="Writing"
-    lead="Deep dives on infrastructure, automation, and the practice of building reliable systems. Each piece pairs with a video and runnable code where it helps."
+    lead="Deep dives on frontend architecture, design systems, and AI-driven development. Each piece pairs with a talk or runnable code where it helps."
   />
 
   <Container width="content" class="pb-20">
@@ -46,7 +46,7 @@ const usedCategories = categories.filter((c) => posts.some((p) => p.data.categor
 
     {
       posts.length === 0 ? (
-        <p class="empty">No posts published yet — check back soon.</p>
+        <p class="empty">No posts published yet. Check back soon.</p>
       ) : (
         years.map((year) => (
           <section class="year">
@@ -94,7 +94,9 @@ const usedCategories = categories.filter((c) => posts.some((p) => p.data.categor
     padding: 0.3rem 0.7rem;
     border: 1px solid var(--color-line);
     border-radius: 9999px;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
   }
   .filters a:hover {
     color: var(--color-accent);

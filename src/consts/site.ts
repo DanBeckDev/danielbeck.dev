@@ -6,15 +6,15 @@
 
 export const siteConfig = {
   name: 'Daniel Beck',
-  title: 'Daniel Beck — Senior Software Engineer',
+  title: 'Daniel Beck, Senior Software Engineer',
   role: 'Senior Software Engineer',
   tagline: 'Building Reliable Systems at Scale',
   url: 'https://danielbeck.dev',
   locale: 'en',
   description:
-    'Daniel Beck is a senior software engineer writing about infrastructure, network automation, Kubernetes, cloud-native systems, and the practice of building software that stays reliable at scale.',
+    'Daniel Beck is a senior software engineer specialising in frontend architecture at scale: micro-frontends, design systems, and developer experience. He also builds AI-augmented engineering systems, where autonomous agents implement, test, and ship code.',
 
-  // Identity — PLACEHOLDERS. Replace with real handles when ready.
+  // Identity. PLACEHOLDERS — replace with real handles when ready.
   email: 'hello@danielbeck.dev',
   social: {
     github: 'https://github.com/DanBeckDev',
@@ -31,15 +31,15 @@ export const siteConfig = {
   // OpenGraph / Person
   jobTitle: 'Senior Software Engineer',
   knowsAbout: [
-    'Infrastructure',
-    'Network Automation',
-    'Kubernetes',
-    'Cloud Computing',
-    'Software Architecture',
-    'Site Reliability Engineering',
-    'Python',
-    'Go',
-    'Open Source',
+    'Frontend Architecture',
+    'Micro-Frontends',
+    'Design Systems',
+    'Component Libraries',
+    'Developer Experience',
+    'TypeScript',
+    'AI-Augmented Engineering',
+    'Web Performance',
+    'Engineering Leadership',
   ],
 } as const;
 

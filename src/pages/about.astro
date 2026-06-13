@@ -6,90 +6,103 @@ import { siteConfig } from '../consts/site';
 import { ogImageUrl } from '../lib/seo';
 
 const expertise = [
-  'Network automation (source of truth, config pipelines)',
-  'Kubernetes & platform engineering',
-  'Cloud infrastructure & IaC',
-  'System architecture & reliability',
-  'Python & Go for infrastructure',
+  'Frontend architecture at scale',
+  'Micro-frontends & module federation',
+  'Design systems & shared component libraries',
+  'Developer experience, build tooling & bundlers',
+  'AI-augmented engineering & autonomous agent systems',
+  'TypeScript & web performance',
 ];
 
 const facts = [
   { label: 'Role', value: siteConfig.role },
-  { label: 'Focus', value: 'Infrastructure · Automation' },
-  { label: 'Writing since', value: '2026' },
-  { label: 'Tools', value: 'Go · Python · Kubernetes' },
+  { label: 'Now', value: 'NetBox Labs' },
+  { label: 'Focus', value: 'Frontend platform · DX' },
+  { label: 'Stack', value: 'TypeScript · React' },
 ];
 ---
 
 <BaseLayout
   title="About"
-  description={`About ${siteConfig.name} — ${siteConfig.role} writing about infrastructure, automation, and reliable systems.`}
+  description={`About ${siteConfig.name}, a ${siteConfig.role.toLowerCase()} working on frontend architecture, design systems, and AI-augmented engineering.`}
   image={ogImageUrl('about')}
   type="profile"
 >
-  <Container width="wide" class="about">
-    <div class="about__main">
-      <p class="eyebrow mb-3">About</p>
-      <h1 class="about__title">{siteConfig.name}</h1>
+  <Container width="wide">
+    <div class="about">
+      <div class="about__main">
+        <p class="eyebrow mb-3">About</p>
+        <h1 class="about__title">{siteConfig.name}</h1>
 
-      <div class="prose about__bio">
-        <p class="about__lead">
-          I'm a senior software engineer focused on infrastructure and network automation — I
-          build systems that are reliable, observable, and boring in the best way.
-        </p>
-        <p>
-          My work sits where networks, cloud platforms, and software meet: turning manual,
-          fragile operations into source-of-truth-driven pipelines, running workloads on
-          Kubernetes without surprises, and designing architectures that hold up as they grow.
-          I care about the unglamorous parts — idempotency, failure modes, the second time
-          something runs — because that's where reliability actually comes from.
-        </p>
-        <p>
-          I publish deep dives here, walk through them on <a href="/youtube/">YouTube</a>, and
-          ship the code on <a href={siteConfig.social.github}>GitHub</a>. The goal is a durable,
-          owned body of work — not scattered posts on platforms I don't control.
-        </p>
+        <div class="prose about__bio">
+          <p class="about__lead">
+            I build platforms, products, and the tooling in between. My specialism is frontend
+            architecture at scale: micro-frontends, design systems, shared component libraries, and
+            the developer experience that ties them together.
+          </p>
+          <p>
+            I'm a Senior Software Engineer at <strong>NetBox Labs</strong>, where I architect and
+            maintain the frontend platform from the ground up. Before that I spent two years as a
+            frontend consultant at <strong>Ensono Digital</strong>, delivering for clients including
+            Next, the NHS, Gov.uk, and The Gym Group. The throughline is the same everywhere: make
+            the right thing the easy thing for the engineers building on the platform.
+          </p>
+          <p>
+            Lately I've been deep in the weeds of AI-augmented engineering. Not just using AI tools,
+            but building autonomous agent systems that implement, test, and ship code across
+            multiple repositories in parallel. It's changing how I think about what a single
+            engineer can actually get done.
+          </p>
+          <p>
+            I've given talks at meetups (including building a module bundler from scratch), appeared
+            on podcasts, and mentored bootcamp graduates at the School of Code. I publish here and
+            ship code on <a href={siteConfig.social.github}>GitHub</a>, building up an owned body of
+            work rather than scattered posts on platforms I don't control.
+          </p>
 
-        <h2>What I work on</h2>
-        <ul>
-          {expertise.map((item) => <li>{item}</li>)}
-        </ul>
+          <h2>What I work on</h2>
+          <ul>
+            {expertise.map((item) => <li>{item}</li>)}
+          </ul>
 
-        <h2>Elsewhere</h2>
-        <p>
-          The best way to follow along is the <a href="/rss.xml">RSS feed</a> or the
-          <a href={siteConfig.social.youtube}> YouTube channel</a>. To get in touch, see the
-          <a href="/contact/"> contact page</a>.
-        </p>
+          <h2>Elsewhere</h2>
+          <p>
+            Always up for a conversation about micro-frontends, design systems, or AI-driven
+            development. Follow along via the <a href="/rss.xml">RSS feed</a>, see past
+            <a href="/speaking/"> talks and podcasts</a>, or
+            <a href="/contact/"> get in touch</a>.
+          </p>
+        </div>
       </div>
+
+      <aside class="about__rail" aria-label="Quick facts">
+        <dl class="facts">
+          {
+            facts.map((f) => (
+              <div class="facts__row">
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <div class="about__links">
+          <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer">
+            <Icon name="simple-icons:github" aria-hidden="true" /> GitHub
+          </a>
+          <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer">
+            <Icon name="simple-icons:linkedin" aria-hidden="true" /> LinkedIn
+          </a>
+          <a href={siteConfig.social.youtube} target="_blank" rel="noopener noreferrer">
+            <Icon name="simple-icons:youtube" aria-hidden="true" /> YouTube
+          </a>
+          <a href={`mailto:${siteConfig.email}`}>
+            <Icon name="lucide:mail" aria-hidden="true" />
+            {siteConfig.email}
+          </a>
+        </div>
+      </aside>
     </div>
-
-    <aside class="about__rail" aria-label="Quick facts">
-      <dl class="facts">
-        {
-          facts.map((f) => (
-            <div class="facts__row">
-              <dt>{f.label}</dt>
-              <dd>{f.value}</dd>
-            </div>
-          ))
-        }
-      </dl>
-      <div class="about__links">
-        <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer">
-          <Icon name="simple-icons:github" aria-hidden="true" /> GitHub
-        </a>
-        <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer">
-          <Icon name="simple-icons:linkedin" aria-hidden="true" /> LinkedIn
-        </a>
-        <a href={siteConfig.social.youtube} target="_blank" rel="noopener noreferrer">
-          <Icon name="simple-icons:youtube" aria-hidden="true" /> YouTube
-        </a>
-        <a href={`mailto:${siteConfig.email}`}>
-          <Icon name="lucide:mail" aria-hidden="true" /> {siteConfig.email}
-        </a>
-      </div>
-    </aside>
   </Container>
 </BaseLayout>
 

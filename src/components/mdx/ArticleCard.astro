@@ -5,9 +5,13 @@ import { formatDateShort, isoDate } from '../../lib/date';
 
 interface Props {
   post: Post;
+  /** Heading level for the title. Use 'h2' where the card is the first heading
+   *  under the page h1 (category/tag pages); default 'h3' where an h2 wraps it. */
+  titleAs?: 'h2' | 'h3';
 }
 
-const { post } = Astro.props;
+const { post, titleAs = 'h3' } = Astro.props;
+const TitleTag = titleAs;
 const { title, description, pubDate, category, tags } = post.data;
 const minutes = readingTime(post.body);
 ---
@@ -21,7 +25,7 @@ const minutes = readingTime(post.body);
       <span class="card__dot" aria-hidden="true">·</span>
       <span class="card__cat">{category}</span>
     </div>
-    <h3 class="card__title">{title}</h3>
+    <TitleTag class="card__title">{title}</TitleTag>
     <p class="card__desc">{description}</p>
   </a>
   {

@@ -4,34 +4,37 @@ import Container from '../ui/Container.astro';
 import NodeGraph from './NodeGraph.astro';
 import { siteConfig } from '../../consts/site';
 
-const focus = ['Kubernetes', 'Network Automation', 'Cloud-Native', 'Reliability'];
+const focus = ['Micro-Frontends', 'Design Systems', 'Developer Experience', 'AI Engineering'];
 ---
 
 <section class="hero">
-  <Container width="wide" class="hero__grid">
-    <div class="hero__content">
-      <p class="eyebrow mb-3">{siteConfig.role}</p>
-      <h1 class="hero__title">{siteConfig.tagline}</h1>
-      <p class="hero__intro">
-        I'm {siteConfig.name} — I build and write about infrastructure, network automation,
-        and cloud-native systems that stay reliable as they scale. Deep dives here, walkthroughs
-        on YouTube, and the code on GitHub.
-      </p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="/blog/">
-          Read the writing <Icon name="lucide:arrow-right" aria-hidden="true" />
-        </a>
-        <a class="btn btn--ghost" href="/youtube/">
-          <Icon name="simple-icons:youtube" aria-hidden="true" /> Watch on YouTube
-        </a>
+  <Container width="wide">
+    <div class="hero__grid">
+      <div class="hero__content">
+        <p class="eyebrow mb-3">{siteConfig.role}</p>
+        <h1 class="hero__title">{siteConfig.tagline}</h1>
+        <p class="hero__intro">
+          I'm {siteConfig.name}. I build platforms, products, and the tooling in between. My focus
+          is frontend architecture at scale: micro-frontends, design systems, and the developer
+          experience that holds it together. Lately I've been deep in AI-augmented engineering,
+          building agent systems that help write, test, and ship code.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="/blog/">
+            Read the writing <Icon name="lucide:arrow-right" aria-hidden="true" />
+          </a>
+          <a class="btn btn--ghost" href="/youtube/">
+            <Icon name="simple-icons:youtube" aria-hidden="true" /> Watch on YouTube
+          </a>
+        </div>
+        <ul class="hero__focus" aria-label="Areas of focus">
+          {focus.map((f) => <li>{f}</li>)}
+        </ul>
       </div>
-      <ul class="hero__focus" aria-label="Areas of focus">
-        {focus.map((f) => <li>{f}</li>)}
-      </ul>
-    </div>
 
-    <div class="hero__visual" aria-hidden="true">
-      <NodeGraph />
+      <div class="hero__visual" aria-hidden="true">
+        <NodeGraph />
+      </div>
     </div>
   </Container>
 </section>

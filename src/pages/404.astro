@@ -4,15 +4,17 @@ import Container from '../components/ui/Container.astro';
 ---
 
 <BaseLayout title="Page not found" noindex>
-  <Container width="content" class="notfound">
-    <p class="notfound__code">404</p>
-    <h1 class="notfound__title">This page took a wrong turn</h1>
-    <p class="notfound__text">
-      The page you're looking for doesn't exist or has moved. Try the writing index or head home.
-    </p>
-    <div class="notfound__links">
-      <a class="notfound__btn" href="/">Home</a>
-      <a class="notfound__link" href="/blog/">Writing →</a>
+  <Container width="content">
+    <div class="notfound">
+      <p class="notfound__code">404</p>
+      <h1 class="notfound__title">This page took a wrong turn</h1>
+      <p class="notfound__text">
+        The page you're looking for doesn't exist or has moved. Try the writing index or head home.
+      </p>
+      <div class="notfound__links">
+        <a class="notfound__btn" href="/">Home</a>
+        <a class="notfound__link" href="/blog/">Writing →</a>
+      </div>
     </div>
   </Container>
 </BaseLayout>

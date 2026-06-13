@@ -7,15 +7,15 @@ const staticPages: Record<string, { title: string; description: string }> = {
   home: { title: siteConfig.name, description: siteConfig.tagline },
   writing: {
     title: 'Writing',
-    description: 'Deep dives on infrastructure, automation, and reliable systems.',
+    description: 'Frontend architecture, design systems, and AI-driven development.',
   },
   youtube: {
-    title: 'YouTube',
-    description: 'Practical, senior-level engineering — with companion write-ups and code.',
+    title: 'Talks & podcasts',
+    description: 'Talks, podcasts, and walkthroughs on frontend and AI engineering.',
   },
   'open-source': {
     title: 'Open Source',
-    description: 'Infrastructure and automation tooling, built in the open.',
+    description: 'Design systems and frontend tooling, built in the open.',
   },
   speaking: { title: 'Speaking', description: 'Talks, podcasts, and workshops.' },
   about: { title: `About ${siteConfig.name}`, description: siteConfig.role },

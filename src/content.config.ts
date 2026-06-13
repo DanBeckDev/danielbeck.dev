@@ -9,7 +9,7 @@ const videoLink = z.object({
   title: z.string().optional(),
 });
 const repoLink = z.object({
-  url: z.string().url(),
+  url: z.url(),
   name: z.string(),
   description: z.string().optional(),
   language: z.string().optional(),
@@ -18,7 +18,7 @@ const repoLink = z.object({
 const talkLink = z.object({
   title: z.string(),
   event: z.string().optional(),
-  url: z.string().url().optional(),
+  url: z.url().optional(),
   date: z.coerce.date().optional(),
 });
 
@@ -36,32 +36,13 @@ const blog = defineCollection({
       featured: z.boolean().default(false),
       heroImage: image().optional(),
       heroImageAlt: z.string().optional(),
-      canonicalUrl: z.string().url().optional(),
+      canonicalUrl: z.url().optional(),
       series: z.string().optional(),
       video: videoLink.optional(),
       repo: repoLink.optional(),
       talk: talkLink.optional(),
-      discussion: z.object({ linkedinUrl: z.string().url() }).optional(),
+      discussion: z.object({ linkedinUrl: z.url() }).optional(),
     }),
-});
-
-const projects = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/projects' }),
-  schema: z.object({
-    name: z.string(),
-    displayName: z.string(),
-    description: z.string(),
-    repoUrl: z.string().url(),
-    homepageUrl: z.string().url().optional(),
-    tech: z.array(z.string()).default([]),
-    status: z.enum(['active', 'maintained', 'archived', 'experimental']).default('active'),
-    featured: z.boolean().default(false),
-    order: z.number().default(99),
-    stars: z.number().optional(),
-    forks: z.number().optional(),
-    relatedPosts: z.array(z.string()).default([]),
-    relatedVideos: z.array(z.string()).default([]),
-  }),
 });
 
 const videos = defineCollection({
@@ -74,7 +55,6 @@ const videos = defineCollection({
     duration: z.string().optional(),
     tags: z.array(z.string()).default([]),
     relatedPost: z.string().optional(),
-    relatedProject: z.string().optional(),
     featured: z.boolean().default(false),
   }),
 });
@@ -87,12 +67,12 @@ const speaking = defineCollection({
     location: z.string().optional(),
     date: z.coerce.date(),
     type: z.enum(['conference', 'meetup', 'podcast', 'workshop']),
-    slidesUrl: z.string().url().optional(),
-    recordingUrl: z.string().url().optional(),
+    slidesUrl: z.url().optional(),
+    recordingUrl: z.url().optional(),
     relatedPost: z.string().optional(),
     abstract: z.string().optional(),
     status: z.enum(['upcoming', 'past', 'proposed']).default('upcoming'),
   }),
 });
 
-export const collections = { blog, projects, videos, speaking };
+export const collections = { blog, videos, speaking };

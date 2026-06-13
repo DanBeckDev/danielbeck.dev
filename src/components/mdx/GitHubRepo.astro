@@ -1,11 +1,7 @@
 ---
-import { getEntry } from 'astro:content';
 import { Icon } from 'astro-icon/components';
 
 interface Props {
-  /** Look up a project from the `projects` collection by id. */
-  slug?: string;
-  /** Or pass details directly. */
   name?: string;
   url?: string;
   description?: string;
@@ -13,18 +9,7 @@ interface Props {
   stars?: number;
 }
 
-let { slug, name, url, description, language, stars } = Astro.props;
-
-if (slug) {
-  const project = await getEntry('projects', slug);
-  if (project) {
-    name ??= project.data.displayName;
-    url ??= project.data.repoUrl;
-    description ??= project.data.description;
-    language ??= project.data.tech[0];
-    stars ??= project.data.stars;
-  }
-}
+const { name, url, description, language, stars } = Astro.props;
 
 const repoLabel = url
   ? url.replace(/^https?:\/\/(www\.)?github\.com\//, '').replace(/\/$/, '')

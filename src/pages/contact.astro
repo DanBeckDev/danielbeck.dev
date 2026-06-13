@@ -16,7 +16,7 @@ const channels = [
   },
   {
     label: 'LinkedIn',
-    value: 'in/danielbeck',
+    value: siteConfig.social.linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\//, ''),
     href: siteConfig.social.linkedin,
     icon: 'simple-icons:linkedin',
     external: true,
@@ -46,7 +46,7 @@ const channels = [
   <PageHeader
     eyebrow="Contact"
     title="Get in touch"
-    lead="The best way to reach me is email. I read everything and reply when I can — for speaking and collaboration, that's the fastest path."
+    lead="The best way to reach me is email. I read everything and reply when I can. For speaking and collaboration, that's the fastest path."
   />
 
   <Container width="content" class="pb-20">
@@ -56,7 +56,7 @@ const channels = [
           <li>
             <a
               href={c.href}
-              {...c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+              {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             >
               <Icon name={c.icon} class="channels__icon" aria-hidden="true" />
               <span class="channels__label">{c.label}</span>

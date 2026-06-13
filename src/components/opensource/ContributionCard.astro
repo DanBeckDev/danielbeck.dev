@@ -1,0 +1,187 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { RepoContribution } from '../../lib/contributions';
+import { formatDateShort, isoDate } from '../../lib/date';
+
+interface Props {
+  contribution: RepoContribution;
+}
+const { contribution: c } = Astro.props;
+---
+
+<article class="contrib">
+  <header class="contrib__head">
+    <a class="contrib__repo" href={c.url} target="_blank" rel="noopener noreferrer">
+      <Icon name="simple-icons:github" aria-hidden="true" />
+      <span><span class="contrib__owner">{c.owner}/</span>{c.name}</span>
+    </a>
+    <div class="contrib__stats">
+      {
+        c.language && (
+          <span class="contrib__lang">
+            <span class="contrib__dot" />
+            {c.language}
+          </span>
+        )
+      }
+      {
+        typeof c.stars === 'number' && (
+          <span class="contrib__stars">
+            <Icon name="lucide:star" aria-hidden="true" /> {c.stars.toLocaleString('en-US')}
+          </span>
+        )
+      }
+    </div>
+  </header>
+
+  {c.description && <p class="contrib__desc">{c.description}</p>}
+
+  {
+    c.prs.length > 0 ? (
+      <ul class="contrib__prs">
+        {c.prs.map((pr) => (
+          <li>
+            <a href={pr.url} target="_blank" rel="noopener noreferrer">
+              <Icon name="lucide:git-merge" class="contrib__pricon" aria-hidden="true" />
+              <span class="contrib__prtitle">{pr.title}</span>
+              <span class="contrib__prmeta">
+                <span class="contrib__prnum">#{pr.number}</span>
+                <time datetime={isoDate(new Date(pr.mergedAt))}>
+                  {formatDateShort(new Date(pr.mergedAt))}
+                </time>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <a class="contrib__fallback" href={c.prsUrl} target="_blank" rel="noopener noreferrer">
+        View my contributions on GitHub <Icon name="lucide:arrow-up-right" aria-hidden="true" />
+      </a>
+    )
+  }
+</article>
+
+<style>
+  .contrib {
+    padding: 1.25rem 1.35rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.7rem;
+    background-color: var(--color-surface);
+  }
+  .contrib__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .contrib__repo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  .contrib__repo:hover {
+    color: var(--color-accent);
+  }
+  .contrib__repo :global(svg) {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+  .contrib__owner {
+    color: var(--color-faint);
+  }
+  .contrib__stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--color-faint);
+  }
+  .contrib__lang,
+  .contrib__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .contrib__stars :global(svg) {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+  .contrib__dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 9999px;
+    background-color: var(--color-accent);
+  }
+  .contrib__desc {
+    margin: 0.7rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .contrib__prs {
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.15rem;
+  }
+  .contrib__prs a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.5rem 0.6rem;
+    margin: 0 -0.6rem;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    color: var(--color-muted);
+    transition: background-color 0.12s ease;
+  }
+  .contrib__prs a:hover {
+    background-color: var(--color-elevated);
+  }
+  .contrib__pricon {
+    flex: none;
+    width: 0.9rem;
+    height: 0.9rem;
+    color: color-mix(in oklab, var(--color-accent) 80%, var(--color-ink));
+    transform: translateY(0.15rem);
+  }
+  .contrib__prtitle {
+    flex: 1;
+    color: var(--color-ink);
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+  .contrib__prs a:hover .contrib__prtitle {
+    color: var(--color-accent);
+  }
+  .contrib__prmeta {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-faint);
+  }
+  .contrib__fallback {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .contrib__fallback :global(svg) {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+</style>

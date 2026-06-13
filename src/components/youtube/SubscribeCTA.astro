@@ -13,7 +13,9 @@ const { compact = false } = Astro.props;
     <Icon name="simple-icons:youtube" class="subscribe__icon" aria-hidden="true" />
     <div>
       <p class="subscribe__title">{siteConfig.youtubeHandle}</p>
-      <p class="subscribe__blurb">Practical, senior-level engineering — new videos with companion write-ups.</p>
+      <p class="subscribe__blurb">
+        Practical, senior-level engineering. New videos with companion write-ups.
+      </p>
     </div>
   </div>
   <a class="subscribe__btn" href={youtubeSubscribeUrl} target="_blank" rel="noopener noreferrer">

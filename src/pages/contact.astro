@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Container from '../components/ui/Container.astro';
+import { Icon } from 'astro-icon/components';
+import { siteConfig } from '../consts/site';
+import { ogImageUrl } from '../lib/seo';
+
+const channels = [
+  {
+    label: 'Email',
+    value: siteConfig.email,
+    href: `mailto:${siteConfig.email}`,
+    icon: 'lucide:mail',
+    external: false,
+  },
+  {
+    label: 'LinkedIn',
+    value: 'in/danielbeck',
+    href: siteConfig.social.linkedin,
+    icon: 'simple-icons:linkedin',
+    external: true,
+  },
+  {
+    label: 'GitHub',
+    value: `@${siteConfig.githubUsername}`,
+    href: siteConfig.social.github,
+    icon: 'simple-icons:github',
+    external: true,
+  },
+  {
+    label: 'YouTube',
+    value: siteConfig.youtubeHandle,
+    href: siteConfig.social.youtube,
+    icon: 'simple-icons:youtube',
+    external: true,
+  },
+];
+---
+
+<BaseLayout
+  title="Contact"
+  description={`Get in touch with ${siteConfig.name}.`}
+  image={ogImageUrl('contact')}
+>
+  <PageHeader
+    eyebrow="Contact"
+    title="Get in touch"
+    lead="The best way to reach me is email. I read everything and reply when I can — for speaking and collaboration, that's the fastest path."
+  />
+
+  <Container width="content" class="pb-20">
+    <ul class="channels">
+      {
+        channels.map((c) => (
+          <li>
+            <a
+              href={c.href}
+              {...c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+            >
+              <Icon name={c.icon} class="channels__icon" aria-hidden="true" />
+              <span class="channels__label">{c.label}</span>
+              <span class="channels__value">{c.value}</span>
+              <Icon name="lucide:arrow-up-right" class="channels__out" aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</BaseLayout>
+
+<style>
+  .channels {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+    max-width: 32rem;
+  }
+  .channels a {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    background-color: var(--color-surface);
+    text-decoration: none;
+    color: var(--color-ink);
+    transition: border-color 0.15s ease;
+  }
+  .channels a:hover {
+    border-color: color-mix(in oklab, var(--color-accent) 50%, var(--color-line));
+  }
+  .channels__icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--color-muted);
+    flex: none;
+  }
+  .channels__label {
+    font-weight: 500;
+  }
+  .channels__value {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-faint);
+  }
+  .channels__out {
+    width: 0.95rem;
+    height: 0.95rem;
+    color: var(--color-faint);
+  }
+</style>

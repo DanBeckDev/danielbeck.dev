@@ -1,0 +1,125 @@
+---
+import { getEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  /** Look up a project from the `projects` collection by id. */
+  slug?: string;
+  /** Or pass details directly. */
+  name?: string;
+  url?: string;
+  description?: string;
+  language?: string;
+  stars?: number;
+}
+
+let { slug, name, url, description, language, stars } = Astro.props;
+
+if (slug) {
+  const project = await getEntry('projects', slug);
+  if (project) {
+    name ??= project.data.displayName;
+    url ??= project.data.repoUrl;
+    description ??= project.data.description;
+    language ??= project.data.tech[0];
+    stars ??= project.data.stars;
+  }
+}
+
+const repoLabel = url
+  ? url.replace(/^https?:\/\/(www\.)?github\.com\//, '').replace(/\/$/, '')
+  : name;
+---
+
+<a class="repo not-prose" href={url} target="_blank" rel="noopener noreferrer">
+  <div class="repo__head">
+    <Icon name="simple-icons:github" class="repo__gh" aria-hidden="true" />
+    <span class="repo__name">{repoLabel ?? name}</span>
+    <Icon name="lucide:arrow-up-right" class="repo__out" aria-hidden="true" />
+  </div>
+  {description && <p class="repo__desc">{description}</p>}
+  <div class="repo__meta">
+    {
+      language && (
+        <span class="repo__lang">
+          <span class="repo__dot" /> {language}
+        </span>
+      )
+    }
+    {
+      typeof stars === 'number' && stars > 0 && (
+        <span class="repo__stars">
+          <Icon name="lucide:star" aria-hidden="true" /> {stars.toLocaleString('en-US')}
+        </span>
+      )
+    }
+  </div>
+</a>
+
+<style>
+  .repo {
+    display: block;
+    margin: 1.75rem 0;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    background-color: var(--color-surface);
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+  .repo:hover {
+    border-color: color-mix(in oklab, var(--color-accent) 50%, var(--color-line));
+  }
+  .repo__head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .repo__gh {
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--color-muted);
+    flex: none;
+  }
+  .repo__name {
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .repo__out {
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-left: auto;
+    color: var(--color-faint);
+  }
+  .repo__desc {
+    margin: 0.55rem 0 0;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    line-height: 1.55;
+  }
+  .repo__meta {
+    display: flex;
+    gap: 1.1rem;
+    margin-top: 0.7rem;
+    font-size: 0.8rem;
+    color: var(--color-faint);
+  }
+  .repo__lang,
+  .repo__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .repo__stars :global(svg) {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+  .repo__dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 9999px;
+    background-color: var(--color-accent);
+  }
+</style>

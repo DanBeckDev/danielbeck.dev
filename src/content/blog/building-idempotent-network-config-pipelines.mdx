@@ -1,0 +1,90 @@
+---
+title: Building Idempotent Network Config Pipelines
+description: >-
+  Most network automation works the first time and breaks the second. Here's how
+  to model a source of truth and a converging pipeline so config pushes are safe
+  to re-run — every time.
+pubDate: 2026-06-10
+updatedDate: 2026-06-12
+category: Network Automation
+tags: [nautobot, ansible, gitops, source-of-truth, idempotency]
+featured: true
+video:
+  youtubeId: dBeckDemo01
+  title: This article as a 12-minute walkthrough
+repo:
+  url: https://github.com/danielbeck/netconfig-pipeline
+  name: danielbeck/netconfig-pipeline
+  description: Reference implementation of the pipeline described here.
+  language: Python
+talk:
+  title: Idempotent Network Automation at Scale
+  event: DENOG (proposed)
+discussion:
+  linkedinUrl: https://www.linkedin.com/in/danielbeck
+---
+
+> This is a placeholder article shipped with the site scaffold to demonstrate
+> the MDX components. Replace it with your own writing.
+
+The first time you push a network change with automation, it works. The second
+time is where the trouble starts: a half-applied change, a device that drifted,
+a playbook that wasn't safe to re-run. The fix isn't more automation — it's
+designing the pipeline around **idempotency** from the start.
+
+## The model: source of truth, then converge
+
+Separate *intended state* from *the act of applying it*. The source of truth
+describes what the network should be; the pipeline's only job is to make reality
+match, and to be a no-op when it already does.
+
+<MermaidDiagram
+  title="Render → diff → push → verify"
+  code={`flowchart LR
+  SoT[(Source of Truth)] --> R[Render intended config]
+  R --> D{Diff vs device}
+  D -- no change --> V[Verify & report]
+  D -- change --> P[Push]
+  P --> V`}
+/>
+
+Each stage is pure: rendering the same source of truth twice produces identical
+config, and a diff against an already-converged device yields nothing to push.
+
+<Callout type="warning" title="The drift trap">
+  If your pipeline pushes config without diffing first, a partial failure leaves
+  devices in an in-between state that the *next* run can't reason about. Always
+  diff against live state and make "no change" a first-class outcome.
+</Callout>
+
+## Rendering from the source of truth
+
+Pull the intended state and render it deterministically. No timestamps, no
+ordering surprises, no random map iteration:
+
+```python
+def render(device: Device, sot: SourceOfTruth) -> str:
+    interfaces = sorted(sot.interfaces_for(device), key=lambda i: i.name)
+    return template.render(
+        hostname=device.name,
+        interfaces=interfaces,
+        # deterministic output: stable sort, no wall-clock values
+    )
+```
+
+<Callout type="tip" title="Make it diffable">
+  Stable ordering is what makes the diff meaningful. If two runs of `render()`
+  can differ for the same input, you can't tell drift from noise.
+</Callout>
+
+## Converging safely
+
+Diff first; only push the delta; then verify the result matches intent. The
+reference implementation — linked below — wires these stages together, and the
+companion video walks through it end to end.
+
+## Takeaways
+
+- Treat the source of truth as the only place intent lives.
+- Rendering must be deterministic, or diffs are meaningless.
+- "No change" is a success, not an edge case — design for it.

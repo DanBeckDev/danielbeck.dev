@@ -1,0 +1,163 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Talk } from '../../lib/content';
+import { postUrl } from '../../lib/content';
+import { getEntry } from 'astro:content';
+import { formatDate, isoDate } from '../../lib/date';
+
+interface Props {
+  talk: Talk;
+}
+const { talk } = Astro.props;
+const d = talk.data;
+const relatedPost = d.relatedPost ? await getEntry('blog', d.relatedPost) : undefined;
+
+const typeLabel: Record<string, string> = {
+  conference: 'Conference',
+  meetup: 'Meetup',
+  podcast: 'Podcast',
+  workshop: 'Workshop',
+};
+---
+
+<article class="talk">
+  <div class="talk__marker" aria-hidden="true"></div>
+  <div class="talk__body">
+    <div class="talk__top">
+      <time datetime={isoDate(d.date)}>{formatDate(d.date)}</time>
+      <span class="talk__type">{typeLabel[d.type]}</span>
+      {d.status !== 'past' && <span class="talk__status" data-status={d.status}>{d.status}</span>}
+    </div>
+    <h3 class="talk__title">{d.title}</h3>
+    <p class="talk__event">
+      {d.event}{d.location ? ` · ${d.location}` : ''}
+    </p>
+    {d.abstract && <p class="talk__abstract">{d.abstract}</p>}
+    <div class="talk__links">
+      {
+        d.slidesUrl && (
+          <a href={d.slidesUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="lucide:presentation" aria-hidden="true" /> Slides
+          </a>
+        )
+      }
+      {
+        d.recordingUrl && (
+          <a href={d.recordingUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="lucide:play" aria-hidden="true" /> Recording
+          </a>
+        )
+      }
+      {
+        relatedPost && (
+          <a href={postUrl(relatedPost.id)}>
+            <Icon name="lucide:book-open" aria-hidden="true" /> Article
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .talk {
+    position: relative;
+    display: flex;
+    gap: 1.25rem;
+    padding-bottom: 2rem;
+  }
+  .talk__marker {
+    position: relative;
+    flex: none;
+    width: 0.85rem;
+    margin-top: 0.4rem;
+  }
+  .talk__marker::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 9999px;
+    border: 2px solid var(--color-accent);
+    background-color: var(--color-base);
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+  .talk__marker::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0.7rem;
+    bottom: -2rem;
+    width: 1px;
+    background-color: var(--color-line);
+    transform: translateX(-50%);
+  }
+  .talk:last-child .talk__marker::after {
+    display: none;
+  }
+  .talk__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--color-faint);
+  }
+  .talk__type {
+    color: var(--color-muted);
+  }
+  .talk__status {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.66rem;
+    padding: 0.08rem 0.4rem;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in oklab, var(--color-accent) 40%, transparent);
+    color: var(--color-accent);
+  }
+  .talk__status[data-status='proposed'] {
+    border-color: color-mix(in oklab, var(--color-warning) 40%, transparent);
+    color: var(--color-warning);
+  }
+  .talk__title {
+    margin: 0.4rem 0 0.2rem;
+    font-size: 1.15rem;
+  }
+  .talk__event {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+  }
+  .talk__abstract {
+    margin: 0.6rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+  .talk__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+  }
+  .talk__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .talk__links a:hover {
+    color: var(--color-accent);
+  }
+  .talk__links :global(svg) {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+</style>

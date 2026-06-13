@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import { Icon } from 'astro-icon/components';
+import { siteConfig } from '../consts/site';
+import { ogImageUrl } from '../lib/seo';
+
+const expertise = [
+  'Network automation (source of truth, config pipelines)',
+  'Kubernetes & platform engineering',
+  'Cloud infrastructure & IaC',
+  'System architecture & reliability',
+  'Python & Go for infrastructure',
+];
+
+const facts = [
+  { label: 'Role', value: siteConfig.role },
+  { label: 'Focus', value: 'Infrastructure · Automation' },
+  { label: 'Writing since', value: '2026' },
+  { label: 'Tools', value: 'Go · Python · Kubernetes' },
+];
+---
+
+<BaseLayout
+  title="About"
+  description={`About ${siteConfig.name} — ${siteConfig.role} writing about infrastructure, automation, and reliable systems.`}
+  image={ogImageUrl('about')}
+  type="profile"
+>
+  <Container width="wide" class="about">
+    <div class="about__main">
+      <p class="eyebrow mb-3">About</p>
+      <h1 class="about__title">{siteConfig.name}</h1>
+
+      <div class="prose about__bio">
+        <p class="about__lead">
+          I'm a senior software engineer focused on infrastructure and network automation — I
+          build systems that are reliable, observable, and boring in the best way.
+        </p>
+        <p>
+          My work sits where networks, cloud platforms, and software meet: turning manual,
+          fragile operations into source-of-truth-driven pipelines, running workloads on
+          Kubernetes without surprises, and designing architectures that hold up as they grow.
+          I care about the unglamorous parts — idempotency, failure modes, the second time
+          something runs — because that's where reliability actually comes from.
+        </p>
+        <p>
+          I publish deep dives here, walk through them on <a href="/youtube/">YouTube</a>, and
+          ship the code on <a href={siteConfig.social.github}>GitHub</a>. The goal is a durable,
+          owned body of work — not scattered posts on platforms I don't control.
+        </p>
+
+        <h2>What I work on</h2>
+        <ul>
+          {expertise.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <h2>Elsewhere</h2>
+        <p>
+          The best way to follow along is the <a href="/rss.xml">RSS feed</a> or the
+          <a href={siteConfig.social.youtube}> YouTube channel</a>. To get in touch, see the
+          <a href="/contact/"> contact page</a>.
+        </p>
+      </div>
+    </div>
+
+    <aside class="about__rail" aria-label="Quick facts">
+      <dl class="facts">
+        {
+          facts.map((f) => (
+            <div class="facts__row">
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="about__links">
+        <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer">
+          <Icon name="simple-icons:github" aria-hidden="true" /> GitHub
+        </a>
+        <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer">
+          <Icon name="simple-icons:linkedin" aria-hidden="true" /> LinkedIn
+        </a>
+        <a href={siteConfig.social.youtube} target="_blank" rel="noopener noreferrer">
+          <Icon name="simple-icons:youtube" aria-hidden="true" /> YouTube
+        </a>
+        <a href={`mailto:${siteConfig.email}`}>
+          <Icon name="lucide:mail" aria-hidden="true" /> {siteConfig.email}
+        </a>
+      </div>
+    </aside>
+  </Container>
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: 3rem;
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+    grid-template-columns: 1fr;
+  }
+  .about__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .about__lead {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+  .facts {
+    margin: 0;
+    border: 1px solid var(--color-line);
+    border-radius: 0.7rem;
+    overflow: hidden;
+  }
+  .facts__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--color-line-soft);
+    font-size: 0.85rem;
+  }
+  .facts__row:last-child {
+    border-bottom: 0;
+  }
+  .facts dt {
+    color: var(--color-faint);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .facts dd {
+    margin: 0;
+    color: var(--color-ink);
+    text-align: right;
+  }
+  .about__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .about__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .about__links a:hover {
+    color: var(--color-accent);
+  }
+  .about__links :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .about {
+      grid-template-columns: 1fr 18rem;
+    }
+    .about__rail {
+      position: sticky;
+      top: 5.5rem;
+      align-self: start;
+    }
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+import { navItems } from '../../consts/site';
+
+interface Props {
+  pathname: string;
+  class?: string;
+}
+const { pathname, class: className = '' } = Astro.props;
+
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href);
+---
+
+<nav class:list={['site-nav', className]} aria-label="Primary">
+  {
+    navItems.map((item) => (
+      <a
+        href={item.href}
+        class="site-nav__link"
+        aria-current={isActive(item.href) ? 'page' : undefined}
+      >
+        {item.label}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .site-nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .site-nav__link {
+    position: relative;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .site-nav__link:hover {
+    color: var(--color-ink);
+  }
+  .site-nav__link[aria-current='page'] {
+    color: var(--color-ink);
+  }
+  .site-nav__link[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.45rem;
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--color-accent);
+  }
+</style>

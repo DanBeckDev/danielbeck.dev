@@ -1,0 +1,28 @@
+# YouTube videos shown on /youtube/ and cross-linked from posts/projects.
+# PLACEHOLDER entries — replace `youtubeId` with real 11-char video IDs.
+# Each entry needs a unique `id` (used by relatedVideos on projects).
+
+- id: nautobot-ansible-idempotent-pipeline
+  youtubeId: dBeckDemo01
+  title: 'Idempotent Network Automation with Nautobot + Ansible'
+  description: >-
+    A walkthrough of treating Nautobot as the source of truth and Ansible as
+    the converging engine, so config pushes are safe to re-run.
+  publishedAt: 2026-06-09
+  duration: 'PT12M40s'
+  tags: [network-automation, ansible, nautobot]
+  relatedPost: building-idempotent-network-config-pipelines
+  relatedProject: netconfig-pipeline
+  featured: true
+
+- id: gnmi-telemetry-in-15-minutes
+  youtubeId: dBeckDemo02
+  title: 'Streaming Network Telemetry with gNMI in 15 Minutes'
+  description: >-
+    Subscribing to device telemetry over gNMI/OpenConfig and shipping it into
+    Prometheus without drowning in cardinality.
+  publishedAt: 2026-05-22
+  duration: 'PT15M05s'
+  tags: [gnmi, observability, go]
+  relatedProject: gnmi-telemetry-collector
+  featured: true

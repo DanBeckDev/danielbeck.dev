@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Container from '../../components/ui/Container.astro';
+import VideoCard from '../../components/youtube/VideoCard.astro';
+import SubscribeCTA from '../../components/youtube/SubscribeCTA.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import { getVideos } from '../../lib/content';
+import { videoJsonLd, ogImageUrl } from '../../lib/seo';
+import { siteConfig } from '../../consts/site';
+
+const videos = await getVideos();
+const schema = videos.map((v) => videoJsonLd(v));
+---
+
+<BaseLayout
+  title="YouTube"
+  description={`Practical, senior-level engineering videos from ${siteConfig.name} — infrastructure, network automation, Kubernetes, and the systems that keep them reliable.`}
+  image={ogImageUrl('youtube')}
+>
+  {schema.length > 0 && <JsonLd slot="head" schema={schema} />}
+
+  <PageHeader
+    eyebrow="YouTube"
+    title="The channel"
+    lead="Practical, senior-level engineering — real architectures and the trade-offs behind them, not beginner tutorials. Every video has a companion write-up and runnable code."
+  />
+
+  <Container width="content" class="stack">
+    <SubscribeCTA />
+
+    {
+      videos.length === 0 ? (
+        <p class="empty">Videos are on the way — subscribe to catch the first one.</p>
+      ) : (
+        <div class="grid">
+          {videos.map((video) => (
+            <VideoCard video={video} />
+          ))}
+        </div>
+      )
+    }
+  </Container>
+</BaseLayout>
+
+<style>
+  .stack {
+    padding-bottom: 5rem;
+  }
+  .grid {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr;
+    margin-top: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .empty {
+    margin-top: 2rem;
+    color: var(--color-muted);
+  }
+</style>

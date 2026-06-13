@@ -1,0 +1,74 @@
+---
+/** Placeholder newsletter band. Wire `action` to an email provider later and
+ *  remove the disabled state. */
+interface Props {
+  title?: string;
+  blurb?: string;
+}
+const {
+  title = 'Subscribe to new writing',
+  blurb = 'Long-form posts on infrastructure, automation, and building reliable systems. No noise.',
+} = Astro.props;
+---
+
+<section class="news not-prose" aria-label="Newsletter signup">
+  <p class="eyebrow">Stay in the loop</p>
+  <h2 class="news__title">{title}</h2>
+  <p class="news__blurb">{blurb}</p>
+  <form class="news__form" aria-disabled="true">
+    <input
+      class="news__input"
+      type="email"
+      name="email"
+      placeholder="you@example.com"
+      autocomplete="email"
+      disabled
+      aria-label="Email address"
+    />
+    <button class="news__btn" type="button" disabled>Coming soon</button>
+  </form>
+</section>
+
+<style>
+  .news {
+    margin: 2rem 0;
+    padding: 1.75rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background-color: var(--color-surface);
+  }
+  .news__title {
+    margin: 0.4rem 0 0.3rem;
+    font-size: 1.3rem;
+  }
+  .news__blurb {
+    margin: 0 0 1.1rem;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    max-width: 44ch;
+  }
+  .news__form {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .news__input {
+    flex: 1 1 16rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    background-color: var(--color-base);
+    color: var(--color-ink);
+    font: inherit;
+  }
+  .news__btn {
+    padding: 0.6rem 1.1rem;
+    border: 0;
+    border-radius: 0.5rem;
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    font-weight: 600;
+    cursor: not-allowed;
+    opacity: 0.85;
+  }
+</style>

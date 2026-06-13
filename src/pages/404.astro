@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+---
+
+<BaseLayout title="Page not found" noindex>
+  <Container width="content" class="notfound">
+    <p class="notfound__code">404</p>
+    <h1 class="notfound__title">This page took a wrong turn</h1>
+    <p class="notfound__text">
+      The page you're looking for doesn't exist or has moved. Try the writing index or head home.
+    </p>
+    <div class="notfound__links">
+      <a class="notfound__btn" href="/">Home</a>
+      <a class="notfound__link" href="/blog/">Writing →</a>
+    </div>
+  </Container>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    text-align: center;
+  }
+  .notfound__code {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    letter-spacing: 0.15em;
+  }
+  .notfound__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 500;
+    margin: 0.5rem 0 1rem;
+  }
+  .notfound__text {
+    color: var(--color-muted);
+    max-width: 44ch;
+    margin: 0 auto 2rem;
+  }
+  .notfound__links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+  .notfound__btn {
+    padding: 0.55rem 1.2rem;
+    border-radius: 0.55rem;
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .notfound__btn:hover {
+    background-color: var(--color-accent-soft);
+  }
+  .notfound__link {
+    color: var(--color-muted);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .notfound__link:hover {
+    color: var(--color-accent);
+  }
+</style>

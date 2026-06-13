@@ -1,0 +1,145 @@
+---
+import { Icon } from 'astro-icon/components';
+import Container from '../ui/Container.astro';
+import NodeGraph from './NodeGraph.astro';
+import { siteConfig } from '../../consts/site';
+
+const focus = ['Kubernetes', 'Network Automation', 'Cloud-Native', 'Reliability'];
+---
+
+<section class="hero">
+  <Container width="wide" class="hero__grid">
+    <div class="hero__content">
+      <p class="eyebrow mb-3">{siteConfig.role}</p>
+      <h1 class="hero__title">{siteConfig.tagline}</h1>
+      <p class="hero__intro">
+        I'm {siteConfig.name} — I build and write about infrastructure, network automation,
+        and cloud-native systems that stay reliable as they scale. Deep dives here, walkthroughs
+        on YouTube, and the code on GitHub.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="/blog/">
+          Read the writing <Icon name="lucide:arrow-right" aria-hidden="true" />
+        </a>
+        <a class="btn btn--ghost" href="/youtube/">
+          <Icon name="simple-icons:youtube" aria-hidden="true" /> Watch on YouTube
+        </a>
+      </div>
+      <ul class="hero__focus" aria-label="Areas of focus">
+        {focus.map((f) => <li>{f}</li>)}
+      </ul>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <NodeGraph />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .hero {
+    padding-top: 4rem;
+    padding-bottom: 2.5rem;
+  }
+  .hero__grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 3.4rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    max-width: 16ch;
+  }
+  .hero__intro {
+    margin-top: 1.25rem;
+    max-width: 54ch;
+    font-size: 1.12rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: 0.55rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .btn :global(svg) {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+  .btn--primary {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .btn--primary:hover {
+    background-color: var(--color-accent-soft);
+  }
+  .btn--ghost {
+    color: var(--color-ink);
+    border-color: var(--color-line);
+  }
+  .btn--ghost:hover {
+    border-color: color-mix(in oklab, var(--color-accent) 50%, var(--color-line));
+    color: var(--color-accent);
+  }
+  .hero__focus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-faint);
+  }
+  .hero__focus li {
+    position: relative;
+    padding-left: 1rem;
+  }
+  .hero__focus li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 9999px;
+    background-color: var(--color-accent);
+    transform: translateY(-50%);
+  }
+  .hero__visual {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__grid {
+      grid-template-columns: 1.35fr 1fr;
+    }
+    .hero__visual {
+      display: block;
+      max-width: 24rem;
+      margin-inline: auto;
+    }
+  }
+</style>

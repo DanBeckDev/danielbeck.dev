@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/ui/PageHeader.astro';
+import Container from '../../../components/ui/Container.astro';
+import { getAllTags, tagUrl } from '../../../lib/content';
+
+const tags = await getAllTags();
+---
+
+<BaseLayout title="Tags" description="Browse all topics written about on danielbeck.dev.">
+  <PageHeader eyebrow="Index" title="Tags" lead="Every topic, sized by how much I've written about it." />
+
+  <Container width="content" class="pb-20">
+    {
+      tags.length === 0 ? (
+        <p class="empty">No tags yet.</p>
+      ) : (
+        <ul class="cloud">
+          {tags.map((t) => (
+            <li>
+              <a href={tagUrl(t.tag)}>
+                #{t.tag} <span class="cloud__count">{t.count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <p class="back"><a href="/blog/">← All writing</a></p>
+  </Container>
+</BaseLayout>
+
+<style>
+  .cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cloud a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .cloud a:hover {
+    color: var(--color-accent);
+    border-color: color-mix(in oklab, var(--color-accent) 45%, var(--color-line));
+  }
+  .cloud__count {
+    font-size: 0.72rem;
+    color: var(--color-faint);
+  }
+  .empty {
+    color: var(--color-muted);
+  }
+  .back {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+  }
+  .back a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .back a:hover {
+    color: var(--color-accent);
+  }
+</style>

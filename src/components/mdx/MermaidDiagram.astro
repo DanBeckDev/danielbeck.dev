@@ -1,0 +1,82 @@
+---
+interface Props {
+  code: string;
+  title?: string;
+}
+
+const { code, title } = Astro.props;
+---
+
+<figure class="mermaid-fig not-prose">
+  <pre class="mermaid" data-src={code} set:text={code}></pre>
+  {title && <figcaption class="mermaid-fig__caption">{title}</figcaption>}
+</figure>
+
+<script>
+  // Mermaid (~0.5 MB) is loaded lazily — only fetched once a diagram nears the
+  // viewport, keeping it out of the initial page bundle.
+  const MONO = "'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace";
+  const themeFor = () =>
+    document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
+
+  type Mermaid = typeof import('mermaid').default;
+  let mermaidPromise: Promise<Mermaid> | null = null;
+  const loadMermaid = () => (mermaidPromise ??= import('mermaid').then((m) => m.default));
+
+  async function renderAll() {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>('pre.mermaid'));
+    if (!nodes.length) return;
+    const mermaid = await loadMermaid();
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: themeFor(),
+      fontFamily: MONO,
+    });
+    for (const node of nodes) {
+      const src = node.dataset.src;
+      if (src) {
+        node.removeAttribute('data-processed');
+        node.textContent = src;
+      }
+    }
+    try {
+      await mermaid.run({ nodes });
+    } catch {
+      /* invalid diagram source — leave the raw text visible */
+    }
+  }
+
+  const first = document.querySelector('pre.mermaid');
+  if (first) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        io.disconnect();
+        renderAll();
+        // Re-render with the matching theme whenever the dark class toggles.
+        new MutationObserver(() => renderAll()).observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['class'],
+        });
+      }
+    }, { rootMargin: '200px' });
+    io.observe(first);
+  }
+</script>
+
+<style>
+  .mermaid-fig {
+    margin: 1.85rem 0;
+    padding: 1.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    background-color: var(--color-surface);
+    overflow-x: auto;
+  }
+  .mermaid-fig__caption {
+    margin-top: 0.85rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-faint);
+  }
+</style>

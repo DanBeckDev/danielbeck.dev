@@ -1,0 +1,149 @@
+---
+import '../styles/global.css';
+import { siteConfig } from '../consts/site';
+import { ogImageUrl, personJsonLd } from '../lib/seo';
+import SEO from '../components/seo/SEO.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import SkipLink from '../components/layout/SkipLink.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import DotGridBackground from '../components/layout/DotGridBackground.astro';
+
+interface Props {
+  title?: string;
+  fullTitle?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  type?: 'website' | 'article' | 'profile';
+  publishedTime?: string;
+  modifiedTime?: string;
+  section?: string;
+  tags?: string[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  fullTitle,
+  description = siteConfig.description,
+  image = ogImageUrl('home'),
+  canonical,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  section,
+  tags,
+  noindex = false,
+} = Astro.props;
+
+const resolvedTitle = fullTitle ?? (title ? `${title} · ${siteConfig.name}` : siteConfig.title);
+const resolvedCanonical = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en" class="dark" data-scroll-top>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0f1218" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${siteConfig.name} — Writing`}
+      href="/rss.xml"
+    />
+
+    {/* No-FOUC theme bootstrap — runs before first paint. Dark-first: defaults
+        to dark unless a stored preference or the OS explicitly asks for light. */}
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('theme');
+          const dark = stored
+            ? stored === 'dark'
+            : !window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.classList.toggle('dark', dark);
+        } catch (e) {
+          /* keep the default dark class */
+        }
+      })();
+    </script>
+
+    <SEO
+      title={resolvedTitle}
+      description={description}
+      canonical={resolvedCanonical}
+      image={image}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      section={section}
+      tags={tags}
+      noindex={noindex}
+    />
+
+    <JsonLd schema={personJsonLd()} />
+    <slot name="head" />
+  </head>
+
+  <body>
+    <SkipLink />
+    <DotGridBackground />
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    {/* Progressive enhancements: header scroll state + copy buttons on code blocks. */}
+    <script>
+      // Header hairline: present `data-scroll-top` only while at the very top.
+      const root = document.documentElement;
+      const onScroll = () => {
+        if (window.scrollY > 4) root.removeAttribute('data-scroll-top');
+        else root.setAttribute('data-scroll-top', '');
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Copy-to-clipboard button on every highlighted code block.
+      const COPY =
+        '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      const CHECK =
+        '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+      document.querySelectorAll('pre.astro-code').forEach((pre) => {
+        if (!(pre instanceof HTMLElement) || pre.dataset.copyReady) return;
+        pre.dataset.copyReady = '1';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'copy-btn';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.innerHTML = COPY;
+        btn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(pre.innerText);
+            btn.innerHTML = CHECK;
+            btn.classList.add('copied');
+            btn.setAttribute('aria-label', 'Copied');
+            setTimeout(() => {
+              btn.innerHTML = COPY;
+              btn.classList.remove('copied');
+              btn.setAttribute('aria-label', 'Copy code');
+            }, 1600);
+          } catch {
+            /* clipboard unavailable */
+          }
+        });
+        pre.appendChild(btn);
+      });
+    </script>
+  </body>
+</html>

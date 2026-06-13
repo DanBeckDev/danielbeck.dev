@@ -1,0 +1,47 @@
+---
+import { tagUrl } from '../../lib/content';
+
+interface Props {
+  tags: string[];
+  class?: string;
+}
+const { tags, class: className = '' } = Astro.props;
+---
+
+<ul class:list={['tag-list', className]}>
+  {
+    tags.map((tag) => (
+      <li>
+        <a href={tagUrl(tag)}>#{tag}</a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tag-list a {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    padding: 0.18rem 0.55rem;
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+  .tag-list a:hover {
+    color: var(--color-accent);
+    border-color: color-mix(in oklab, var(--color-accent) 45%, var(--color-line));
+  }
+</style>

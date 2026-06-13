@@ -1,0 +1,80 @@
+---
+import type { Video } from '../../lib/content';
+import { postUrl } from '../../lib/content';
+import { getEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import YouTubeEmbed from '../mdx/YouTubeEmbed.astro';
+import { formatDateShort, isoDate } from '../../lib/date';
+
+interface Props {
+  video: Video;
+}
+const { video } = Astro.props;
+const d = video.data;
+const relatedPost = d.relatedPost ? await getEntry('blog', d.relatedPost) : undefined;
+---
+
+<article class="video-card">
+  <YouTubeEmbed id={d.youtubeId} title={d.title} />
+  <div class="video-card__body">
+    <h3 class="video-card__title">{d.title}</h3>
+    <p class="video-card__desc">{d.description}</p>
+    <div class="video-card__meta">
+      <time datetime={isoDate(d.publishedAt)}>{formatDateShort(d.publishedAt)}</time>
+      {
+        relatedPost && (
+          <a class="video-card__link" href={postUrl(relatedPost.id)}>
+            <Icon name="lucide:book-open" aria-hidden="true" /> Read the write-up
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .video-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .video-card__title {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+  .video-card__desc {
+    margin: 0.4rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .video-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--color-faint);
+  }
+  .video-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .video-card__link:hover {
+    color: var(--color-accent);
+  }
+  .video-card__link :global(svg) {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+</style>

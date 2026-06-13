@@ -1,0 +1,20 @@
+---
+type Width = 'wide' | 'content' | 'reading';
+interface Props {
+  width?: Width;
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+}
+const { width = 'wide', as = 'div', class: className = '' } = Astro.props;
+const Tag = as;
+const widths: Record<Width, string> = {
+  wide: 'max-w-wide',
+  content: 'max-w-content',
+  reading: 'max-w-content',
+};
+const max = widths[width as Width];
+---
+
+<Tag class:list={['mx-auto w-full px-5 sm:px-8', max, className]}>
+  <slot />
+</Tag>

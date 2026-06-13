@@ -1,0 +1,205 @@
+---
+import { getEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import type { Project } from '../../lib/content';
+import { postUrl } from '../../lib/content';
+
+interface Props {
+  project: Project;
+  stars?: number;
+  forks?: number;
+}
+
+const { project, stars, forks } = Astro.props;
+const d = project.data;
+const starCount = stars ?? d.stars;
+const forkCount = forks ?? d.forks;
+
+const relatedPosts = (
+  await Promise.all(d.relatedPosts.map((id) => getEntry('blog', id)))
+).filter(Boolean);
+const relatedVideos = (
+  await Promise.all(d.relatedVideos.map((id) => getEntry('videos', id)))
+).filter(Boolean);
+
+const statusLabel: Record<string, string> = {
+  active: 'Active',
+  maintained: 'Maintained',
+  archived: 'Archived',
+  experimental: 'Experimental',
+};
+---
+
+<article class="proj" id={project.id}>
+  <header class="proj__head">
+    <h3 class="proj__name">{d.displayName}</h3>
+    <span class="proj__status" data-status={d.status}>{statusLabel[d.status]}</span>
+  </header>
+  <p class="proj__desc">{d.description}</p>
+
+  {
+    d.tech.length > 0 && (
+      <ul class="proj__tech">
+        {d.tech.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  <div class="proj__links">
+    <a href={d.repoUrl} target="_blank" rel="noopener noreferrer">
+      <Icon name="simple-icons:github" aria-hidden="true" /> Repository
+    </a>
+    {
+      d.homepageUrl && (
+        <a href={d.homepageUrl} target="_blank" rel="noopener noreferrer">
+          <Icon name="lucide:external-link" aria-hidden="true" /> Site
+        </a>
+      )
+    }
+    {
+      typeof starCount === 'number' && starCount > 0 && (
+        <span class="proj__stat">
+          <Icon name="lucide:star" aria-hidden="true" /> {starCount.toLocaleString('en-US')}
+        </span>
+      )
+    }
+    {
+      typeof forkCount === 'number' && forkCount > 0 && (
+        <span class="proj__stat">
+          <Icon name="lucide:git-fork" aria-hidden="true" /> {forkCount.toLocaleString('en-US')}
+        </span>
+      )
+    }
+  </div>
+
+  {
+    (relatedPosts.length > 0 || relatedVideos.length > 0) && (
+      <div class="proj__related">
+        {relatedPosts.map((p) => (
+          <a class="proj__rel" href={postUrl(p!.id)}>
+            <Icon name="lucide:book-open" aria-hidden="true" /> {p!.data.title}
+          </a>
+        ))}
+        {relatedVideos.map((v) => (
+          <a class="proj__rel" href="/youtube/">
+            <Icon name="lucide:play" aria-hidden="true" /> {v!.data.title}
+          </a>
+        ))}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .proj {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.7rem;
+    background-color: var(--color-surface);
+    scroll-margin-top: 6rem;
+  }
+  .proj__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .proj__name {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .proj__status {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.12rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-line);
+    color: var(--color-faint);
+  }
+  .proj__status[data-status='active'] {
+    color: var(--color-tip);
+    border-color: color-mix(in oklab, var(--color-tip) 40%, transparent);
+  }
+  .proj__status[data-status='experimental'] {
+    color: var(--color-warning);
+    border-color: color-mix(in oklab, var(--color-warning) 40%, transparent);
+  }
+  .proj__desc {
+    margin: 0.6rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .proj__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.85rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .proj__tech li {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    padding: 0.1rem 0.45rem;
+    border: 1px solid var(--color-line-soft);
+    border-radius: 4px;
+  }
+  .proj__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    font-size: 0.82rem;
+  }
+  .proj__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .proj__links a:hover {
+    color: var(--color-accent);
+  }
+  .proj__stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-faint);
+  }
+  .proj__links :global(svg),
+  .proj__related :global(svg) {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  .proj__related {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--color-line-soft);
+  }
+  .proj__rel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .proj__rel:hover {
+    color: var(--color-accent);
+  }
+</style>

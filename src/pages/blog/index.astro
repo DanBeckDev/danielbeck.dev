@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Container from '../../components/ui/Container.astro';
+import ArticleCard from '../../components/mdx/ArticleCard.astro';
+import { getPosts, getAllTags, tagUrl } from '../../lib/content';
+import { categories } from '../../consts/categories';
+import { categoryUrl } from '../../lib/content';
+import { ogImageUrl } from '../../lib/seo';
+
+const posts = await getPosts();
+const tags = await getAllTags();
+
+// Group posts by year, newest first.
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const year = post.data.pubDate.getFullYear();
+  if (!byYear.has(year)) byYear.set(year, []);
+  byYear.get(year)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+const usedCategories = categories.filter((c) => posts.some((p) => p.data.category === c.name));
+---
+
+<BaseLayout
+  title="Writing"
+  description="Long-form articles on infrastructure, network automation, Kubernetes, cloud-native systems, and building software that stays reliable at scale."
+  image={ogImageUrl('writing')}
+>
+  <PageHeader
+    eyebrow="Writing"
+    title="Writing"
+    lead="Deep dives on infrastructure, automation, and the practice of building reliable systems. Each piece pairs with a video and runnable code where it helps."
+  />
+
+  <Container width="content" class="pb-20">
+    {
+      usedCategories.length > 0 && (
+        <nav class="filters" aria-label="Browse by category">
+          {usedCategories.map((c) => (
+            <a href={categoryUrl(c.slug)}>{c.name}</a>
+          ))}
+        </nav>
+      )
+    }
+
+    {
+      posts.length === 0 ? (
+        <p class="empty">No posts published yet — check back soon.</p>
+      ) : (
+        years.map((year) => (
+          <section class="year">
+            <h2 class="year__label">{year}</h2>
+            <div>
+              {byYear.get(year)!.map((post) => (
+                <ArticleCard post={post} />
+              ))}
+            </div>
+          </section>
+        ))
+      )
+    }
+
+    {
+      tags.length > 0 && (
+        <section class="alltags">
+          <h2 class="alltags__title">Tags</h2>
+          <ul class="alltags__list">
+            {tags.map((t) => (
+              <li>
+                <a href={tagUrl(t.tag)}>
+                  #{t.tag} <span class="alltags__count">{t.count}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </Container>
+</BaseLayout>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .filters a {
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--color-line);
+    border-radius: 9999px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .filters a:hover {
+    color: var(--color-accent);
+    border-color: color-mix(in oklab, var(--color-accent) 45%, var(--color-line));
+  }
+  .empty {
+    color: var(--color-muted);
+  }
+  .year {
+    margin-bottom: 1.5rem;
+  }
+  .year__label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-faint);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-line);
+    margin-bottom: 0.5rem;
+  }
+  .alltags {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-line-soft);
+  }
+  .alltags__title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-faint);
+    margin: 0 0 1rem;
+  }
+  .alltags__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .alltags__list a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+  }
+  .alltags__list a:hover {
+    color: var(--color-accent);
+    border-color: color-mix(in oklab, var(--color-accent) 45%, var(--color-line));
+  }
+  .alltags__count {
+    color: var(--color-faint);
+    opacity: 0.7;
+  }
+</style>

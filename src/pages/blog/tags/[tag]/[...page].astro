@@ -1,0 +1,62 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../../components/ui/PageHeader.astro';
+import Container from '../../../../components/ui/Container.astro';
+import ArticleCard from '../../../../components/mdx/ArticleCard.astro';
+import Pagination from '../../../../components/blog/Pagination.astro';
+import { getPosts, getAllTags, slugify, type Post } from '../../../../lib/content';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPosts();
+  const tags = await getAllTags();
+  return tags.flatMap((t) => {
+    const filtered = posts.filter((p) => p.data.tags.some((x) => slugify(x) === t.slug));
+    return paginate(filtered, { params: { tag: t.slug }, pageSize: 10 });
+  });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<Post>;
+}
+const { page } = Astro.props;
+const { tag: tagSlug } = Astro.params;
+const allTags = await getAllTags();
+const label = allTags.find((t) => t.slug === tagSlug)?.tag ?? tagSlug;
+---
+
+<BaseLayout title={`#${label}`} description={`Posts tagged #${label} by Daniel Beck.`}>
+  <PageHeader eyebrow="Tag" title={`#${label}`} />
+
+  <Container width="content" class="pb-20">
+    <p class="count">{page.total} {page.total === 1 ? 'article' : 'articles'}</p>
+    {page.data.map((post) => <ArticleCard post={post} />)}
+    <Pagination
+      prevUrl={page.url.prev}
+      nextUrl={page.url.next}
+      current={page.currentPage}
+      total={page.lastPage}
+    />
+    <p class="back"><a href="/blog/tags/">← All tags</a></p>
+  </Container>
+</BaseLayout>
+
+<style>
+  .count {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-faint);
+    margin-bottom: 0.5rem;
+  }
+  .back {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+  .back a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .back a:hover {
+    color: var(--color-accent);
+  }
+</style>

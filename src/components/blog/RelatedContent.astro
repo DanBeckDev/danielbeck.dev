@@ -1,0 +1,73 @@
+---
+import type { Post } from '../../lib/content';
+import { postUrl } from '../../lib/content';
+import { formatDateShort, isoDate } from '../../lib/date';
+
+interface Props {
+  posts: Post[];
+}
+const { posts } = Astro.props;
+---
+
+{
+  posts.length > 0 && (
+    <section class="related" aria-label="Related writing">
+      <h2 class="related__title">Related writing</h2>
+      <ul class="related__list">
+        {posts.map((p) => (
+          <li>
+            <a href={postUrl(p.id)}>
+              <span class="related__name">{p.data.title}</span>
+              <span class="related__meta">
+                <time datetime={isoDate(p.data.pubDate)}>{formatDateShort(p.data.pubDate)}</time> ·{' '}
+                {p.data.category}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .related {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line-soft);
+  }
+  .related__title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-faint);
+    margin: 0 0 0.85rem;
+  }
+  .related__list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .related__list a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .related__name {
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+  .related__list a:hover .related__name {
+    color: var(--color-accent);
+  }
+  .related__meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-faint);
+  }
+</style>

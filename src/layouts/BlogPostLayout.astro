@@ -1,0 +1,256 @@
+---
+import { render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from './BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import PostMeta from '../components/blog/PostMeta.astro';
+import TagList from '../components/blog/TagList.astro';
+import RelatedContent from '../components/blog/RelatedContent.astro';
+import SubscribeCTA from '../components/youtube/SubscribeCTA.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { mdxComponents, GitHubRepo, YouTubeEmbed } from '../components/mdx';
+import type { Post } from '../lib/content';
+import { getRelatedPosts } from '../lib/content';
+import { articleJsonLd, breadcrumbJsonLd, ogImageUrl } from '../lib/seo';
+import { getCategoryByName } from '../consts/categories';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const related = await getRelatedPosts(post);
+const cat = getCategoryByName(post.data.category);
+
+const canonical = post.data.canonicalUrl ?? new URL(`/blog/${post.id}/`, Astro.site).href;
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+const breadcrumb = breadcrumbJsonLd([
+  { name: 'Home', url: '/' },
+  { name: 'Writing', url: '/blog/' },
+  ...(cat ? [{ name: cat.name, url: `/blog/category/${cat.slug}/` }] : []),
+  { name: post.data.title, url: `/blog/${post.id}/` },
+]);
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  canonical={canonical}
+  image={ogImageUrl(post.id)}
+  type="article"
+  publishedTime={post.data.pubDate.toISOString()}
+  modifiedTime={(post.data.updatedDate ?? post.data.pubDate).toISOString()}
+  section={post.data.category}
+  tags={post.data.tags}
+>
+  <Fragment slot="head">
+    <JsonLd schema={articleJsonLd(post, canonical)} />
+    <JsonLd schema={breadcrumb} />
+  </Fragment>
+
+  <article class="post">
+    <Container width="content">
+      <header class="post__header">
+        {cat && <p class="eyebrow mb-2">{cat.name}</p>}
+        <h1 class="post__title">{post.data.title}</h1>
+        <p class="post__desc">{post.data.description}</p>
+        <PostMeta post={post} />
+      </header>
+
+      {
+        post.data.canonicalUrl && (
+          <p class="post__canonical">
+            <Icon name="lucide:info" aria-hidden="true" /> Canonical version lives at{' '}
+            <a href={post.data.canonicalUrl}>the original source</a>.
+          </p>
+        )
+      }
+
+      {
+        toc.length > 2 && (
+          <details class="post__toc">
+            <summary>On this page</summary>
+            <nav aria-label="Table of contents">
+              <ul>
+                {toc.map((h) => (
+                  <li data-depth={h.depth}>
+                    <a href={`#${h.slug}`}>{h.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </details>
+        )
+      }
+
+      <div class="prose post__body">
+        <Content components={mdxComponents} />
+      </div>
+
+      {
+        post.data.video && (
+          <section class="post__rep">
+            <h2 class="post__rep-title">Watch the walkthrough</h2>
+            <YouTubeEmbed id={post.data.video.youtubeId} title={post.data.video.title ?? post.data.title} />
+          </section>
+        )
+      }
+
+      {
+        post.data.repo && (
+          <section class="post__rep">
+            <h2 class="post__rep-title">Get the code</h2>
+            <GitHubRepo
+              name={post.data.repo.name}
+              url={post.data.repo.url}
+              description={post.data.repo.description}
+              language={post.data.repo.language}
+              stars={post.data.repo.stars}
+            />
+          </section>
+        )
+      }
+
+      {
+        (post.data.discussion?.linkedinUrl || post.data.talk) && (
+          <div class="post__more">
+            {post.data.discussion?.linkedinUrl && (
+              <a href={post.data.discussion.linkedinUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="simple-icons:linkedin" aria-hidden="true" /> Discuss on LinkedIn
+              </a>
+            )}
+            {post.data.talk && (
+              <span class="post__talk">
+                <Icon name="lucide:presentation" aria-hidden="true" /> Talk: {post.data.talk.title}
+                {post.data.talk.event ? ` (${post.data.talk.event})` : ''}
+              </span>
+            )}
+          </div>
+        )
+      }
+
+      {post.data.tags.length > 0 && <div class="post__tags"><TagList tags={post.data.tags} /></div>}
+
+      <RelatedContent posts={related} />
+
+      <div class="post__subscribe">
+        <SubscribeCTA />
+      </div>
+    </Container>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    padding-top: 2.5rem;
+    padding-bottom: 1rem;
+  }
+  .post__header {
+    padding-bottom: 1.75rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .post__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.85rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.85rem;
+  }
+  .post__desc {
+    font-size: 1.15rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+    margin: 0 0 1.1rem;
+    max-width: 60ch;
+  }
+  .post__canonical {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-faint);
+    margin-bottom: 1.5rem;
+  }
+  .post__canonical :global(svg) {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+  .post__toc {
+    margin-bottom: 2rem;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--color-line-soft);
+    border-radius: 0.6rem;
+    background-color: var(--color-surface);
+  }
+  .post__toc summary {
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-faint);
+  }
+  .post__toc nav {
+    margin-top: 0.75rem;
+  }
+  .post__toc ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .post__toc li[data-depth='3'] {
+    padding-left: 1rem;
+  }
+  .post__toc a {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .post__toc a:hover {
+    color: var(--color-accent);
+  }
+  .post__rep {
+    margin-top: 2.25rem;
+  }
+  .post__rep-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-faint);
+    margin: 0 0 0.5rem;
+  }
+  .post__more {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+  .post__more a,
+  .post__talk {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .post__more a:hover {
+    color: var(--color-accent);
+  }
+  .post__more :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+  .post__tags {
+    margin-top: 2rem;
+  }
+  .post__subscribe {
+    margin-top: 1.75rem;
+  }
+</style>

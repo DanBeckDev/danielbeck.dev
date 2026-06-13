@@ -1,0 +1,67 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../../components/ui/PageHeader.astro';
+import Container from '../../../../components/ui/Container.astro';
+import ArticleCard from '../../../../components/mdx/ArticleCard.astro';
+import Pagination from '../../../../components/blog/Pagination.astro';
+import { getPosts, type Post } from '../../../../lib/content';
+import { categories, getCategoryBySlug } from '../../../../consts/categories';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPosts();
+  return categories.flatMap((cat) => {
+    const filtered = posts.filter((p) => p.data.category === cat.name);
+    return filtered.length
+      ? paginate(filtered, { params: { category: cat.slug }, pageSize: 10 })
+      : [];
+  });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<Post>;
+}
+const { page } = Astro.props;
+const { category: categorySlug } = Astro.params;
+const cat = getCategoryBySlug(categorySlug!);
+const title = cat ? cat.name : 'Category';
+---
+
+<BaseLayout
+  title={`${title} articles`}
+  description={cat?.blurb ?? `Articles in ${title} by Daniel Beck.`}
+>
+  <PageHeader eyebrow="Category" title={title} lead={cat?.blurb} />
+
+  <Container width="content" class="pb-20">
+    <p class="count">{page.total} {page.total === 1 ? 'article' : 'articles'}</p>
+    {page.data.map((post) => <ArticleCard post={post} />)}
+    <Pagination
+      prevUrl={page.url.prev}
+      nextUrl={page.url.next}
+      current={page.currentPage}
+      total={page.lastPage}
+    />
+    <p class="back"><a href="/blog/">← All writing</a></p>
+  </Container>
+</BaseLayout>
+
+<style>
+  .count {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-faint);
+    margin-bottom: 0.5rem;
+  }
+  .back {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+  .back a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .back a:hover {
+    color: var(--color-accent);
+  }
+</style>

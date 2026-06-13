@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Section from '../components/ui/Section.astro';
+import Container from '../components/ui/Container.astro';
+import ArticleCard from '../components/mdx/ArticleCard.astro';
+import ProjectCard from '../components/mdx/ProjectCard.astro';
+import VideoCard from '../components/youtube/VideoCard.astro';
+import SubscribeCTA from '../components/youtube/SubscribeCTA.astro';
+import NewsletterSignup from '../components/mdx/NewsletterSignup.astro';
+import { getPosts, getFeaturedProjects, getFeaturedVideos } from '../lib/content';
+import { enrichProjects } from '../lib/github';
+import { siteConfig } from '../consts/site';
+import { ogImageUrl } from '../lib/seo';
+
+const posts = (await getPosts()).slice(0, 3);
+const videos = (await getFeaturedVideos(3)).slice(0, 3);
+const projects = await getFeaturedProjects(3);
+const stars = await enrichProjects(projects);
+---
+
+<BaseLayout fullTitle={siteConfig.title} image={ogImageUrl('home')}>
+  <Hero />
+
+  {
+    posts.length > 0 && (
+      <Section eyebrow="Writing" title="Latest writing" href="/blog/">
+        <div class="stack">
+          {posts.map((post) => (
+            <ArticleCard post={post} />
+          ))}
+        </div>
+      </Section>
+    )
+  }
+
+  {
+    videos.length > 0 && (
+      <Section eyebrow="YouTube" title="Latest videos" href="/youtube/" hrefLabel="All videos">
+        <div class="grid grid--3">
+          {videos.map((video) => (
+            <VideoCard video={video} />
+          ))}
+        </div>
+        <div class="mt-8">
+          <SubscribeCTA />
+        </div>
+      </Section>
+    )
+  }
+
+  {
+    projects.length > 0 && (
+      <Section eyebrow="Open Source" title="Featured projects" href="/open-source/">
+        <div class="grid grid--3">
+          {projects.map((project) => (
+            <ProjectCard
+              project={project}
+              stars={stars.get(project.id)?.stars}
+              forks={stars.get(project.id)?.forks}
+            />
+          ))}
+        </div>
+      </Section>
+    )
+  }
+
+  <Container width="content" class="pb-20">
+    <NewsletterSignup />
+  </Container>
+</BaseLayout>
+
+<style>
+  .stack > :global(.card:first-child) {
+    padding-top: 0;
+  }
+  .grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .grid--3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .grid--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

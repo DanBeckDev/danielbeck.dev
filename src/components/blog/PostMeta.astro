@@ -1,0 +1,59 @@
+---
+import type { Post } from '../../lib/content';
+import { readingTime, categoryUrl } from '../../lib/content';
+import { getCategoryByName } from '../../consts/categories';
+import { formatDate, isoDate } from '../../lib/date';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const minutes = readingTime(post.body);
+const cat = getCategoryByName(post.data.category);
+---
+
+<div class="post-meta">
+  <time datetime={isoDate(post.data.pubDate)}>{formatDate(post.data.pubDate)}</time>
+  <span aria-hidden="true">·</span>
+  <span>{minutes} min read</span>
+  {
+    cat && (
+      <>
+        <span aria-hidden="true">·</span>
+        <a class="post-meta__cat" href={categoryUrl(cat.slug)}>
+          {cat.name}
+        </a>
+      </>
+    )
+  }
+  {
+    post.data.updatedDate && (
+      <span class="post-meta__updated">Updated {formatDate(post.data.updatedDate)}</span>
+    )
+  }
+</div>
+
+<style>
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-faint);
+  }
+  .post-meta__cat {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .post-meta__cat:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .post-meta__updated {
+    flex-basis: 100%;
+    color: var(--color-faint);
+    opacity: 0.85;
+  }
+</style>

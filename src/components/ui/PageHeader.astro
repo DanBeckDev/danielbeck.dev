@@ -1,0 +1,41 @@
+---
+import Container from './Container.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  width?: 'wide' | 'content' | 'reading';
+}
+const { eyebrow, title, lead, width = 'content' } = Astro.props;
+---
+
+<header class="page-header">
+  <Container width={width}>
+    {eyebrow && <p class="eyebrow mb-2">{eyebrow}</p>}
+    <h1 class="page-header__title">{title}</h1>
+    {lead && <p class="page-header__lead">{lead}</p>}
+    <slot />
+  </Container>
+</header>
+
+<style>
+  .page-header {
+    padding-top: 3.5rem;
+    padding-bottom: 1rem;
+  }
+  .page-header__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .page-header__lead {
+    margin-top: 1rem;
+    max-width: 60ch;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+/**
+ * Optional chrome (filename bar) around a fenced code block. The fence itself
+ * is highlighted by Astro's Shiki pipeline; the copy button is added globally
+ * (see BaseLayout). Usage in MDX:
+ *
+ *   <CodeBlock filename="render.py" lang="python">
+ *   ```python
+ *   ...
+ *   ```
+ *   </CodeBlock>
+ */
+interface Props {
+  filename?: string;
+  lang?: string;
+}
+const { filename, lang } = Astro.props;
+---
+
+<figure class="code-block not-prose">
+  {
+    (filename || lang) && (
+      <figcaption class="code-block__bar">
+        <span class="code-block__name">{filename}</span>
+        {lang && <span class="code-block__lang">{lang}</span>}
+      </figcaption>
+    )
+  }
+  <div class="code-block__body"><slot /></div>
+</figure>
+
+<style>
+  .code-block {
+    margin: 1.75rem 0;
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    overflow: hidden;
+    background-color: var(--color-subtle);
+  }
+  .code-block__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.9rem;
+    border-bottom: 1px solid var(--color-line);
+    background-color: var(--color-surface);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+  .code-block__name {
+    color: var(--color-muted);
+  }
+  .code-block__lang {
+    color: var(--color-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  /* The slotted <pre> already has its own border; drop it inside the chrome. */
+  .code-block__body :global(pre.astro-code) {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+</style>

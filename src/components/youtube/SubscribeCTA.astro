@@ -1,0 +1,75 @@
+---
+import { Icon } from 'astro-icon/components';
+import { siteConfig, youtubeSubscribeUrl } from '../../consts/site';
+
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+
+<div class:list={['subscribe', { 'subscribe--compact': compact }]}>
+  <div class="subscribe__text">
+    <Icon name="simple-icons:youtube" class="subscribe__icon" aria-hidden="true" />
+    <div>
+      <p class="subscribe__title">{siteConfig.youtubeHandle}</p>
+      <p class="subscribe__blurb">Practical, senior-level engineering — new videos with companion write-ups.</p>
+    </div>
+  </div>
+  <a class="subscribe__btn" href={youtubeSubscribeUrl} target="_blank" rel="noopener noreferrer">
+    Subscribe
+  </a>
+</div>
+
+<style>
+  .subscribe {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background-color: var(--color-surface);
+  }
+  .subscribe__text {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+  .subscribe__icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: var(--color-accent);
+    flex: none;
+  }
+  .subscribe__title {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .subscribe__blurb {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    max-width: 48ch;
+  }
+  .subscribe__btn {
+    flex: none;
+    padding: 0.55rem 1.1rem;
+    border-radius: 0.55rem;
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  .subscribe__btn:hover {
+    background-color: var(--color-accent-soft);
+  }
+  .subscribe--compact .subscribe__blurb {
+    display: none;
+  }
+</style>

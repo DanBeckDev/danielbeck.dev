@@ -1,0 +1,38 @@
+---
+import Container from './Container.astro';
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  href?: string;
+  hrefLabel?: string;
+  width?: 'wide' | 'content' | 'reading';
+  class?: string;
+}
+const { eyebrow, title, href, hrefLabel = 'View all', width = 'wide', class: className = '' } =
+  Astro.props;
+---
+
+<section class:list={['py-14 sm:py-20', className]}>
+  <Container width={width}>
+    {
+      (eyebrow || title) && (
+        <header class="mb-7 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            {eyebrow && <p class="eyebrow mb-1.5">{eyebrow}</p>}
+            {title && <h2 class="text-2xl font-semibold sm:text-3xl">{title}</h2>}
+          </div>
+          {href && (
+            <a
+              href={href}
+              class="text-muted hover:text-accent link-underline text-sm font-medium"
+            >
+              {hrefLabel} →
+            </a>
+          )}
+        </header>
+      )
+    }
+    <slot />
+  </Container>
+</section>

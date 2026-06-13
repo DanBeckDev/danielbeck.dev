@@ -7,6 +7,8 @@ for technical clarity, usefulness, and proof.
 Use this with:
 
 - [blog-agent-playbook.md](../content/blog-agent-playbook.md)
+- [blog-agent-rules.md](./blog-agent-rules.md)
+- [blog-editing-loop.md](./blog-editing-loop.md)
 - [voice-and-tone.md](./voice-and-tone.md)
 - [blog-posts.md](../content/blog-posts.md)
 

@@ -5,7 +5,9 @@
     "docs/README.md",
     "docs/ai-agent-guide.md",
     "docs/content/blog-agent-playbook.md",
+    "docs/writing/blog-agent-rules.md",
     "docs/writing/technical-blog-quality.md",
+    "docs/writing/blog-editing-loop.md",
     "docs/writing/voice-and-tone.md",
     "docs/architecture/content-model.md",
     "docs/architecture/styling.md"
@@ -29,7 +31,9 @@
   },
   "blog_guidance": {
     "playbook": "docs/content/blog-agent-playbook.md",
+    "rules": "docs/writing/blog-agent-rules.md",
     "quality": "docs/writing/technical-blog-quality.md",
+    "editing_loop": "docs/writing/blog-editing-loop.md",
     "post_doc": "docs/content/blog-posts.md"
   },
   "rules": [

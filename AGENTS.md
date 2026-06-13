@@ -54,7 +54,9 @@ npm run format   # Prettier
 Start with:
 
 - [`docs/content/blog-agent-playbook.md`](./docs/content/blog-agent-playbook.md)
+- [`docs/writing/blog-agent-rules.md`](./docs/writing/blog-agent-rules.md)
 - [`docs/writing/technical-blog-quality.md`](./docs/writing/technical-blog-quality.md)
+- [`docs/writing/blog-editing-loop.md`](./docs/writing/blog-editing-loop.md)
 - [`docs/content/blog-posts.md`](./docs/content/blog-posts.md)
 
 If the post is technical, read the source code or repo first. Do not draft

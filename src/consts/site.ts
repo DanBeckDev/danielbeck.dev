@@ -14,7 +14,7 @@ export const siteConfig = {
   description:
     'Daniel Beck is a senior software engineer specialising in frontend architecture at scale: micro-frontends, design systems, and developer experience. He also builds AI-augmented engineering systems, where autonomous agents implement, test, and ship code.',
 
-  // Identity. Email is still a placeholder; the rest are real.
+  // Identity. All real and in use.
   email: 'hello@danielbeck.dev',
   social: {
     github: 'https://github.com/DanBeckDev',

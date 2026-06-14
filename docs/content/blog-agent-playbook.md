@@ -29,11 +29,46 @@ Gather the facts first.
 - What is the angle or thesis?
 - Who is it for?
 - What code, repo, talk, or demo is the source of truth?
+- What is the source-facing frame, and what is the reader-facing frame?
 - Does it need a `video`, `repo`, `talk`, or `discussion` cross-link?
 - Is there a real example, benchmark, or bug that proves the point?
 
 If any of those are unclear, pause and ask. Do not fill the gaps with invented
 details.
+
+## Choose the reader-facing frame
+
+Do not default to the title of the source material. A conference, talk, repo, or
+YouTube video can be the provenance without being the best headline for the
+post.
+
+Before drafting, separate:
+
+- **Source-facing frame**: where the material came from.
+- **Reader-facing frame**: why a reader should care now.
+
+Example:
+
+```md
+Source-facing frame: AI Native DevCon 2026 notes
+Reader-facing frame: The AI agent trends engineers should actually care about
+```
+
+Use the reader-facing frame for the title, opening, section headings, and
+description. Use the source-facing frame for provenance in the intro and links.
+
+Good reader-facing frames:
+
+- Name the useful idea instead of only the event.
+- Speak to the site's audience of engineers.
+- Make the post useful after the event has passed.
+- Stay faithful to the source material.
+
+Avoid:
+
+- Titles that only work for people who already know the event.
+- Generic trend bait that the post cannot prove.
+- Reframing so far that the source material no longer supports the claim.
 
 ## Know the audience
 
@@ -79,7 +114,7 @@ This site works best with posts that move from concrete to general.
 4. End with what changed, what is left out, or what to watch next.
 
 Good section headings are specific. They should tell the reader what each part
-does, not just label the section.
+does, instead of only labelling the section.
 
 ## Frontmatter checklist
 
@@ -120,18 +155,20 @@ or leave it out.
 
 1. Read the source material.
 2. Extract the main point in one sentence.
-3. Write a section outline with 3 to 5 headings.
-4. Draft the body with code and examples.
-5. Write the description last.
-6. Run the editing loop in `docs/writing/blog-editing-loop.md`.
-7. Check frontmatter, links, and tone.
-8. Run `npm run check`.
+3. Choose the reader-facing frame.
+4. Write a section outline with 3 to 7 headings.
+5. Draft the body with code, examples, talks, or evidence.
+6. Write the title and description against the reader-facing frame.
+7. Run the editing loop in `docs/writing/blog-editing-loop.md`.
+8. Check frontmatter, links, and tone.
+9. Run `npm run check`.
 
 ## Final pass
 
 Before shipping a post, confirm:
 
 - The opening sentence says the point.
+- The title and description are reader-facing, rather than only source-facing.
 - Every code sample is real or clearly marked as illustrative.
 - The description still makes sense on its own.
 - The post links to the right repo, video, or discussion.

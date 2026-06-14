@@ -38,6 +38,39 @@ For conference notes and reflections:
 - If a sentence sounds plausible but is not in the source, either verify it or
   remove it.
 
+## Separate source frame from reader frame
+
+The source material is where the post came from. The reader frame is why someone
+outside that context should read it.
+
+Do not automatically use the source title as the post title. Conference notes,
+talk titles, and repo names are often too narrow for the final post.
+
+Example:
+
+```md
+Source frame: AI Native DevCon 2026 notes
+Reader frame: The AI agent trends engineers should actually care about
+```
+
+The reader frame should shape:
+
+- title
+- description
+- opening paragraph
+- section headings
+- closing takeaway
+
+The source frame should still be visible in:
+
+- provenance
+- links
+- speaker or repo references
+- evidence inside the sections
+
+This is not permission to exaggerate. If the source material does not support
+the broader reader frame, narrow the frame.
+
 ## Draft the thesis in plain language
 
 A thesis should sound like something Daniel would say to another engineer.
@@ -67,12 +100,21 @@ The first paragraph should do three things:
 Do not stack four versions of the same idea. Event, thesis, summary, and first
 section should each do a different job.
 
-For event notes, this shape usually works:
+For event notes, this shape usually works when the event itself is the main
+draw:
 
 ```md
 I spent [time] at [event] and wanted to get my notes down while they are still fresh.
 
 The talks kept coming back to the same point: [plain-language thesis].
+```
+
+When the event is source material for a broader post, use this shape instead:
+
+```md
+I spent [time] at [event], but the useful takeaway is bigger than the event itself.
+
+The pattern that kept showing up was [reader-facing thesis].
 ```
 
 ## Use the right summary label
@@ -86,7 +128,8 @@ Prefer one of:
 - `Main takeaways:`
 - `What stood out:`
 
-For conference notes, use `What I am taking back:`.
+For conference notes, use `What I am taking back:`. For broader trend posts
+based on conference notes, use `The ideas I am taking forward:`.
 
 ## Keep the post from becoming a talk list
 
@@ -133,7 +176,7 @@ Better shape:
 
 ## Add information gain
 
-Do not only restate what happened. Add the author's judgment.
+Add the author's judgment instead of only restating what happened.
 
 Good signals:
 

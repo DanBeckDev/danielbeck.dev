@@ -123,6 +123,8 @@ does, instead of only labelling the section.
 - `category` is one of the allowed values in `src/consts/categories.ts`.
 - `tags` are lower-case and hyphenated.
 - `draft` is `true` until the post is ready to ship.
+- `pubDate` is today's date to publish now, or a future date to schedule it (see
+  [./scheduling-posts.md](./scheduling-posts.md)).
 - `heroImageAlt` is present if `heroImage` is set.
 - Any `repo`, `video`, `talk`, or `discussion` link is real and reachable.
 

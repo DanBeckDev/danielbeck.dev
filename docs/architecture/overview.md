@@ -77,6 +77,11 @@ domain.
 At build time Astro also generates the RSS feed (`/rss.xml`), the sitemap
 (`/sitemap-index.xml`), and a social image per page under `/og/`.
 
+Scheduled posts (a future `pubDate`) need a build to run after their date to go
+live. `.github/workflows/scheduled-rebuild.yml` pings a Cloudflare deploy hook on
+a daily schedule to make that happen. See
+[content/scheduling-posts.md](../content/scheduling-posts.md).
+
 ## Analytics
 
 Cloudflare Web Analytics (privacy-friendly, cookieless, no consent banner). The

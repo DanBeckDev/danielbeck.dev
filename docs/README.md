@@ -23,22 +23,23 @@ copy, and follow it exactly.
 
 ## Where to look
 
-| You want to...                         | Read                                                               |
-| -------------------------------------- | ------------------------------------------------------------------ |
-| Get the fast AI-agent version         | [ai-agent-guide.md](./ai-agent-guide.md)                           |
-| Get a machine-readable map            | [agent-map.json](../agent-map.json)                                |
-| Write a blog post with an agent       | [content/blog-agent-playbook.md](./content/blog-agent-playbook.md) |
+| You want to...                         | Read                                                                     |
+| -------------------------------------- | ------------------------------------------------------------------------ |
+| Get the fast AI-agent version          | [ai-agent-guide.md](./ai-agent-guide.md)                                 |
+| Get a machine-readable map             | [agent-map.json](../agent-map.json)                                      |
+| Write a blog post with an agent        | [content/blog-agent-playbook.md](./content/blog-agent-playbook.md)       |
 | Check blog quality                     | [writing/technical-blog-quality.md](./writing/technical-blog-quality.md) |
-| Understand the stack and layout        | [architecture/overview.md](./architecture/overview.md)             |
-| Understand collections and cross-links | [architecture/content-model.md](./architecture/content-model.md)   |
-| Change styles, colours, or dark mode   | [architecture/styling.md](./architecture/styling.md)               |
-| Write a blog post                      | [content/blog-posts.md](./content/blog-posts.md)                   |
+| Understand the stack and layout        | [architecture/overview.md](./architecture/overview.md)                   |
+| Understand collections and cross-links | [architecture/content-model.md](./architecture/content-model.md)         |
+| Change styles, colours, or dark mode   | [architecture/styling.md](./architecture/styling.md)                     |
+| Write a blog post                      | [content/blog-posts.md](./content/blog-posts.md)                         |
+| Schedule a post for a future date      | [content/scheduling-posts.md](./content/scheduling-posts.md)             |
 | Draft a YouTube script                 | [content/youtube-scripts/README.md](./content/youtube-scripts/README.md) |
-| Edit a specific page's content         | [content/pages.md](./content/pages.md)                             |
-| Add an open-source contribution        | [content/open-source.md](./content/open-source.md)                 |
-| Add a video or a talk                  | [content/videos-and-speaking.md](./content/videos-and-speaking.md) |
-| Use a component inside MDX             | [components/mdx-components.md](./components/mdx-components.md)     |
-| Get the tone and wording right         | [writing/voice-and-tone.md](./writing/voice-and-tone.md)           |
+| Edit a specific page's content         | [content/pages.md](./content/pages.md)                                   |
+| Add an open-source contribution        | [content/open-source.md](./content/open-source.md)                       |
+| Add a video or a talk                  | [content/videos-and-speaking.md](./content/videos-and-speaking.md)       |
+| Use a component inside MDX             | [components/mdx-components.md](./components/mdx-components.md)           |
+| Get the tone and wording right         | [writing/voice-and-tone.md](./writing/voice-and-tone.md)                 |
 
 ## Quick start
 

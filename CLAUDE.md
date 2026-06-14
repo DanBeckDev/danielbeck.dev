@@ -48,5 +48,15 @@ npm run format   # Prettier
 - Videos: `src/data/videos.yaml`
 - Talks: `src/content/speaking/*.md`
 - Design tokens and theming: `src/styles/global.css`
+- Scheduled-rebuild workflow: `.github/workflows/scheduled-rebuild.yml`
 
 See [`docs/`](./docs/README.md) for the full guide to each.
+
+## Scheduling posts
+
+A post with a future `pubDate` (and `draft: false`) is hidden in production
+until a build runs on or after that date, then publishes automatically. The
+gating lives in `getPosts()` (`src/lib/content.ts`); a daily GitHub Actions
+workflow pings a Cloudflare deploy hook so scheduled posts go live near their
+date. Full guide:
+[`docs/content/scheduling-posts.md`](./docs/content/scheduling-posts.md).

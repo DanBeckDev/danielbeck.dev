@@ -30,6 +30,8 @@ above.
 
 - Change copy on a page: edit the page or the content file it reads from.
 - Add a post, video, or talk: edit the content collection, not the template.
+- Schedule a post for a future date: set a future `pubDate` with `draft: false`
+  (see `docs/content/scheduling-posts.md`).
 - Change identity or social links: edit `src/consts/site.ts` only.
 - Change colours or typography: edit `src/styles/global.css`.
 - Change content rules or validation: edit `src/content.config.ts` or the

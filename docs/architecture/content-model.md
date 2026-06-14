@@ -50,8 +50,9 @@ not exist, the build throws. Keep ids in sync when you rename or delete a post.
 Use the helpers in `src/lib/content.ts` rather than calling `getCollection`
 directly, so draft filtering and sorting stay consistent:
 
-- `getPosts()` returns published posts, newest first. Drafts are hidden in
-  production builds and visible in `npm run dev`.
+- `getPosts()` returns published posts, newest first. Drafts and posts with a
+  future `pubDate` (scheduled) are hidden in production builds and visible in
+  `npm run dev`.
 - `getAllTags()` returns used tags with counts.
 - `getRelatedPosts(post)` scores by shared series, tags, and category.
 - `getVideos()`, `getSpeaking()` return their collections sorted by date and run
@@ -62,3 +63,13 @@ directly, so draft filtering and sorting stay consistent:
 Set `draft: true` in a post's frontmatter while writing. It stays visible in the
 dev server and is excluded from the production build, the blog index, RSS, the
 sitemap, and tag and category pages. Flip it to `false` to publish.
+
+## Scheduled posts
+
+A post with `draft: false` and a `pubDate` in the future is **scheduled**: it is
+hidden everywhere in production (exactly like a draft) but shown in `npm run dev`
+so you can preview it. When a production build runs on or after the `pubDate`, the
+post is included and goes live automatically. Because a static site only re-checks
+this when it builds, `.github/workflows/scheduled-rebuild.yml` triggers a daily
+rebuild so scheduled posts publish near their date. Full guide:
+[../content/scheduling-posts.md](../content/scheduling-posts.md).

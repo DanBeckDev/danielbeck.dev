@@ -35,7 +35,8 @@
     "rules": "docs/writing/blog-agent-rules.md",
     "quality": "docs/writing/technical-blog-quality.md",
     "editing_loop": "docs/writing/blog-editing-loop.md",
-    "post_doc": "docs/content/blog-posts.md"
+    "post_doc": "docs/content/blog-posts.md",
+    "scheduling_doc": "docs/content/scheduling-posts.md"
   },
   "video_guidance": {
     "youtube_scripts": "docs/content/youtube-scripts/README.md",

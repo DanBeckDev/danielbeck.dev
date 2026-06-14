@@ -116,6 +116,16 @@ multiple scheduled posts are handled correctly.
 After the blog `pubDate` is chosen, schedule Buffer posts for the same calendar
 day unless Daniel asks otherwise.
 
+Use precise language:
+
+- **Blog scheduled** means the post has a future `pubDate` and `draft: false`.
+- **Campaign scheduled** means the blog is scheduled and Buffer contains the
+  approved LinkedIn and X posts.
+
+Do not tell Daniel "it is scheduled" or "the schedule is done" if only the blog
+frontmatter has been updated. Say "the blog is scheduled, but Buffer is not
+scheduled yet" and either ask for copy approval or schedule the approved posts.
+
 Default campaign shape:
 
 - Blog: 12:00 UK.
@@ -123,7 +133,9 @@ Default campaign shape:
 - X: same day, staggered from LinkedIn.
 
 Always get Daniel's approval for the exact social copy and timing before creating
-Buffer posts. See [../social/sharing-playbook.md](../social/sharing-playbook.md).
+Buffer posts. If the user has already approved exact copy and timing, create the
+Buffer posts in the same workflow before reporting completion. See
+[../social/sharing-playbook.md](../social/sharing-playbook.md).
 
 ## Verifying
 
@@ -142,3 +154,6 @@ Before saying the campaign is scheduled:
 - Confirm `draft: false`.
 - Confirm Buffer contains the LinkedIn and X posts at the approved times.
 - Report the blog time and Buffer post ids back to Daniel.
+
+If Buffer is not scheduled yet, do not call it a scheduled campaign. Report the
+missing Buffer step plainly.

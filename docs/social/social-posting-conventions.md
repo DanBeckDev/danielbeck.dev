@@ -29,6 +29,8 @@ growth-hacking patterns, engagement bait, or fake urgency.
 
 - Never schedule, publish, or queue a public social post without Daniel seeing
   the final copy and timing first.
+- Never call a campaign scheduled unless Buffer contains the approved LinkedIn
+  and X posts. A scheduled blog post alone is not a scheduled campaign.
 - No em dashes or en dashes.
 - No generic hype.
 - No "new post" default opener unless Daniel explicitly asks for a simple
@@ -52,6 +54,8 @@ growth-hacking patterns, engagement bait, or fake urgency.
 10. Schedule through Buffer only after approval.
 11. Re-list Buffer after scheduling and confirm the posts landed at the approved
     times.
+12. Report the Buffer post ids. If Buffer was not scheduled, say that plainly
+    instead of saying the campaign is scheduled.
 
 Approval can be short, but it must be explicit. Examples:
 
@@ -223,6 +227,8 @@ default rhythm. If a campaign is already planned for Monday, prefer Wednesday fo
 the next one instead of stacking posts on the same day.
 
 If Daniel has not approved the timing and copy together, do not create the posts.
+In that case, say "the blog is scheduled, but Buffer is not scheduled yet" and
+show the copy for approval.
 
 ## Review checklist
 
@@ -237,3 +243,5 @@ Before asking for approval:
 - The post does not overclaim beyond the source material.
 - The proposed Buffer action is clear.
 - The proposed timing does not collide with an existing campaign.
+- The final response distinguishes between blog scheduled, Buffer scheduled, and
+  campaign scheduled.

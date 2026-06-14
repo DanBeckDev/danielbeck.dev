@@ -11,6 +11,14 @@ The site is not changed by any of this. Blog posts publish normally, and YouTube
 videos appear automatically. Sharing is a separate step: you create scheduled
 posts in Buffer, and Buffer publishes them to LinkedIn and X at the chosen time.
 
+Important distinction:
+
+- **Blog scheduled** means the site post has a future `pubDate`.
+- **Social scheduled** means Buffer has the approved LinkedIn and X posts.
+- **Campaign scheduled** means both are true and verified.
+
+Do not report a campaign as scheduled when only the site post is scheduled.
+
 ## How the pieces fit
 
 - **Buffer is the backend.** It holds the LinkedIn and X connections and does the
@@ -92,6 +100,12 @@ rather than assuming.
    and proposed Buffer action. Do not create posts until Daniel explicitly
    approves both the copy and timing.
 
+   If Daniel says "schedule it", "make the PR", or "that all sounds good" after
+   the campaign timing has been discussed, check whether exact social copy has
+   already been approved. If it has, create the Buffer posts before reporting
+   completion. If it has not, say the blog is scheduled but Buffer is waiting for
+   copy approval, then show the copy.
+
 6. **Check for duplicates.** Before creating anything, list Buffer's existing
    scheduled posts and look for the same URL on the same channel. If it is already
    queued, do not schedule it again. Say so and stop.
@@ -104,6 +118,10 @@ rather than assuming.
 8. **Verify after creation.** List Buffer scheduled posts again and confirm the
    two new posts exist at the approved times. If the blog is also scheduled,
    confirm its `pubDate` is earlier on the same day.
+
+9. **Use the right completion wording.** Only say "campaign scheduled" after the
+   verification step proves both Buffer posts exist. If Buffer was not scheduled,
+   say exactly what remains.
 
 ## Share a YouTube video
 
@@ -189,6 +207,8 @@ Copy rules that bite:
 
 - **Approval first.** Never schedule, queue, publish, or save public social posts
   in Buffer until Daniel has approved the exact copy and timing.
+- **No half-complete campaign claims.** If the blog is scheduled but Buffer is
+  not, say that plainly. Do not make Daniel infer it from the wording.
 - **No duplicates.** Always list the queue and check the URL before creating. If a
   run is repeated, it must detect the existing post and skip.
 - **Verify after writes.** After creating, deleting, or rescheduling Buffer posts,

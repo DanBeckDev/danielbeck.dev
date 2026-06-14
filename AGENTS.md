@@ -83,4 +83,8 @@ Before proposing timing, check the existing Buffer queue and scheduled blog
 posts. The default campaign rhythm is weekdays, up to three posts per week, with
 the blog published earlier than social on the same day.
 
+Use precise scheduling language. A blog is scheduled when `pubDate` is in the
+future and `draft: false`. A campaign is scheduled only after the approved
+LinkedIn and X posts also exist in Buffer and have been verified.
+
 See [`docs/`](./docs/README.md) for the full guide to each.

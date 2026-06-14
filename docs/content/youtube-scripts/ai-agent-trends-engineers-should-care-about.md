@@ -1,7 +1,7 @@
 # YouTube script: The AI Agent Trends Engineers Should Actually Care About
 
 Source post:
-[`src/content/blog/ai-native-devcon-2026-notes.mdx`](../../../src/content/blog/ai-native-devcon-2026-notes.mdx)
+[`src/content/blog/ai-agent-trends-engineers-should-care-about.mdx`](../../../src/content/blog/ai-agent-trends-engineers-should-care-about.mdx)
 
 Working title:
 `The AI Agent Trends Engineers Should Actually Care About`
@@ -293,12 +293,12 @@ think engineers should actually care about: skills as code, harness engineering,
 context ownership, agent experience, sandboxing, evals, and earlier review.
 
 Full notes:
-https://danielbeck.dev/blog/ai-native-devcon-2026-notes/
+https://danielbeck.dev/blog/ai-agent-trends-engineers-should-care-about/
 
 ## Pinned comment draft
 
 The full write-up is here:
-https://danielbeck.dev/blog/ai-native-devcon-2026-notes/
+https://danielbeck.dev/blog/ai-agent-trends-engineers-should-care-about/
 
 The biggest gap for me is evals next to skills. What is the biggest gap in your
 agent setup right now?

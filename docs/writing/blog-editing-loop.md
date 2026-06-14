@@ -91,9 +91,10 @@ Before handing back a draft:
 
 - Search for long dash characters.
 - Run `npm run check`.
-- Confirm the post is `draft: true` unless explicitly publishing. To publish on a
-  future date instead, set `draft: false` with a future `pubDate` (see
-  [../content/scheduling-posts.md](../content/scheduling-posts.md)).
+- Confirm the post is `draft: true` unless explicitly publishing. Cloudflare
+  branch previews can show drafts, so do not flip drafts to publish only for a
+  preview. To publish on a future date instead, set `draft: false` with a future
+  `pubDate` (see [../content/scheduling-posts.md](../content/scheduling-posts.md)).
 - Confirm links are real.
 - Confirm the category and tags match `src/consts/categories.ts`.
 

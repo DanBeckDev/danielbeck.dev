@@ -61,8 +61,16 @@ directly, so draft filtering and sorting stay consistent:
 ## Drafts
 
 Set `draft: true` in a post's frontmatter while writing. It stays visible in the
-dev server and is excluded from the production build, the blog index, RSS, the
-sitemap, and tag and category pages. Flip it to `false` to publish.
+dev server and Cloudflare branch previews, but is excluded from the main
+production build, the blog index, RSS, the sitemap, and tag and category pages.
+Flip it to `false` to publish.
+
+Draft preview rules live in `src/lib/content.ts`:
+
+- `npm run dev` always shows drafts.
+- Cloudflare branch builds show drafts when `CF_PAGES_BRANCH` is present and is
+  not `main`.
+- Any build can force drafts on with `SHOW_DRAFTS=true`.
 
 ## Scheduled posts
 

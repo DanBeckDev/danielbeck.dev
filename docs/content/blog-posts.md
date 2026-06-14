@@ -79,10 +79,13 @@ Headings get anchor links and feed the on-page table of contents automatically.
 
 1. Create the file with `draft: true`.
 2. `npm run dev` and preview at the slug URL.
-3. Fill in any cross-links (`video`, `repo`, `talk`, `discussion`).
-4. Run `npm run check`. A bad category, a too-long description, or a missing
+3. Open a PR while it is still a draft if you want a Cloudflare branch preview.
+   Branch previews include drafts automatically.
+4. Fill in any cross-links (`video`, `repo`, `talk`, `discussion`).
+5. Run `npm run check`. A bad category, a too-long description, or a missing
    `heroImageAlt` will be caught here.
-5. Set `draft: false`, commit, and push. Cloudflare rebuilds. The tag and
+6. Set `draft: false`, commit, and push only when you are ready to publish.
+   Cloudflare rebuilds. The tag and
    category pages, RSS, sitemap, and the social image all regenerate.
 
 To publish on a future date instead, set `pubDate` ahead and leave

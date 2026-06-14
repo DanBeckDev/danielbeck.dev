@@ -45,10 +45,13 @@ growth-hacking patterns, engagement bait, or fake urgency.
 3. Extract one social angle in plain language.
 4. Draft LinkedIn and X separately.
 5. Explain the angle and why the structure fits the platform.
-6. Show the exact copy and proposed timing to Daniel.
-7. Wait for explicit approval before creating Buffer posts.
-8. Check Buffer for duplicates.
-9. Schedule through Buffer only after approval.
+6. Check the content calendar: scheduled blog posts and scheduled Buffer posts.
+7. Show the exact copy and proposed timing to Daniel.
+8. Wait for explicit approval before creating Buffer posts.
+9. Check Buffer for duplicates.
+10. Schedule through Buffer only after approval.
+11. Re-list Buffer after scheduling and confirm the posts landed at the approved
+    times.
 
 Approval can be short, but it must be explicit. Examples:
 
@@ -194,6 +197,10 @@ making.
 Buffer's native queue is the default mechanism, but Daniel still approves it
 before posts are created.
 
+Do not invent a date. Before proposing timing, check the existing Buffer queue
+and the scheduled blog posts in the repo. Treat the blog and social posts as one
+campaign.
+
 Before scheduling, show:
 
 - channel names
@@ -205,6 +212,15 @@ Before scheduling, show:
 LinkedIn and X should share the same article or video on the same calendar day.
 If Buffer's native queue would split them across different days, use a custom
 schedule instead and ask Daniel to approve the exact times.
+
+For scheduled blog campaigns, the blog should publish earlier on the same day.
+The default is 12:00 UK for the blog, then social posts from 15:00 UK onward.
+This gives the build, cache, RSS, OG image, and link preview time to settle.
+
+For the broader content calendar, aim for up to three campaigns per week on
+weekdays when there is enough backlog. Monday, Wednesday, Friday is the simple
+default rhythm. If a campaign is already planned for Monday, prefer Wednesday for
+the next one instead of stacking posts on the same day.
 
 If Daniel has not approved the timing and copy together, do not create the posts.
 
@@ -220,3 +236,4 @@ Before asking for approval:
 - The link is correct and has a trailing slash for site URLs.
 - The post does not overclaim beyond the source material.
 - The proposed Buffer action is clear.
+- The proposed timing does not collide with an existing campaign.

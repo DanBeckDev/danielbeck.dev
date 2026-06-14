@@ -27,6 +27,26 @@ That is the whole mechanism:
 
 For a specific time, use a full ISO datetime (UTC): `pubDate: 2026-06-21T09:00:00Z`.
 
+## Before choosing a date
+
+Treat a scheduled blog post and its social posts as one campaign. Do not pick a
+blog date from the repo alone.
+
+Before setting `pubDate`:
+
+- Check existing scheduled blog posts in `src/content/blog/*.mdx`.
+- Check Buffer for scheduled LinkedIn and X posts.
+- Avoid putting a new campaign on the same day as an existing campaign unless
+  Daniel explicitly asks for that.
+- Aim for up to **three posts per week**, on weekdays, when there is enough
+  backlog. A simple pattern is Monday, Wednesday, Friday.
+- If there is already a Monday campaign, Wednesday is usually a better next slot
+  than adding another Monday post.
+
+The publish date should leave Daniel room to build a backlog. If a post is ready
+early, schedule it for the next sensible content slot rather than the earliest
+possible date.
+
 ## Scheduled vs draft
 
 - **Scheduled**: `draft: false` with a future `pubDate`. Publishes automatically
@@ -59,6 +79,9 @@ Based on 2026 engagement data (blog studies, LinkedIn, Hacker News/Reddit), the
 best slot for a UK author with a professional and globally-distributed audience
 is **Tuesday to Thursday**, with Wednesday strongest.
 
+That guidance is for picking a single high-quality slot. For an ongoing content
+calendar, use weekday spacing first, then choose the strongest open day.
+
 Publish the blog earlier than the social posts. The default pattern is:
 
 - Blog post goes live at **12:00 UK**.
@@ -88,6 +111,20 @@ To change the slot, edit the two hours in the workflow `cron` (and your
 `pubDate` times to match). Each build re-evaluates the whole schedule, so
 multiple scheduled posts are handled correctly.
 
+## Scheduling social for the same campaign
+
+After the blog `pubDate` is chosen, schedule Buffer posts for the same calendar
+day unless Daniel asks otherwise.
+
+Default campaign shape:
+
+- Blog: 12:00 UK.
+- LinkedIn: 15:00 UK or later.
+- X: same day, staggered from LinkedIn.
+
+Always get Daniel's approval for the exact social copy and timing before creating
+Buffer posts. See [../social/sharing-playbook.md](../social/sharing-playbook.md).
+
 ## Verifying
 
 Run `npm run build` locally: scheduled posts are listed in the build log, e.g.
@@ -98,3 +135,10 @@ Run `npm run build` locally: scheduled posts are listed in the build log, e.g.
 ```
 
 They are excluded from the build until their date passes.
+
+Before saying the campaign is scheduled:
+
+- Confirm the blog frontmatter has the intended future `pubDate`.
+- Confirm `draft: false`.
+- Confirm Buffer contains the LinkedIn and X posts at the approved times.
+- Report the blog time and Buffer post ids back to Daniel.

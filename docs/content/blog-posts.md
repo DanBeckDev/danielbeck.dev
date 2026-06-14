@@ -92,6 +92,14 @@ Headings get anchor links and feed the on-page table of contents automatically.
 To publish on a future date instead, set `pubDate` ahead and leave
 `draft: false`. See [./scheduling-posts.md](./scheduling-posts.md).
 
-Once a post is live, share it on LinkedIn and X. That is a separate, agent-driven
-step through Buffer (it does not change the site). See
+For a scheduled campaign, choose the date before changing the frontmatter. Check
+existing scheduled posts in the repo and scheduled Buffer posts first. The blog
+and social posts should be treated as one campaign, with the blog published
+earlier on the same day. The default is:
+
+- Blog at 12:00 UK.
+- LinkedIn and X later the same day, usually from 15:00 UK onward.
+
+Once a post is live or scheduled, share it on LinkedIn and X. That is a
+separate, agent-driven step through Buffer (it does not change the site). See
 [../social/sharing-playbook.md](../social/sharing-playbook.md).

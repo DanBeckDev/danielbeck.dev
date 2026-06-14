@@ -77,6 +77,10 @@ Do not add a global build variable such as `SHOW_DRAFTS=true` in Cloudflare.
 Workers build variables apply to all builds, so that would also publish drafts
 from the production branch.
 
+The branch check is version-controlled on purpose. Workers runtime variables can
+be scoped by environment, but draft filtering happens during the build, when
+Astro decides which static routes exist.
+
 ## Scheduled posts
 
 A post with `draft: false` and a `pubDate` in the future is **scheduled**: it is
@@ -86,3 +90,7 @@ post is included and goes live automatically. Because a static site only re-chec
 this when it builds, `.github/workflows/scheduled-rebuild.yml` triggers a daily
 rebuild so scheduled posts publish near their date. Full guide:
 [../content/scheduling-posts.md](../content/scheduling-posts.md).
+
+Schedule social sharing as part of the same campaign. The blog should publish
+earlier than Buffer posts on the same day so the rebuild, cache, RSS, social
+image, and link preview have time to settle.

@@ -44,6 +44,15 @@ codex mcp get buffer
 
 The installed Codex connection uses OAuth, not a repository API key.
 
+If Codex later loses access, trigger the OAuth flow again with:
+
+```sh
+codex mcp login buffer
+```
+
+Setting a bearer token environment variable is not the supported path for this
+remote MCP connection. Use the OAuth login command instead.
+
 ## 2. Connect your channels in Buffer
 
 In the Buffer app, connect the channels you want to post to:
@@ -99,6 +108,9 @@ closest available tool.
 
 - **Auth errors on tool calls:** the MCP session expired or was never approved.
   Run `codex mcp login buffer`. If that fails, remove and re-add the server.
+- **Codex still cannot see Buffer after login:** restart the Codex session, then
+  ask the agent to list Buffer tools or channels again. Some clients cache MCP
+  tool availability for the life of the session.
 - **No X channel listed:** connect X in the Buffer app, and check your plan
   includes it.
 - **Posts not going live:** check the Buffer queue. A scheduled post sits there

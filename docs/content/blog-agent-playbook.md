@@ -155,6 +155,8 @@ does, instead of only labelling the section.
 - `draft` is `true` until the post is ready to ship.
 - `pubDate` is today's date to publish now, or a future date to schedule it (see
   [./scheduling-posts.md](./scheduling-posts.md)).
+- If scheduling, check existing scheduled blog posts and Buffer posts before
+  choosing the date. The blog and social posts are one campaign.
 - `heroImageAlt` is present if `heroImage` is set.
 - Any `repo`, `video`, `talk`, or `discussion` link is real and reachable.
 
@@ -205,6 +207,8 @@ Before shipping a post, confirm:
 - The description still makes sense on its own.
 - The post links to the right repo, video, or discussion.
 - There are no long dash characters in the visible copy.
+- If scheduled, the publish date fits the content calendar and any Buffer posts
+  are later on the same day.
 - The build passes.
 
 After the post is live, share it on LinkedIn and X. That is a separate step

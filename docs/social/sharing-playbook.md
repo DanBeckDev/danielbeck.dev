@@ -67,11 +67,10 @@ rather than assuming.
    important rule: no long dashes (em or en). Plain, direct, specific, peer to
    peer. No hype words, no filler openers. See the templates below.
 
-3. **Pick the time.** Default to the next high-exposure UK slot: Tuesday to
-   Thursday, around 15:00 UK (Wednesday is strongest). The rationale and the
-   UK-to-UTC conversion are in
-   [../content/scheduling-posts.md](../content/scheduling-posts.md). Stagger the
-   two platforms so they do not post the same minute (see "Timing" below).
+3. **Pick the time.** Default to Buffer's native queue for each channel
+   (`addToQueue`). Buffer stores channel-specific posting slots, and those slots
+   are likely based on its own engagement testing. Use custom scheduling only if
+   Daniel asks for a specific time or the queue is clearly wrong for the launch.
 
 4. **Check for duplicates.** Before creating anything, list Buffer's existing
    scheduled posts and look for the same URL on the same channel. If it is already
@@ -79,9 +78,8 @@ rather than assuming.
 
 5. **Create the posts.** Call the Buffer create or schedule tool twice: once with
    the LinkedIn channel id and the LinkedIn copy, once with the X channel id and
-   the X copy. Pass the scheduled time as a UTC ISO timestamp if the tool asks for
-   one. Report the two scheduled times back to Daniel with the post links or ids
-   Buffer returns.
+   the X copy. Use `mode: addToQueue` unless Daniel asked for a custom time.
+   Report the post ids, channel names, and scheduled times back to Daniel.
 
 ## Share a YouTube video
 
@@ -132,13 +130,19 @@ Copy rules that bite:
 
 ## Timing
 
-- Target Tue, Wed, or Thu at ~15:00 UK. Convert to the UTC `dueAt` Buffer wants:
-  in summer (BST) 15:00 UK is `14:00Z`; in winter (GMT) it is `15:00Z`. Full
-  detail in [../content/scheduling-posts.md](../content/scheduling-posts.md).
-- Stagger the platforms. A simple default that works: LinkedIn at 15:00 UK, X at
-  12:00 UK the same day. Do not fire identical posts to both at the same instant.
-- If the next good slot has already passed for today, schedule the next eligible
-  Tue/Wed/Thu rather than posting at a weak time.
+- Prefer Buffer's native queue (`addToQueue`) for normal sharing. It already has
+  channel-specific slots for LinkedIn and X, and those slots may differ by
+  platform.
+- Use `get_channel` before creating posts so you can see each channel's posting
+  schedule and confirm the queue is active.
+- If Daniel asks for a custom time, use `mode: customScheduled` and construct the
+  `dueAt` value in the timezone returned by `get_account` (usually
+  `Europe/London`). Do not assume UTC for a human-specified local time.
+- If using custom times, target Tue, Wed, or Thu at ~15:00 UK for LinkedIn, and
+  stagger X rather than posting both platforms at the same instant. The blog
+  publishing rationale is in
+  [../content/scheduling-posts.md](../content/scheduling-posts.md), but Buffer
+  social sharing does not need to match the site's rebuild schedule.
 
 ## Safety and idempotency
 

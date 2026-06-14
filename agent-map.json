@@ -44,6 +44,7 @@
   },
   "social_guidance": {
     "sharing_playbook": "docs/social/sharing-playbook.md",
+    "posting_conventions": "docs/social/social-posting-conventions.md",
     "connecting_buffer": "docs/social/connecting-buffer.md",
     "backend": "Buffer official MCP server (https://mcp.buffer.com/mcp); OAuth; one post per channel for per-platform copy",
     "buffer_capabilities": [

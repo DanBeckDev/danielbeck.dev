@@ -3,6 +3,10 @@
 This is the agent recipe for promoting site content on LinkedIn and X. It is for
 an AI agent (Codex CLI, Claude Code, or any MCP client) acting on Daniel's behalf.
 
+Before writing copy, read
+[./social-posting-conventions.md](./social-posting-conventions.md). That file is
+the source of truth for voice, structure, and approval rules.
+
 The site is not changed by any of this. Blog posts publish normally, and YouTube
 videos appear automatically. Sharing is a separate step: you create scheduled
 posts in Buffer, and Buffer publishes them to LinkedIn and X at the chosen time.
@@ -63,6 +67,7 @@ rather than assuming.
    trailing slash, to match `trailingSlash: 'always'`.
 
 2. **Write the copy, per platform.** Follow
+   [./social-posting-conventions.md](./social-posting-conventions.md) and
    [../writing/voice-and-tone.md](../writing/voice-and-tone.md) exactly. The most
    important rule: no long dashes (em or en). Plain, direct, specific, peer to
    peer. No hype words, no filler openers. See the templates below.
@@ -72,11 +77,15 @@ rather than assuming.
    are likely based on its own engagement testing. Use custom scheduling only if
    Daniel asks for a specific time or the queue is clearly wrong for the launch.
 
-4. **Check for duplicates.** Before creating anything, list Buffer's existing
+4. **Get approval.** Show Daniel the final LinkedIn copy, X copy, channel names,
+   and proposed Buffer action. Do not create posts until Daniel explicitly
+   approves both the copy and timing.
+
+5. **Check for duplicates.** Before creating anything, list Buffer's existing
    scheduled posts and look for the same URL on the same channel. If it is already
    queued, do not schedule it again. Say so and stop.
 
-5. **Create the posts.** Call the Buffer create or schedule tool twice: once with
+6. **Create the posts.** Call the Buffer create or schedule tool twice: once with
    the LinkedIn channel id and the LinkedIn copy, once with the X channel id and
    the X copy. Use `mode: addToQueue` unless Daniel asked for a custom time.
    Report the post ids, channel names, and scheduled times back to Daniel.
@@ -100,13 +109,14 @@ This is agent-initiated. Daniel says something like "share my latest video."
 These are starting points, not fill-in-the-blanks. Rewrite so it sounds like
 Daniel, not a template. No long dashes anywhere.
 
-**LinkedIn** (room to breathe, up to 3000 chars; aim for 3 to 6 short lines):
+**LinkedIn** (room to breathe, but keep link shares tight):
 
 ```
-New post: <concrete title or the real hook>.
+<Plain hook or claim.>
 
-<One or two sentences on what it covers and who it helps. Name the real thing:
-the tool, the tradeoff, the result.>
+<Short context. Where this came from, or why it matters.>
+
+<Two to four concrete points.>
 
 <link>
 ```
@@ -146,6 +156,8 @@ Copy rules that bite:
 
 ## Safety and idempotency
 
+- **Approval first.** Never schedule, queue, publish, or save public social posts
+  in Buffer until Daniel has approved the exact copy and timing.
 - **No duplicates.** Always list the queue and check the URL before creating. If a
   run is repeated, it must detect the existing post and skip.
 - **Cancel or reschedule** through the Buffer MCP if update/delete tools are

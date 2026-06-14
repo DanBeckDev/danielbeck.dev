@@ -96,11 +96,11 @@ LinkedIn can carry more context, but it should still be tight.
 Default shape:
 
 ```txt
-<Plain hook or claim.>
+<Plain tension, question, or claim.>
 
-<Short context. Where this came from, or why it matters.>
+<Daniel's judgement on that tension.>
 
-<Two to four concrete points.>
+<Short supporting context or examples.>
 
 <Link>
 ```
@@ -111,12 +111,14 @@ Good LinkedIn posts:
 - Use short paragraphs.
 - Make one clear point.
 - Give enough context to be useful without clicking.
+- Include Daniel's judgement, not just the article's contents.
 - Link plainly at the end.
 
 Avoid:
 
 - Brochure tone.
 - Long list of every section in the article.
+- Five-bullet takeaway summaries.
 - "Excited to share".
 - "Thrilled to announce".
 - "What do you think?" unless it is a real question Daniel would ask.
@@ -153,10 +155,21 @@ Avoid:
 For AI engineering posts, prefer copy like:
 
 ```txt
-Useful AI agents are becoming an engineering problem: skills, context,
-harnesses, security, evals, and review.
+The more I use agents, the less I think the interesting question is "which
+model?"
 
-I wrote up the trends I am taking seriously after AI Native DevCon London.
+The harder question is: what system are you putting around it?
+
+At AI Native DevCon London, the talks I kept coming back to were about that
+layer:
+
+skills that need owners
+context that needs provenance
+harnesses that need feedback loops
+sandboxes that need real boundaries
+reviews that need to happen before the diff
+
+That is the work I think engineering teams are underestimating.
 
 <link>
 ```
@@ -171,6 +184,10 @@ I wrote up my notes from AI Native DevCon London...
 
 The second version sounds like a feed announcement. The first version gives the
 reader the idea first.
+
+For LinkedIn, one good tension beats a complete list of takeaways. If the draft
+reads like a mini table of contents, rewrite it around the judgement Daniel is
+making.
 
 ## Timing and Buffer
 

@@ -18,6 +18,29 @@ posts in Buffer, and Buffer publishes them to LinkedIn and X at the chosen time.
   create one post for LinkedIn and one for X. That is what makes the per-platform
   copy work: each gets its own text.
 
+## Buffer MCP capabilities
+
+The installed Buffer MCP connection is OAuth-backed and exposes capability
+groups for:
+
+- account and channel information
+- reading, creating, scheduling, and managing posts
+- reading and saving ideas
+- reading supported insights
+
+Exact tool names can vary by MCP client and server version. Before posting, ask
+the connected agent to list the Buffer tools and choose the tools that correspond
+to:
+
+- list channels or accounts
+- list scheduled posts
+- create or schedule a post
+- create a draft or idea, if manual review is needed
+- update, delete, or manage a post, if the server exposes those tools
+
+If a management action is not exposed by the MCP tools in the current client,
+use the Buffer app for that action rather than guessing another API path.
+
 ## Preconditions
 
 1. The Buffer MCP server is connected to your agent and authenticated. If tool
@@ -26,10 +49,10 @@ posts in Buffer, and Buffer publishes them to LinkedIn and X at the chosen time.
    way.
 2. Daniel's LinkedIn profile and X account are connected as channels in Buffer.
 
-Discover the channels first. Call the Buffer MCP's list-channels tool and read off
-the `channelId` for LinkedIn and the `channelId` for X. The exact tool names come
-from the connected server, so introspect what is available rather than assuming;
-you are looking for "list channels" and "create post" (or "schedule post").
+Discover the channels first. Call the Buffer MCP tool that lists channels,
+accounts, or profiles, and read off the id for LinkedIn and the id for X. The
+exact tool names come from the connected server, so introspect what is available
+rather than assuming.
 
 ## Share a blog post
 
@@ -54,11 +77,11 @@ you are looking for "list channels" and "create post" (or "schedule post").
    scheduled posts and look for the same URL on the same channel. If it is already
    queued, do not schedule it again. Say so and stop.
 
-5. **Create the posts.** Call the Buffer create/schedule tool twice: once with the
-   LinkedIn `channelId` and the LinkedIn copy, once with the X `channelId` and the
-   X copy. Pass the scheduled time as a UTC ISO timestamp (Buffer's `dueAt`, for
-   example `2026-07-15T14:00:00.000Z`). Report the two scheduled times back to
-   Daniel with the post links Buffer returns.
+5. **Create the posts.** Call the Buffer create or schedule tool twice: once with
+   the LinkedIn channel id and the LinkedIn copy, once with the X channel id and
+   the X copy. Pass the scheduled time as a UTC ISO timestamp if the tool asks for
+   one. Report the two scheduled times back to Daniel with the post links or ids
+   Buffer returns.
 
 ## Share a YouTube video
 
@@ -121,10 +144,11 @@ Copy rules that bite:
 
 - **No duplicates.** Always list the queue and check the URL before creating. If a
   run is repeated, it must detect the existing post and skip.
-- **Cancel or reschedule** through the Buffer MCP (its delete/update tool) or in
-  the Buffer app. Do not create a second post to "fix" a first one without
-  removing the first.
+- **Cancel or reschedule** through the Buffer MCP if update/delete tools are
+  exposed in the current client. Otherwise use the Buffer app. Do not create a
+  second post to "fix" a first one without removing the first.
 - **Want a manual check first?** Create the posts as Buffer drafts instead of
-  scheduled. Nothing publishes until Daniel reviews and schedules them in Buffer.
-  Use this if the copy is sensitive or you are unsure.
+  scheduled, or save them as Buffer ideas if that is the safer available tool.
+  Nothing publishes until Daniel reviews and schedules them in Buffer. Use this
+  if the copy is sensitive or you are unsure.
 - These post publicly to Daniel's real accounts. When in doubt, draft and ask.

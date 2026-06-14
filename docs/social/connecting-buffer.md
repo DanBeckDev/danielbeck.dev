@@ -29,6 +29,21 @@ A browser window opens. Sign in to Buffer if prompted and approve access. Becaus
 the server is remote, the same setup works for any MCP client, including ChatGPT
 later, with no extra hosting.
 
+For Codex, a successful connection should show:
+
+```txt
+buffer  https://mcp.buffer.com/mcp  enabled  OAuth
+```
+
+You can check that with:
+
+```sh
+codex mcp list
+codex mcp get buffer
+```
+
+The installed Codex connection uses OAuth, not a repository API key.
+
 ## 2. Connect your channels in Buffer
 
 In the Buffer app, connect the channels you want to post to:
@@ -49,14 +64,41 @@ need an X API key, and there is no per-post X cost on your side.
 
 Ask your agent to list your Buffer channels. If it returns the LinkedIn and X
 channels with their ids, you are connected. If a call fails with an auth error,
-re-run the `mcp add` step above and approve the browser sign-in again.
+run:
+
+```sh
+codex mcp login buffer
+```
+
+If that does not work, remove and re-add the server:
+
+```sh
+codex mcp remove buffer
+codex mcp add buffer --url https://mcp.buffer.com/mcp
+```
 
 Then follow [./sharing-playbook.md](./sharing-playbook.md) to schedule a share.
+
+## Capability check
+
+The Buffer MCP connection requested these OAuth capability groups when installed
+in Codex:
+
+- `account:read` and `account:write`: read account, organisation, and channel
+  information, and manage supported account-level actions.
+- `posts:read` and `posts:write`: list, create, schedule, and manage Buffer
+  posts where the connected account allows it.
+- `ideas:read` and `ideas:write`: read and save ideas in Buffer.
+- `insights:read`: read supported performance and analytics data.
+
+Tool names are client-dependent. Do not hard-code names in docs or scripts. Ask
+the connected agent to list available Buffer tools, then map the workflow to the
+closest available tool.
 
 ## Troubleshooting
 
 - **Auth errors on tool calls:** the MCP session expired or was never approved.
-  Re-run the `mcp add` command and complete the browser sign-in.
+  Run `codex mcp login buffer`. If that fails, remove and re-add the server.
 - **No X channel listed:** connect X in the Buffer app, and check your plan
   includes it.
 - **Posts not going live:** check the Buffer queue. A scheduled post sits there

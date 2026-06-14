@@ -140,17 +140,23 @@ Copy rules that bite:
 
 ## Timing
 
-- Prefer Buffer's native queue (`addToQueue`) for normal sharing. It already has
-  channel-specific slots for LinkedIn and X, and those slots may differ by
-  platform.
+- Share the same article or video on LinkedIn and X on the same calendar day.
+  Times can differ by platform, but the campaign should not spill across days
+  unless Daniel explicitly asks for that.
+- Prefer Buffer's native queue (`addToQueue`) only when it keeps both platforms
+  on the same day. Buffer already has channel-specific slots for LinkedIn and X,
+  and those slots may differ by platform.
 - Use `get_channel` before creating posts so you can see each channel's posting
   schedule and confirm the queue is active.
-- If Daniel asks for a custom time, use `mode: customScheduled` and construct the
-  `dueAt` value in the timezone returned by `get_account` (usually
-  `Europe/London`). Do not assume UTC for a human-specified local time.
-- If using custom times, target Tue, Wed, or Thu at ~15:00 UK for LinkedIn, and
-  stagger X rather than posting both platforms at the same instant. The blog
-  publishing rationale is in
+- Use `mode: customScheduled` when Buffer's queue would place platforms on
+  different days, when Daniel asks for a specific date, or when the queue is too
+  soon for the content calendar.
+- For custom schedules, construct the `dueAt` value in the timezone returned by
+  `get_account` (usually `Europe/London`). Do not assume UTC for a
+  human-specified local time.
+- If using custom times, target the same day with LinkedIn in the strongest
+  professional slot and X staggered earlier or later. The blog publishing
+  rationale is in
   [../content/scheduling-posts.md](../content/scheduling-posts.md), but Buffer
   social sharing does not need to match the site's rebuild schedule.
 

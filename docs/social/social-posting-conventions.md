@@ -202,6 +202,10 @@ Before scheduling, show:
 - exact custom times if using `customScheduled`
 - final copy for each channel
 
+LinkedIn and X should share the same article or video on the same calendar day.
+If Buffer's native queue would split them across different days, use a custom
+schedule instead and ask Daniel to approve the exact times.
+
 If Daniel has not approved the timing and copy together, do not create the posts.
 
 ## Review checklist

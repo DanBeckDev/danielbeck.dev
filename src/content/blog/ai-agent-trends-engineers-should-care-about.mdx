@@ -1,8 +1,9 @@
 ---
-title: 'AI Native DevCon 2026: The Model Is Not the Bottleneck'
+title: 'The AI Agent Trends Engineers Should Actually Care About'
 description: >-
-  Notes from AI Native DevCon London 2026 on skills as code, harness
-  engineering, shared context, agent experience, sandboxing, and team judgment.
+  AI agent trends from AI Native DevCon London 2026: skills as code, harness
+  engineering, context ownership, agent experience, sandboxing, and earlier
+  review.
 pubDate: 2026-06-13
 category: AI Engineering
 tags: [ai-engineering, agents, skills, context-engineering, harness-engineering]
@@ -10,11 +11,12 @@ draft: false
 ---
 
 I spent two days at
-[AI Native DevCon London 2026](https://tessl.io/devcon/) and wanted to get my
-notes down while they are still fresh.
+[AI Native DevCon London 2026](https://tessl.io/devcon/), but the useful
+takeaway is bigger than the conference itself.
 
-The talks kept coming back to the same point: useful agents are not just better
-models. They are better systems around the model.
+The useful part was the pattern that kept showing up across the talks. The AI
+agent trends worth paying attention to are the systems around the model:
+skills, context, harnesses, tools, security, evals, and team habits.
 
 The ideas I am taking forward:
 
@@ -29,7 +31,7 @@ That was the shape of the conference for me. We are past the point where "the
 model can write code" is the interesting observation. The work now is making the
 whole system around the model dependable enough to trust.
 
-## Skills are not prompt snippets
+## Skills are becoming software dependencies
 
 Guy Podjarny's keynote, "Skills Are the New Code", gave the event its clearest
 frame. A skill is not a nicer prompt. It is a production artifact that changes
@@ -65,7 +67,7 @@ Hooks connect the system. Evals tell you whether the whole thing still behaves.
 That is a better shape than one huge prompt trying to be policy, memory,
 workflow, and test suite at the same time.
 
-## Reliability comes from the harness
+## Reliability is moving into the harness
 
 Ryan Lopopolo's harness engineering talk connected a lot of the conference for
 me. The harness is the deterministic software around the probabilistic model:
@@ -73,9 +75,8 @@ the context you provide, the tools you expose, the autonomy you allow, the
 feedback loop, and the verification after the work is done.
 
 [OpenAI's write-up on harness engineering](https://openai.com/index/harness-engineering/)
-uses the same framing for Codex. The useful question is not just whether the
-agent is smart enough. It is whether the harness helps the agent recover when it
-is wrong.
+uses the same framing for Codex. The useful question is whether the harness
+helps the agent recover when it is wrong.
 
 That is the reliability lever I care about.
 
@@ -86,11 +87,11 @@ eval catch it the third time?
 
 A demo only has to work once. A harness has to learn from the misses.
 
-## Context is product work
+## Context engineering is becoming product work
 
-Rob Sloan pushed harness thinking beyond code, which I found useful. Agents do
-not just need source files and commands. They need product goals, design intent,
-constraints, acceptance criteria, and decisions.
+Rob Sloan pushed harness thinking beyond code, which I found useful. Agents
+need more than source files and commands. They need product goals, design
+intent, constraints, acceptance criteria, and decisions.
 
 Most teams already have that context. The problem is where it lives.
 
@@ -112,7 +113,7 @@ reviews past transcripts, spots patterns, and proposes memory updates for a
 human to approve. That is the right level of automation for shared memory: let
 the agent notice the pattern, but keep the update visible and reviewed.
 
-## Agent experience is developer experience with fewer excuses
+## Agent experience is becoming developer experience
 
 Dana Lawson's Netlify talk was my favourite because it was painfully practical.
 Netlify was built around a human loop. Then agents started using it and exposed
@@ -134,6 +135,8 @@ Machine-readable build errors help agents, and they make dashboards clearer.
 Intent-level capabilities help agents, and they make APIs less awkward for
 people.
 
+## Sandboxing is becoming part of the product
+
 The same theme showed up in Oleg Selajev's Docker talk from the security side:
 prompts are not security boundaries. If agents can run commands, edit files,
 call tools, and move between repos, isolation is part of the product. Not a
@@ -143,7 +146,7 @@ That means hard isolation, controlled file sharing, network policy, secret
 isolation, sandbox policy, and audit logs. None of that is glamorous. It is just
 what makes speed survivable.
 
-## Review moves before the diff
+## Review is moving before the diff
 
 Hannah Foxwell's talk made the team impact feel concrete. If agents make
 implementation faster, the bottleneck moves upstream.
@@ -168,7 +171,7 @@ This maps directly to a problem I keep seeing: context loss between meetings,
 docs, tickets, transcripts, and skills. If every person and every agent carries
 a different version of the truth, agent speed just spreads confusion faster.
 
-## The plumbing is still early
+## Agent infrastructure is becoming normal infrastructure
 
 Shaun Smith's MCP talk was the infrastructure reminder. MCP, the Model Context
 Protocol, is how agents connect to tools and data. His point was that the

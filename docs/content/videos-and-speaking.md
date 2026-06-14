@@ -4,6 +4,11 @@ Both are small content collections. Videos are one YAML file; talks are one
 markdown file each. The YouTube page shows two sections: a curated **Featured**
 list (from `videos.yaml`) and an automatic **Latest from the channel** feed.
 
+Working YouTube scripts live in
+[`docs/content/youtube-scripts/`](./youtube-scripts/README.md). They are planning
+documents, not public site content. Use them when turning a post, talk, or notes
+file into a recording script.
+
 ## Latest from the channel (automatic)
 
 The "Latest from the channel" section pulls recent uploads from YouTube's public

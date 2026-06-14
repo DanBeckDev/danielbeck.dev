@@ -46,6 +46,7 @@ npm run format   # Prettier
 - Collections and schemas: `src/content.config.ts`
 - Posts: `src/content/blog/*.mdx`
 - Videos: `src/data/videos.yaml`
+- Working YouTube scripts: `docs/content/youtube-scripts/*.md`
 - Talks: `src/content/speaking/*.md`
 - Design tokens and theming: `src/styles/global.css`
 

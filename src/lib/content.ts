@@ -19,6 +19,9 @@ export const tagUrl = (tag: string) => `/blog/tags/${slugify(tag)}/`;
 export const categoryUrl = (categorySlug: string) => `/blog/category/${categorySlug}/`;
 
 const isProd = import.meta.env.PROD;
+const env = { ...process.env, ...import.meta.env };
+const cloudflareBranch = env.WORKERS_CI_BRANCH ?? env.CF_PAGES_BRANCH;
+const showDrafts = !isProd || Boolean(cloudflareBranch && cloudflareBranch !== 'main');
 /** Build timestamp. A post whose pubDate is after this is "scheduled" and is
  *  excluded from production builds until a later build passes its date. */
 const buildNow = Date.now();
@@ -33,7 +36,8 @@ const byDateDesc = (
 };
 
 /** Published posts, newest first.
- *  - Drafts (`draft: true`) are hidden in production, shown during `astro dev`.
+ *  - Drafts (`draft: true`) are hidden in production, shown during `astro dev`
+ *    and Cloudflare branch previews.
  *  - Scheduled posts (a `pubDate` in the future) are hidden in production until
  *    a build runs on or after that date; they are shown in `astro dev` so you
  *    can preview them. Set `pubDate` to a future date/time to schedule a post.
@@ -41,8 +45,8 @@ const byDateDesc = (
  *    scheduled-rebuild workflow). */
 export async function getPosts(): Promise<Post[]> {
   // Drafts are excluded in production by the collection filter.
-  const published = await getCollection('blog', ({ data }) => !isProd || data.draft !== true);
-  if (!isProd) return published.sort(byDateDesc);
+  const published = await getCollection('blog', ({ data }) => showDrafts || data.draft !== true);
+  if (showDrafts) return published.sort(byDateDesc);
 
   const live = published.filter((p) => p.data.pubDate.getTime() <= buildNow);
 

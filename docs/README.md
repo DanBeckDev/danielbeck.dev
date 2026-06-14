@@ -20,6 +20,9 @@ copy, and follow it exactly.
 4. **The build is the test.** `npm run check` validates content schemas and
    types, and a dangling cross-link fails the build on purpose. Run it before
    you commit.
+5. **Scheduled content is a campaign.** Check existing scheduled blog posts and
+   Buffer posts before choosing dates. Blog posts should publish earlier than
+   social posts on the same day.
 
 ## Where to look
 

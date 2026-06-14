@@ -72,23 +72,38 @@ rather than assuming.
    important rule: no long dashes (em or en). Plain, direct, specific, peer to
    peer. No hype words, no filler openers. See the templates below.
 
-3. **Pick the time.** Default to Buffer's native queue for each channel
-   (`addToQueue`). Buffer stores channel-specific posting slots, and those slots
-   are likely based on its own engagement testing. Use custom scheduling only if
-   Daniel asks for a specific time or the queue is clearly wrong for the launch.
+3. **Check the campaign calendar.** Before choosing a time, inspect both sides of
+   the schedule:
 
-4. **Get approval.** Show Daniel the final LinkedIn copy, X copy, channel names,
+   - Scheduled blog posts in `src/content/blog/*.mdx`.
+   - Scheduled Buffer posts for LinkedIn and X.
+
+   Existing campaigns take priority. Do not add another campaign to the same day
+   unless Daniel explicitly asks for it.
+
+4. **Pick the time.** Default to Buffer's native queue only when it keeps
+   LinkedIn and X on the same approved calendar day. Buffer stores
+   channel-specific posting slots, and those slots are likely based on its own
+   engagement testing. Use custom scheduling when Daniel asks for a specific
+   date, the queue splits platforms across days, or the queue is too soon for the
+   content calendar.
+
+5. **Get approval.** Show Daniel the final LinkedIn copy, X copy, channel names,
    and proposed Buffer action. Do not create posts until Daniel explicitly
    approves both the copy and timing.
 
-5. **Check for duplicates.** Before creating anything, list Buffer's existing
+6. **Check for duplicates.** Before creating anything, list Buffer's existing
    scheduled posts and look for the same URL on the same channel. If it is already
    queued, do not schedule it again. Say so and stop.
 
-6. **Create the posts.** Call the Buffer create or schedule tool twice: once with
+7. **Create the posts.** Call the Buffer create or schedule tool twice: once with
    the LinkedIn channel id and the LinkedIn copy, once with the X channel id and
    the X copy. Use `mode: addToQueue` unless Daniel asked for a custom time.
    Report the post ids, channel names, and scheduled times back to Daniel.
+
+8. **Verify after creation.** List Buffer scheduled posts again and confirm the
+   two new posts exist at the approved times. If the blog is also scheduled,
+   confirm its `pubDate` is earlier on the same day.
 
 ## Share a YouTube video
 
@@ -143,6 +158,15 @@ Copy rules that bite:
 - Share the same article or video on LinkedIn and X on the same calendar day.
   Times can differ by platform, but the campaign should not spill across days
   unless Daniel explicitly asks for that.
+- Check the existing Buffer queue before proposing a date. Do not guess based on
+  memory or only on the repo.
+- Treat the blog publish time and Buffer posts as one campaign. For scheduled
+  blog posts, the blog should go live earlier than the social posts so rebuilds,
+  caches, RSS, OG images, and link previews can settle.
+- Aim for up to three campaigns per week on weekdays when there is enough
+  backlog. A simple default rhythm is Monday, Wednesday, Friday.
+- If one campaign is already scheduled for Monday, prefer Wednesday for the next
+  one rather than stacking another Monday post.
 - Prefer Buffer's native queue (`addToQueue`) only when it keeps both platforms
   on the same day. Buffer already has channel-specific slots for LinkedIn and X,
   and those slots may differ by platform.
@@ -154,8 +178,9 @@ Copy rules that bite:
 - For custom schedules, construct the `dueAt` value in the timezone returned by
   `get_account` (usually `Europe/London`). Do not assume UTC for a
   human-specified local time.
-- If using custom times, target the same day with LinkedIn in the strongest
-  professional slot and X staggered earlier or later. The blog publishing
+- If using custom times for a scheduled blog post, use the same day as the blog
+  with social posts from 15:00 UK onward. LinkedIn usually gets the strongest
+  professional slot, and X is staggered earlier or later. The blog publishing
   rationale is in
   [../content/scheduling-posts.md](../content/scheduling-posts.md), but Buffer
   social sharing does not need to match the site's rebuild schedule.
@@ -166,6 +191,8 @@ Copy rules that bite:
   in Buffer until Daniel has approved the exact copy and timing.
 - **No duplicates.** Always list the queue and check the URL before creating. If a
   run is repeated, it must detect the existing post and skip.
+- **Verify after writes.** After creating, deleting, or rescheduling Buffer posts,
+  list the queue again and confirm the visible result matches the approved plan.
 - **Cancel or reschedule** through the Buffer MCP if update/delete tools are
   exposed in the current client. Otherwise use the Buffer app. Do not create a
   second post to "fix" a first one without removing the first.

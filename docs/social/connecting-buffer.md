@@ -16,8 +16,13 @@ Pick the agent you use. The server URL is the same either way:
 **Codex CLI:**
 
 ```sh
-codex mcp add buffer --url https://mcp.buffer.com/mcp
+codex mcp add buffer \
+  --url https://mcp.buffer.com/mcp \
+  --oauth-resource https://mcp.buffer.com/mcp
 ```
+
+For Codex, include `--oauth-resource`. Without it, the server may be added but
+OAuth can fail or repeatedly ask for login.
 
 **Claude Code:**
 
@@ -43,6 +48,15 @@ codex mcp get buffer
 ```
 
 The installed Codex connection uses OAuth, not a repository API key.
+
+If Codex later loses access, trigger the OAuth flow again with:
+
+```sh
+codex mcp login buffer
+```
+
+Setting a bearer token environment variable is not the supported path for this
+remote MCP connection. Use the OAuth login command instead.
 
 ## 2. Connect your channels in Buffer
 
@@ -74,7 +88,9 @@ If that does not work, remove and re-add the server:
 
 ```sh
 codex mcp remove buffer
-codex mcp add buffer --url https://mcp.buffer.com/mcp
+codex mcp add buffer \
+  --url https://mcp.buffer.com/mcp \
+  --oauth-resource https://mcp.buffer.com/mcp
 ```
 
 Then follow [./sharing-playbook.md](./sharing-playbook.md) to schedule a share.
@@ -98,7 +114,11 @@ closest available tool.
 ## Troubleshooting
 
 - **Auth errors on tool calls:** the MCP session expired or was never approved.
-  Run `codex mcp login buffer`. If that fails, remove and re-add the server.
+  Run `codex mcp login buffer`. If that fails, remove and re-add the server with
+  `--oauth-resource https://mcp.buffer.com/mcp`.
+- **Codex still cannot see Buffer after login:** restart the Codex session, then
+  ask the agent to list Buffer tools or channels again. Some clients cache MCP
+  tool availability for the life of the session.
 - **No X channel listed:** connect X in the Buffer app, and check your plan
   includes it.
 - **Posts not going live:** check the Buffer queue. A scheduled post sits there

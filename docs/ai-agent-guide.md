@@ -31,7 +31,8 @@ above.
 - Change copy on a page: edit the page or the content file it reads from.
 - Add a post, video, or talk: edit the content collection, not the template.
 - Schedule a post for a future date: set a future `pubDate` with `draft: false`
-  (see `docs/content/scheduling-posts.md`).
+  (see `docs/content/scheduling-posts.md`). Check scheduled blog posts and
+  Buffer posts before proposing the date.
 - Change identity or social links: edit `src/consts/site.ts` only.
 - Change colours or typography: edit `src/styles/global.css`.
 - Change content rules or validation: edit `src/content.config.ts` or the
@@ -46,6 +47,8 @@ above.
   component in Astro. The scoped selector will not match.
 - Always run `npm run check` before committing. It catches schema problems and
   broken cross-links.
+- Treat scheduled blog posts and social posts as one campaign. Do not guess a
+  date without checking the current Buffer queue.
 
 ## Useful commands
 

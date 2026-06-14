@@ -70,6 +70,22 @@ claim back to code, a config file, or a reproducible observation.
 If the source is a repo or a live system, the draft should reflect what is
 actually in front of you, not what you remember or wish the code did.
 
+Evidence should also be ranked. A post can be accurate and still miss the
+point if it gives equal weight to every feature. For repo analysis, identify the
+mechanisms that are unusually important, surprising, or reusable, then make
+those the spine of the post.
+
+Weak:
+
+- "The repo has skills, tests, a browser package, and memory."
+
+Better:
+
+- "The skill files are generated from implementation metadata, which reduces
+  prompt drift."
+- "The browser layer is a persistent daemon, which changes the cost and trust
+  model of agent-driven QA."
+
 ### 3. Structure
 
 The post should move in a straight line:
@@ -166,6 +182,8 @@ about what it does not cover.
 - Overexplaining basics the reader already knows.
 - "Here is everything" posts that do not have a clear angle.
 - Examples that are only illustrative when real code exists.
+- Equal-weight walkthroughs that miss the source material's most important
+  mechanisms.
 
 If a draft starts sounding generic, narrow it. Pick one example, one problem, or
 one decision and build around that.

@@ -29,7 +29,8 @@ a plain element you render, or use global Tailwind utilities. Details in
 
 ## Stack and commands
 
-Astro 6 (static) + MDX + Tailwind v4, deployed on Cloudflare Pages. No CMS.
+Astro 6 (static) + MDX + Tailwind v4, deployed as Cloudflare Workers static
+assets. No CMS.
 
 ```sh
 npm run dev      # localhost:4321
@@ -50,6 +51,7 @@ npm run format   # Prettier
 - Talks: `src/content/speaking/*.md`
 - Design tokens and theming: `src/styles/global.css`
 - Social sharing docs: `docs/social/`
+- Scheduled blog campaigns: `docs/content/scheduling-posts.md`
 
 ## If you are writing a blog post
 
@@ -64,6 +66,9 @@ Start with:
 If the post is technical, read the source code or repo first. Do not draft
 from memory when the code is available.
 
+If the post is being scheduled, treat the blog and Buffer posts as one campaign.
+Check existing scheduled blog posts and Buffer posts before proposing a date.
+
 ## If you are writing or scheduling social posts
 
 Read:
@@ -73,5 +78,9 @@ Read:
 
 Never schedule, queue, publish, or save public social posts in Buffer until the
 user has approved the exact copy and timing.
+
+Before proposing timing, check the existing Buffer queue and scheduled blog
+posts. The default campaign rhythm is weekdays, up to three posts per week, with
+the blog published earlier than social on the same day.
 
 See [`docs/`](./docs/README.md) for the full guide to each.

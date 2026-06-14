@@ -61,8 +61,25 @@ directly, so draft filtering and sorting stay consistent:
 ## Drafts
 
 Set `draft: true` in a post's frontmatter while writing. It stays visible in the
-dev server and is excluded from the production build, the blog index, RSS, the
-sitemap, and tag and category pages. Flip it to `false` to publish.
+dev server and Cloudflare branch previews, but is excluded from the main
+production build, the blog index, RSS, the sitemap, and tag and category pages.
+Flip it to `false` only when you are ready to publish.
+
+Draft preview rules live in `src/lib/content.ts`:
+
+- `npm run dev` always shows drafts.
+- Cloudflare Workers Builds show drafts when `WORKERS_CI_BRANCH` is present and
+  is not `main`.
+- Cloudflare Pages branch builds show drafts when `CF_PAGES_BRANCH` is present
+  and is not `main`.
+
+Do not add a global build variable such as `SHOW_DRAFTS=true` in Cloudflare.
+Workers build variables apply to all builds, so that would also publish drafts
+from the production branch.
+
+The branch check is version-controlled on purpose. Workers runtime variables can
+be scoped by environment, but draft filtering happens during the build, when
+Astro decides which static routes exist.
 
 ## Scheduled posts
 
@@ -73,3 +90,7 @@ post is included and goes live automatically. Because a static site only re-chec
 this when it builds, `.github/workflows/scheduled-rebuild.yml` triggers a daily
 rebuild so scheduled posts publish near their date. Full guide:
 [../content/scheduling-posts.md](../content/scheduling-posts.md).
+
+Schedule social sharing as part of the same campaign. The blog should publish
+earlier than Buffer posts on the same day so the rebuild, cache, RSS, social
+image, and link preview have time to settle.

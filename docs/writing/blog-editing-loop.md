@@ -91,9 +91,17 @@ Before handing back a draft:
 
 - Search for long dash characters.
 - Run `npm run check`.
-- Confirm the post is `draft: true` unless explicitly publishing. To publish on a
-  future date instead, set `draft: false` with a future `pubDate` (see
+- Confirm the post is `draft: true` unless explicitly publishing. Cloudflare
+  branch previews show drafts automatically on non-main branches, so do not flip
+  drafts to publish only for a preview. To publish on a future date instead, set
+  `draft: false` with a future `pubDate` (see
   [../content/scheduling-posts.md](../content/scheduling-posts.md)).
+- If the post is scheduled, confirm the `pubDate` is a deliberate content
+  calendar slot, not just the earliest possible date. Check the repo's scheduled
+  posts and Buffer's scheduled posts before proposing the date.
+- If social posts are part of the campaign, confirm they are scheduled for the
+  same day after the blog publish time, or explicitly note that Buffer scheduling
+  has not been done yet.
 - Confirm links are real.
 - Confirm the category and tags match `src/consts/categories.ts`.
 

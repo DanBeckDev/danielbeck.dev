@@ -305,11 +305,29 @@ agent setup right now?
 
 ## Thumbnail ideas
 
-- Text: `AI agent trends that matter`
-- Text: `Stop watching the model`
-- Text: `Agents need systems`
-- Visual: model in the centre, surrounded by context, harness, skills, evals,
-  security, and review.
+Saved concepts:
+
+- [`thumbnails/ai-agent-trends.png`](./thumbnails/ai-agent-trends.png): broad
+  trends packaging.
+- [`thumbnails/stop-watching-the-model.png`](./thumbnails/stop-watching-the-model.png):
+  stronger hook around the model being the wrong focus.
+- [`thumbnails/agents-need-systems.png`](./thumbnails/agents-need-systems.png):
+  recommended direction. It is the clearest match for the thesis.
+
+Upload-ready exports:
+
+- [`thumbnails/upload-ready/ai-agent-trends.jpg`](./thumbnails/upload-ready/ai-agent-trends.jpg)
+- [`thumbnails/upload-ready/stop-watching-the-model.jpg`](./thumbnails/upload-ready/stop-watching-the-model.jpg)
+- [`thumbnails/upload-ready/agents-need-systems.jpg`](./thumbnails/upload-ready/agents-need-systems.jpg)
+
+Thumbnail text directions:
+
+- `AI agent trends that matter`
+- `Stop watching the model`
+- `Agents need systems`
+
+Visual direction: portrait-led thumbnail with a model in the centre, surrounded
+by context, harness, skills, evals, security, and review.
 
 ## Production notes
 

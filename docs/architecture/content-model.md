@@ -61,16 +61,23 @@ directly, so draft filtering and sorting stay consistent:
 ## Drafts
 
 Set `draft: true` in a post's frontmatter while writing. It stays visible in the
-dev server and Cloudflare branch previews, but is excluded from the main
+dev server and configured preview builds, but is excluded from the main
 production build, the blog index, RSS, the sitemap, and tag and category pages.
-Flip it to `false` to publish.
+Flip it to `false` only when you are ready to publish.
 
 Draft preview rules live in `src/lib/content.ts`:
 
 - `npm run dev` always shows drafts.
-- Cloudflare branch builds show drafts when `CF_PAGES_BRANCH` is present and is
-  not `main`.
-- Any build can force drafts on with `SHOW_DRAFTS=true`.
+- Cloudflare Pages branch builds show drafts when `CF_PAGES_BRANCH` is present
+  and is not `main`.
+- Cloudflare Workers Builds should set a build variable named `SHOW_DRAFTS` to
+  `true` for preview builds that need draft posts.
+- Any local or CI build can force drafts on with `SHOW_DRAFTS=true`.
+
+For Workers Builds, add this in Cloudflare under the Worker settings:
+`Settings > Build > Build variables and secrets`. This must be a build variable,
+not only a runtime variable, because Astro decides which static routes to
+generate during `npm run build`.
 
 ## Scheduled posts
 

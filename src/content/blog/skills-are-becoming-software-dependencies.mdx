@@ -2,8 +2,8 @@
 title: 'Skills Are Becoming Software Dependencies'
 description: >-
   Skills are starting to look less like prompt files and more like dependencies:
-  generated artifacts, host adapters, tests, freshness checks, and lifecycle
-  management.
+  generated artifacts, host adapters, evals, freshness checks, versioning, and
+  lifecycle management.
 pubDate: 2026-06-14
 category: AI Engineering
 tags: [ai-engineering, agents, skills, claude-code, developer-experience]
@@ -37,8 +37,8 @@ this:
 Skills need a dependency lifecycle.
 
 They need source. They need build output. They need compatibility targets. They
-need tests. They need versioning. They need ownership. They need a way to tell
-when they are stale.
+need evals. They need freshness checks. They need versioning. They need
+ownership. They need a way to tell when they are stale.
 
 I already wrote the [repo-level overview of
 gstack](/blog/gstack-skills-monorepo-agent-system/). This is the narrower part
@@ -77,7 +77,7 @@ not need a philosophy of prompts. You need the boring engineering questions:
 - Where is the source?
 - What is the built artifact?
 - What consumes it?
-- How do we test it?
+- What evals prove it still behaves?
 - How do we know it is compatible with the host?
 - How do we detect drift?
 - Who owns upgrades and removal?
@@ -195,9 +195,13 @@ The useful lesson is that "write a skill" is only the first step. The next
 question is where that skill is expected to run, and whether the artifact has
 been built for that runtime.
 
-## Tests need to cover the instruction surface
+## Evals are the test suite for skill behaviour
 
-gstack also tests its skill system in a few different ways.
+gstack also makes evals part of the skill system.
+
+That matters because a skill has a syntax surface and a behaviour surface. The
+Markdown needs to parse, but the agent also needs to keep doing the thing the
+skill exists to make it do.
 
 There is a `skill:check` script that validates skill commands, checks template
 coverage, looks for missing generated files, checks external host output, and
@@ -220,7 +224,9 @@ should produce a certain structure, write an eval. If a browser skill should
 handle a workflow, write an eval.
 
 That turns skill quality from taste alone into something you can at least
-regress.
+regress. It also changes how safe it feels to edit a skill. Without evals, every
+change is partly vibes. With evals, you can start asking whether a change made
+the skill better or just different.
 
 This is the same move teams already made with code. We do not test everything.
 We test the behaviours that would hurt if they broke.
@@ -253,7 +259,7 @@ some way to record:
 - version or commit
 - generated host artifact
 - enabled resolvers or feature flags
-- eval suite version
+- eval suite and result
 - owner
 - retirement status
 
@@ -278,7 +284,9 @@ If a skill is allowed to influence production work, I want it to have:
 - **Artifact:** the exact skill file the agent host loads.
 - **Build:** a repeatable command to produce the artifact.
 - **Compatibility:** clear host assumptions and transforms.
-- **Tests:** unit checks for structure and evals for behaviour.
+- **Evals:** behaviour checks for the work the skill is meant to improve.
+- **Tests:** structural checks for syntax, frontmatter, generated docs, and
+  command references.
 - **Freshness:** CI that fails when generated output is stale.
 - **Ownership:** a named person or team.
 - **Removal:** a way to retire the skill when it stops earning its place.

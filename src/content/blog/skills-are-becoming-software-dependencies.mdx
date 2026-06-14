@@ -1,0 +1,296 @@
+---
+title: 'Skills Are Becoming Software Dependencies'
+description: >-
+  Skills are starting to look less like prompt files and more like dependencies:
+  generated artifacts, host adapters, tests, freshness checks, and lifecycle
+  management.
+pubDate: 2026-06-14
+category: AI Engineering
+tags: [ai-engineering, agents, skills, claude-code, developer-experience]
+draft: true
+repo:
+  url: https://github.com/garrytan/gstack
+  name: garrytan/gstack
+  description: 'Claude Code skills, browser automation, and memory for agentic engineering workflows.'
+  language: TypeScript
+---
+
+The more I look at agent systems, the less I think "skill" is the right mental
+model.
+
+A skill sounds small. It sounds like a prompt snippet, a useful instruction, or
+a markdown file that teaches the agent a trick.
+
+That is fine when the skill only reminds an agent how you like commit messages
+written. It breaks down once the skill changes how an agent plans work, reviews
+code, drives a browser, ships a release, or writes memory.
+
+At that point, a skill starts to behave more like a software dependency.
+
+That was one of the ideas I kept coming back to after writing about the [AI
+agent trends engineers should care
+about](/blog/ai-agent-trends-engineers-should-care-about/). The conference
+version was "treat skills like code". After digging into
+[gstack](https://github.com/garrytan/gstack), I think the sharper version is
+this:
+
+Skills need a dependency lifecycle.
+
+They need source. They need build output. They need compatibility targets. They
+need tests. They need versioning. They need ownership. They need a way to tell
+when they are stale.
+
+I already wrote the [repo-level overview of
+gstack](/blog/gstack-skills-monorepo-agent-system/). This is the narrower part
+I think is worth pulling out: gstack makes the dependency lifecycle visible in
+code.
+
+## A skill is a runtime dependency on agent behaviour
+
+Dependencies change what your software can do. Skills change what your agent can
+do.
+
+That sounds obvious, but it changes the risk model.
+
+If a normal package changes, your app might build differently, call a different
+API, or fail a test. If a skill changes, your agent might plan differently,
+review differently, choose different files, trust different context, or run a
+different command.
+
+The output is less direct, but the effect is still real.
+
+That is why the "just prompts" framing feels too weak. A production skill can
+decide:
+
+- which context the agent loads
+- which tools it is allowed to use
+- which checks it runs before saying work is done
+- which files it writes as handoff state
+- which model or reviewer it asks for a second opinion
+- which safety rules it applies to untrusted input
+
+That is a lot of authority for something teams often treat as documentation.
+
+The dependency framing is useful because it gives us a better checklist. You do
+not need a philosophy of prompts. You need the boring engineering questions:
+
+- Where is the source?
+- What is the built artifact?
+- What consumes it?
+- How do we test it?
+- How do we know it is compatible with the host?
+- How do we detect drift?
+- Who owns upgrades and removal?
+
+gstack answers more of those questions than most skill repos I have seen.
+
+## gstack generates skills instead of hand-editing them
+
+The most interesting part of gstack is not that it has lots of skills. In the
+clone I inspected, there were 55 `SKILL.md.tmpl` files and 54 generated
+`SKILL.md` files within two directory levels.
+
+The interesting part is that the generated files are treated as build output.
+
+The source lives in templates such as:
+
+```txt
+browse/SKILL.md.tmpl
+review/SKILL.md.tmpl
+ship/SKILL.md.tmpl
+plan-eng-review/SKILL.md.tmpl
+```
+
+The generator lives in `scripts/gen-skill-docs.ts`. Its job is to read the
+templates, find placeholders, resolve those placeholders from source, format the
+result, and write the final `SKILL.md` files that the agent host consumes.
+
+That gives the repo a real source-to-artifact pipeline:
+
+```txt
+Template + resolvers + TypeScript metadata
+  -> generated SKILL.md
+  -> host-specific skill install
+  -> agent behaviour
+```
+
+This is the part I would copy first.
+
+Handwritten skills rot in a very ordinary way. A command changes. A flag is
+renamed. A workflow moves from one script to another. The skill still sounds
+confident, but it is now teaching the agent the old system.
+
+gstack reduces that drift by generating parts of the instruction surface from
+the implementation.
+
+The browser skill is the clearest example. The generator imports command
+metadata from `browse/src/commands` and snapshot flags from
+`browse/src/snapshot`. The command reference in the skill is then generated
+from the same source the browser runtime uses.
+
+That is a different relationship between docs and code. The skill is no longer a
+separate explanation of the tool. It is a generated interface for the tool.
+
+## Freshness checks are dependency checks
+
+Once a skill has a build step, stale output becomes a real failure mode.
+
+gstack has a dedicated GitHub workflow for this:
+
+```txt
+bun run gen:skill-docs
+git diff --exit-code
+
+bun run gen:skill-docs --host codex
+git diff --exit-code -- .agents/
+
+bun run gen:skill-docs --host factory
+git diff --exit-code -- .factory/
+```
+
+The point is simple. If the generated skill files are out of date, CI fails.
+
+That is exactly how we already treat generated clients, lockfiles, schema
+output, snapshots, and compiled assets. The repo does not rely on someone
+remembering to regenerate the files. It checks.
+
+This matters more for skills than people realise.
+
+If a TypeScript type is stale, the compiler can often catch it. If a skill is
+stale, the failure may show up as agent behaviour that is just slightly wrong.
+The agent uses an old command. It skips a new guardrail. It misses a required
+handoff. It gives the user a plausible answer based on yesterday's workflow.
+
+Those are expensive failures because they look like judgement problems.
+
+Freshness checks turn at least one class of skill failure back into a normal
+software failure. The generated artifact does not match the source. Fix the
+artifact.
+
+## Host compatibility is part of the package
+
+The dependency model gets stronger when you look at host support.
+
+gstack generates skills for multiple runtimes. It has host configs for Claude,
+Codex, Factory, Kiro, OpenCode, Slate, Cursor, OpenClaw, Hermes, and gbrain.
+
+The Codex host config is a good example of why this matters. It rewrites paths,
+keeps only the frontmatter fields Codex supports, enforces a description length,
+generates `openai.yaml`, skips the Claude-specific `/codex` wrapper skill, and
+suppresses resolvers that do not make sense for Codex.
+
+That is compatibility logic, not formatting.
+
+The same source skill needs to become different artifacts for different hosts.
+Some hosts have different frontmatter rules. Some have different invocation
+models. Some cannot safely call the same helper skill. Some need different root
+paths.
+
+That looks a lot like package distribution.
+
+You have source. You have targets. You have transforms. You have host-specific
+constraints. You have generated artifacts. You have compatibility checks.
+
+The useful lesson is that "write a skill" is only the first step. The next
+question is where that skill is expected to run, and whether the artifact has
+been built for that runtime.
+
+## Tests need to cover the instruction surface
+
+gstack also tests its skill system in a few different ways.
+
+There is a `skill:check` script that validates skill commands, checks template
+coverage, looks for missing generated files, checks external host output, and
+runs freshness checks for each configured host.
+
+There are unit tests around generated skill docs. They check that generated
+frontmatter parses as YAML, descriptions stay within limits, command tables are
+present, snapshot flags are included, and each generated skill has the expected
+header.
+
+Then there are eval workflows for higher-level behaviour. The CI matrix includes
+LLM judging, browser evals, planning evals, deploy evals, design evals, QA evals,
+review evals, routing evals, Codex evals, and Gemini evals.
+
+I would not pretend that evals make skills deterministic. They do not.
+
+But they give you a place to put the behaviours you care about. If a review
+skill should catch a certain kind of bug, write an eval. If a planning skill
+should produce a certain structure, write an eval. If a browser skill should
+handle a workflow, write an eval.
+
+That turns skill quality from taste alone into something you can at least
+regress.
+
+This is the same move teams already made with code. We do not test everything.
+We test the behaviours that would hurt if they broke.
+
+Skills need the same treatment.
+
+## The lockfile problem is coming for skills
+
+If skills are dependencies, then versioning becomes uncomfortable.
+
+Which version of a skill did the agent use when it made this change? Was it the
+global install? A repo-local install? A generated Codex variant? A local user
+variant that included detected memory support? Did the skill update halfway
+through the work?
+
+Those questions sound fussy until something goes wrong.
+
+When an agent makes a bad change, you need to know what shaped its behaviour.
+The model matters. The tools matter. The prompt matters. The loaded skills
+matter too.
+
+That points towards a skill lockfile, or at least a skill manifest, for serious
+agent workflows.
+
+I do not mean every small repo needs a new package manager. But teams will need
+some way to record:
+
+- skill name
+- skill source
+- version or commit
+- generated host artifact
+- enabled resolvers or feature flags
+- eval suite version
+- owner
+- retirement status
+
+Without that, skill upgrades become invisible production changes.
+
+The agent feels the change immediately. The team may only notice when the output
+starts drifting.
+
+## The practical standard I want
+
+I do not think every team needs a gstack-sized system.
+
+Most teams should probably start smaller. A few repo-local skills. A clear
+owner. A couple of evals. A freshness check if any part is generated. A deletion
+path for stale skills.
+
+But the bar should move.
+
+If a skill is allowed to influence production work, I want it to have:
+
+- **Source:** the editable file or template that humans review.
+- **Artifact:** the exact skill file the agent host loads.
+- **Build:** a repeatable command to produce the artifact.
+- **Compatibility:** clear host assumptions and transforms.
+- **Tests:** unit checks for structure and evals for behaviour.
+- **Freshness:** CI that fails when generated output is stale.
+- **Ownership:** a named person or team.
+- **Removal:** a way to retire the skill when it stops earning its place.
+
+That is the dependency lifecycle.
+
+The language matters because it changes how seriously we take the work. A prompt
+can be tossed into a shared folder. A dependency needs a maintainer.
+
+Better models will help, but they will not remove this work. Agent quality also
+depends on treating the things around the model with the same discipline we
+already apply to the rest of the software stack.
+
+Skills are a good place to start, because they are where intent becomes
+execution.

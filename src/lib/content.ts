@@ -19,6 +19,10 @@ export const tagUrl = (tag: string) => `/blog/tags/${slugify(tag)}/`;
 export const categoryUrl = (categorySlug: string) => `/blog/category/${categorySlug}/`;
 
 const isProd = import.meta.env.PROD;
+/** Build timestamp. A post whose pubDate is after this is "scheduled" and is
+ *  excluded from production builds until a later build passes its date. */
+const buildNow = Date.now();
+let loggedSchedule = false;
 const byDateDesc = (
   a: { data: { pubDate?: Date; publishedAt?: Date; date?: Date } },
   b: typeof a,
@@ -28,11 +32,31 @@ const byDateDesc = (
   return db.getTime() - da.getTime();
 };
 
-/** Published posts, newest first. Drafts are hidden in production builds
- *  but visible during `astro dev`. */
+/** Published posts, newest first.
+ *  - Drafts (`draft: true`) are hidden in production, shown during `astro dev`.
+ *  - Scheduled posts (a `pubDate` in the future) are hidden in production until
+ *    a build runs on or after that date; they are shown in `astro dev` so you
+ *    can preview them. Set `pubDate` to a future date/time to schedule a post.
+ *    Note: the site must rebuild after that time for the post to appear (see the
+ *    scheduled-rebuild workflow). */
 export async function getPosts(): Promise<Post[]> {
-  const posts = await getCollection('blog', ({ data }) => !isProd || data.draft !== true);
-  return posts.sort(byDateDesc);
+  // Drafts are excluded in production by the collection filter.
+  const published = await getCollection('blog', ({ data }) => !isProd || data.draft !== true);
+  if (!isProd) return published.sort(byDateDesc);
+
+  const live = published.filter((p) => p.data.pubDate.getTime() <= buildNow);
+
+  // Surface scheduled posts once in the build log so they aren't a silent no-op.
+  if (!loggedSchedule) {
+    loggedSchedule = true;
+    const scheduled = published.filter((p) => p.data.pubDate.getTime() > buildNow);
+    if (scheduled.length) {
+      console.log(`[blog] ${scheduled.length} scheduled post(s) hidden until their pubDate:`);
+      for (const p of scheduled) console.log(`  - ${p.id} -> ${p.data.pubDate.toISOString()}`);
+    }
+  }
+
+  return live.sort(byDateDesc);
 }
 
 export type TagInfo = { tag: string; slug: string; count: number };

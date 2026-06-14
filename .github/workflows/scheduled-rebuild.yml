@@ -1,0 +1,34 @@
+name: Scheduled rebuild
+
+# A static site only re-evaluates which posts are published when it builds.
+# Posts with a future `pubDate` are hidden until a build runs on or after that
+# date (see docs/content/scheduling-posts.md). This workflow pings Cloudflare's
+# deploy hook on a schedule so scheduled posts go live around their date.
+#
+# One-time setup:
+#   1. Cloudflare dashboard: Workers & Pages > your Worker > Settings > Builds >
+#      Deploy Hooks > create a hook for the `main` branch, copy the URL.
+#   2. GitHub: Settings > Secrets and variables > Actions > add a repository
+#      secret named CLOUDFLARE_DEPLOY_HOOK with that URL.
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # every 6 hours (UTC). Adjust for finer/coarser timing.
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare deploy hook
+        env:
+          HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "CLOUDFLARE_DEPLOY_HOOK is not set; nothing to rebuild."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK"
+          echo "Triggered Cloudflare rebuild."

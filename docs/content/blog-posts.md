@@ -20,7 +20,7 @@ title: 'Building React from Scratch' # required, max 120 chars
 description: >- # required, max 220 chars. Reused for cards, OG, meta, RSS.
   A from-scratch reimplementation of React and ReactDOM, plus a custom Babel
   JSX transform.
-pubDate: 2026-06-10 # required
+pubDate: 2026-06-10 # required. A future date schedules the post (see below).
 updatedDate: 2026-06-12 # optional
 category: Frontend Architecture # required, one of the 9 in consts/categories.ts
 tags: [react, javascript, jsx] # optional, lower-case and hyphenated
@@ -84,3 +84,6 @@ Headings get anchor links and feed the on-page table of contents automatically.
    `heroImageAlt` will be caught here.
 5. Set `draft: false`, commit, and push. Cloudflare rebuilds. The tag and
    category pages, RSS, sitemap, and the social image all regenerate.
+
+To publish on a future date instead, set `pubDate` ahead and leave
+`draft: false`. See [./scheduling-posts.md](./scheduling-posts.md).

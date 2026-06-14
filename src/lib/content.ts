@@ -20,13 +20,8 @@ export const categoryUrl = (categorySlug: string) => `/blog/category/${categoryS
 
 const isProd = import.meta.env.PROD;
 const env = { ...process.env, ...import.meta.env };
-const cloudflareBranch = env.CF_PAGES_BRANCH;
-const showDrafts =
-  !isProd ||
-  env.SHOW_DRAFTS === 'true' ||
-  // Cloudflare Pages injects CF_PAGES_BRANCH. Workers Builds does not, so use
-  // SHOW_DRAFTS=true as a build variable there.
-  Boolean(cloudflareBranch && cloudflareBranch !== 'main');
+const cloudflareBranch = env.WORKERS_CI_BRANCH ?? env.CF_PAGES_BRANCH;
+const showDrafts = !isProd || Boolean(cloudflareBranch && cloudflareBranch !== 'main');
 /** Build timestamp. A post whose pubDate is after this is "scheduled" and is
  *  excluded from production builds until a later build passes its date. */
 const buildNow = Date.now();
@@ -41,8 +36,8 @@ const byDateDesc = (
 };
 
 /** Published posts, newest first.
- *  - Drafts (`draft: true`) are hidden in production, shown during `astro dev`,
- *    Cloudflare Pages branch previews, and builds with `SHOW_DRAFTS=true`.
+ *  - Drafts (`draft: true`) are hidden in production, shown during `astro dev`
+ *    and Cloudflare branch previews.
  *  - Scheduled posts (a `pubDate` in the future) are hidden in production until
  *    a build runs on or after that date; they are shown in `astro dev` so you
  *    can preview them. Set `pubDate` to a future date/time to schedule a post.

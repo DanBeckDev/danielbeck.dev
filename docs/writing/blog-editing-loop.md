@@ -91,9 +91,9 @@ Before handing back a draft:
 
 - Search for long dash characters.
 - Run `npm run check`.
-- Confirm the post is `draft: true` unless explicitly publishing. Preview builds
-  can show drafts when configured with `SHOW_DRAFTS=true`, so do not flip drafts
-  to publish only for a preview. To publish on a future date instead, set
+- Confirm the post is `draft: true` unless explicitly publishing. Cloudflare
+  branch previews show drafts automatically on non-main branches, so do not flip
+  drafts to publish only for a preview. To publish on a future date instead, set
   `draft: false` with a future `pubDate` (see
   [../content/scheduling-posts.md](../content/scheduling-posts.md)).
 - Confirm links are real.

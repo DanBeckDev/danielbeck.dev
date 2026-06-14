@@ -80,9 +80,8 @@ Headings get anchor links and feed the on-page table of contents automatically.
 1. Create the file with `draft: true`.
 2. `npm run dev` and preview at the slug URL.
 3. Open a PR while it is still a draft if you want a Cloudflare branch preview.
-   For Workers Builds, set the build variable `SHOW_DRAFTS=true` in Cloudflare
-   so the preview build includes draft routes. Pages branch previews can use
-   `CF_PAGES_BRANCH` automatically.
+   Workers Builds use `WORKERS_CI_BRANCH`; Pages builds use `CF_PAGES_BRANCH`.
+   Drafts are included on non-main preview branches automatically.
 4. Fill in any cross-links (`video`, `repo`, `talk`, `discussion`).
 5. Run `npm run check`. A bad category, a too-long description, or a missing
    `heroImageAlt` will be caught here.

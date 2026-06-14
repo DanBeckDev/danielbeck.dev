@@ -42,6 +42,11 @@
     "youtube_scripts": "docs/content/youtube-scripts/README.md",
     "videos_doc": "docs/content/videos-and-speaking.md"
   },
+  "social_guidance": {
+    "sharing_playbook": "docs/social/sharing-playbook.md",
+    "connecting_buffer": "docs/social/connecting-buffer.md",
+    "backend": "Buffer official MCP server (https://mcp.buffer.com/mcp); one post per channel for per-platform copy"
+  },
   "rules": [
     "No em dashes or en dashes in visible copy.",
     "Identity lives only in src/consts/site.ts.",

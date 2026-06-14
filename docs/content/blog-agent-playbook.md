@@ -176,3 +176,7 @@ Before shipping a post, confirm:
 - The post links to the right repo, video, or discussion.
 - There are no long dash characters in the visible copy.
 - The build passes.
+
+After the post is live, share it on LinkedIn and X. That is a separate step
+through Buffer, covered in
+[../social/sharing-playbook.md](../social/sharing-playbook.md).

@@ -60,3 +60,13 @@ gating lives in `getPosts()` (`src/lib/content.ts`); a daily GitHub Actions
 workflow pings a Cloudflare deploy hook so scheduled posts go live near their
 date. Full guide:
 [`docs/content/scheduling-posts.md`](./docs/content/scheduling-posts.md).
+
+## Sharing to social (LinkedIn + X)
+
+Promoting a post or video on LinkedIn and X is a separate, agent-driven step that
+does not touch the site. It runs through Buffer's official MCP server (Buffer does
+the posting; no LinkedIn/X API keys, no paid X API). One post per channel gives
+per-platform copy. Write copy in the site voice (no long dashes) and schedule for
+a strong UK slot. Recipe:
+[`docs/social/sharing-playbook.md`](./docs/social/sharing-playbook.md). One-time
+setup: [`docs/social/connecting-buffer.md`](./docs/social/connecting-buffer.md).

@@ -25,6 +25,12 @@ empty (the default), the section is simply hidden and the fetch never runs. The
 fetch fails gracefully, so a YouTube outage will not break the build. Code is in
 `src/lib/youtube.ts`.
 
+To share a new video on LinkedIn and X, ask an agent ("share my latest video").
+That is a separate step through Buffer, covered in
+[../social/sharing-playbook.md](../social/sharing-playbook.md). The
+`npm run videos:latest` helper prints the channel's recent uploads as JSON so the
+agent can grab a video URL.
+
 ## Videos (`src/data/videos.yaml`)
 
 Each entry needs a unique `id`. Order in the file does not matter; the site sorts

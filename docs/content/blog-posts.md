@@ -87,3 +87,7 @@ Headings get anchor links and feed the on-page table of contents automatically.
 
 To publish on a future date instead, set `pubDate` ahead and leave
 `draft: false`. See [./scheduling-posts.md](./scheduling-posts.md).
+
+Once a post is live, share it on LinkedIn and X. That is a separate, agent-driven
+step through Buffer (it does not change the site). See
+[../social/sharing-playbook.md](../social/sharing-playbook.md).

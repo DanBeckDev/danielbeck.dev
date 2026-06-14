@@ -34,6 +34,7 @@ copy, and follow it exactly.
 | Change styles, colours, or dark mode   | [architecture/styling.md](./architecture/styling.md)                     |
 | Write a blog post                      | [content/blog-posts.md](./content/blog-posts.md)                         |
 | Schedule a post for a future date      | [content/scheduling-posts.md](./content/scheduling-posts.md)             |
+| Share a post or video on social        | [social/sharing-playbook.md](./social/sharing-playbook.md)               |
 | Draft a YouTube script                 | [content/youtube-scripts/README.md](./content/youtube-scripts/README.md) |
 | Edit a specific page's content         | [content/pages.md](./content/pages.md)                                   |
 | Add an open-source contribution        | [content/open-source.md](./content/open-source.md)                       |

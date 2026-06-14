@@ -12,6 +12,7 @@
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "videos:latest": "node scripts/latest-videos.mjs",
     "astro": "astro"
   },
   "dependencies": {

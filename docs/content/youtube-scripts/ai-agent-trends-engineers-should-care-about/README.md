@@ -27,6 +27,12 @@ has passed. Upload the JPG from `thumbnails/upload-ready/`.
 The thumbnail concepts use Daniel's portrait as the creator anchor and frame the
 video around AI agent systems rather than the conference itself.
 
+The three concepts were intentionally generated with different jobs:
+
+- `ai-agent-trends`: broad reach and direct topic match.
+- `stop-watching-the-model`: stronger contrarian hook.
+- `agents-need-systems`: best thesis match.
+
 Future thumbnail iterations should:
 
 - Keep the portrait prominent.
@@ -35,6 +41,28 @@ Future thumbnail iterations should:
 - Preserve the video thesis: agents need skills, context, harnesses, security,
   evals, and review.
 - Avoid stock AI imagery where possible.
+
+Prompt pattern used:
+
+```txt
+Create a 16:9 YouTube thumbnail concept at 1280x720 using the provided portrait
+as the creator image. Preserve the creator's face, hair, beard, expression, and
+clothing identity. Crop him as a clean cutout on one third of the frame,
+shoulders visible, with a subtle white outline and soft shadow.
+
+Use a bold AI engineering background with a simple systems diagram around an AI
+model. Keep the main text large, readable, and limited to 2 to 4 words. Use
+small labels like skills, context, harness, evals, security, and review only as
+supporting details.
+
+Style: professional software engineering creator thumbnail, crisp, high
+contrast, mobile-readable, not clickbait, no watermarks, no extra faces, no
+distorted text.
+```
+
+One lesson from this pass: generated output order can differ from prompt order.
+Inspect each image before naming it. The filename should describe the visible
+thumbnail text, not the prompt that was sent first.
 
 ## Export notes
 

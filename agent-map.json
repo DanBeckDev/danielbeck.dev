@@ -44,8 +44,18 @@
   },
   "social_guidance": {
     "sharing_playbook": "docs/social/sharing-playbook.md",
+    "posting_conventions": "docs/social/social-posting-conventions.md",
     "connecting_buffer": "docs/social/connecting-buffer.md",
-    "backend": "Buffer official MCP server (https://mcp.buffer.com/mcp); one post per channel for per-platform copy"
+    "backend": "Buffer official MCP server (https://mcp.buffer.com/mcp); OAuth; one post per channel for per-platform copy",
+    "buffer_capabilities": [
+      "account:read",
+      "account:write",
+      "posts:read",
+      "posts:write",
+      "ideas:read",
+      "ideas:write",
+      "insights:read"
+    ]
   },
   "rules": [
     "No em dashes or en dashes in visible copy.",

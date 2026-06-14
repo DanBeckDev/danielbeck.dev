@@ -49,6 +49,7 @@ npm run format   # Prettier
 - Working YouTube packages: `docs/content/youtube-scripts/<video-slug>/`
 - Talks: `src/content/speaking/*.md`
 - Design tokens and theming: `src/styles/global.css`
+- Social sharing docs: `docs/social/`
 
 ## If you are writing a blog post
 
@@ -62,5 +63,15 @@ Start with:
 
 If the post is technical, read the source code or repo first. Do not draft
 from memory when the code is available.
+
+## If you are writing or scheduling social posts
+
+Read:
+
+- [`docs/social/social-posting-conventions.md`](./docs/social/social-posting-conventions.md)
+- [`docs/social/sharing-playbook.md`](./docs/social/sharing-playbook.md)
+
+Never schedule, queue, publish, or save public social posts in Buffer until the
+user has approved the exact copy and timing.
 
 See [`docs/`](./docs/README.md) for the full guide to each.

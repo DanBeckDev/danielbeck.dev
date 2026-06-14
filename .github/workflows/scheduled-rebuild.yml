@@ -13,7 +13,11 @@ name: Scheduled rebuild
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # every 6 hours (UTC). Adjust for finer/coarser timing.
+    # Targets 15:00 UK (the recommended publish slot). GitHub cron is UTC-only,
+    # so two runs cover both UK seasons: 14:00 UTC = 15:00 BST (summer), and
+    # 15:00 UTC = 15:00 GMT (winter). A post dated 15:00 UK (with the right
+    # offset) goes live at the matching run; the other run is a harmless no-op.
+    - cron: '0 14,15 * * *'
   workflow_dispatch: {} # allow manual runs from the Actions tab
 
 permissions: {}

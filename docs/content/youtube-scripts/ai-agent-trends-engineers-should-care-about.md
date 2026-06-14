@@ -1,12 +1,12 @@
-# YouTube script: AI Native DevCon 2026
+# YouTube script: The AI Agent Trends Engineers Should Actually Care About
 
 Source post:
 [`src/content/blog/ai-native-devcon-2026-notes.mdx`](../../../src/content/blog/ai-native-devcon-2026-notes.mdx)
 
 Working title:
-`AI Native DevCon 2026: The Model Is Not the Bottleneck`
+`The AI Agent Trends Engineers Should Actually Care About`
 
-Format: conference notes, technical commentary
+Format: AI engineering trends, conference-backed commentary
 
 Estimated length: 8 to 10 minutes
 
@@ -15,8 +15,9 @@ building with AI agents at work.
 
 Tone: calm, direct, practical, thoughtful. No hype.
 
-Primary promise: after watching, the viewer understands why useful agents depend
-on skills, context, harnesses, security, and team habits, not just model choice.
+Primary promise: after watching, the viewer understands the AI agent trends that
+matter for real engineering teams: skills, harnesses, context, security, evals,
+and review.
 
 Primary CTA: read the full notes on the site.
 
@@ -24,38 +25,39 @@ Primary CTA: read the full notes on the site.
 
 ### Hook: 0:00 to 0:20
 
-I spent two days at AI Native DevCon London, and the thing I kept hearing was
-not "we need a better model".
+A lot of AI agent trend videos are looking in the wrong place.
 
-It was this: useful agents need better systems around them.
+They focus on model names, demos, and big predictions. That stuff matters, but
+it is not where most engineering teams are going to win or lose with agents.
 
-Skills. Context. Harnesses. Sandboxes. Evals. The team habits that decide
-whether agent work is repeatable, or just impressive once.
+The trends I think engineers should care about are more practical: skills,
+context, harnesses, sandboxes, evals, and the way teams review work.
 
-That is what I want to unpack.
+That is what decides whether agent work is repeatable, or just impressive once.
 
 Visual cue: direct to camera. Quick cuts of the conference page, notes, terminal,
 docs, and an agent diff.
 
 ### Intro: 0:20 to 0:55
 
-This is a notes video, not a polished conference recap.
+This video comes from two days of notes at AI Native DevCon London, but the
+conference is not really the point.
 
-I went to AI Native DevCon in London, wrote down what stood out, then turned
-those notes into a blog post. In this video I want to pull out the ideas I am
-actually taking forward into my own work.
+The useful part is the pattern that kept showing up across the talks. The same
+things kept coming back: skills, context, harnesses, sandboxes, evals, and team
+habits.
 
-The short version is simple: the model matters, but the model is no longer the
-only interesting part of the stack.
+The model still matters. But for engineers building with agents, the bigger
+shift is happening around the model.
 
 Once an agent is good enough to be useful, the question changes. Can the system
 around it make good work happen again tomorrow?
 
-Visual cue: show the blog post title, then zoom into the takeaway list.
+Visual cue: show the blog post briefly, then zoom into a simple trend list.
 
-### Section 1: Skills are becoming production artifacts: 0:55 to 2:10
+### Trend 1: Skills are becoming software dependencies: 0:55 to 2:10
 
-The first idea is that skills are not prompt snippets.
+The first trend is that skills are becoming software dependencies.
 
 Guy Podjarny's keynote framed this really clearly: a skill changes how an agent
 behaves. If it can steer an agent into editing code, calling tools, or touching
@@ -81,11 +83,11 @@ Visual cue: show a messy prompt file becoming five labelled blocks: rules,
 skills, scripts, hooks, evals.
 
 Retention beat: "The key point for me is this: if a skill can change production
-work, it is production work."
+work, it belongs in your engineering system."
 
-### Section 2: Reliability comes from the harness: 2:10 to 3:25
+### Trend 2: Reliability is moving into the harness: 2:10 to 3:25
 
-The second idea is harness engineering.
+The second trend is harness engineering.
 
 Ryan Lopopolo described the harness as the deterministic software around the
 probabilistic model. That means the context you give it, the tools it can use,
@@ -110,9 +112,9 @@ inside their actual environment.
 Visual cue: diagram of model in the middle, surrounded by context, tools,
 feedback, verification, and permissions.
 
-### Section 3: Context is product work: 3:25 to 4:45
+### Trend 3: Context engineering is becoming product work: 3:25 to 4:45
 
-The third idea is context.
+The third trend is context engineering becoming product work.
 
 Rob Sloan's talk pushed harness thinking beyond code, which I found useful.
 Agents do not just need source files and commands. They need the product goal,
@@ -141,7 +143,7 @@ be visible enough that people and agents can use the same version of the truth.
 Visual cue: show scattered sources merging into a single "context packet":
 goal, constraints, decisions, acceptance criteria, owner.
 
-### Section 4: Agent experience is developer experience with fewer excuses: 4:45 to 6:10
+### Trend 4: Agent experience is becoming developer experience: 4:45 to 6:10
 
 Dana Lawson's Netlify talk was probably my favourite because it was painfully
 practical.
@@ -173,7 +175,7 @@ the rough edges humans have tolerated for years and making them explicit.
 Visual cue: split screen. Left side: noisy build log. Right side: structured
 error with file, reason, command, and suggested next step.
 
-### Section 5: Sandboxing is part of the product: 6:10 to 7:10
+### Trend 5: Sandboxing is becoming part of the product: 6:10 to 7:10
 
 The security thread was just as concrete.
 
@@ -195,7 +197,7 @@ is useful, but speed without boundaries just moves mistakes faster.
 Visual cue: show an agent workflow entering a sandbox with labelled boundaries:
 files, network, secrets, audit log.
 
-### Section 6: Review moves before the diff: 7:10 to 8:25
+### Trend 6: Review is moving before the diff: 7:10 to 8:25
 
 The team impact was the final theme.
 
@@ -226,9 +228,10 @@ Otherwise agent speed just spreads confusion faster.
 Visual cue: show a pull request with a huge diff, then rewind to a reviewed spec
 and context packet.
 
-### Section 7: The plumbing still matters: 8:25 to 9:15
+### Trend 7: Agent infrastructure is becoming normal infrastructure: 8:25 to 9:15
 
-One last thing that stood out was MCP.
+The last trend is less flashy, but important: agent infrastructure is starting
+to look like normal infrastructure.
 
 Shaun Smith's talk was a reminder that the plumbing is still early. MCP is how
 agents connect to tools and data, and the current shape still has too much
@@ -239,7 +242,7 @@ stateless HTTP transport, shared tool lists, routing through headers, and one
 authorised URL for a scoped set of tools.
 
 That is less exciting than an agent demo, but probably more important if agents
-are going to fit into real infrastructure.
+are going to fit into real engineering systems.
 
 The line from the Q&A was blunt: what separates real agent infrastructure from
 wrapping LLM APIs?
@@ -251,7 +254,7 @@ scoped tool set.
 
 ### Conclusion: 9:15 to 10:00
 
-That was the shape of the conference for me.
+Those are the AI agent trends I think engineers should actually care about.
 
 The work is not just proving that an agent can do something useful once. The
 work is building enough context, discipline, and taste around it that the work
@@ -274,8 +277,8 @@ Move review before the generated diff.
 For me, the biggest immediate gap is evals. A small suite per skill would give
 us a way to change context with confidence instead of vibes.
 
-I have written the full notes up on my site, so if you want the more detailed
-version with the talks and examples, I will link that below.
+I have written the full conference notes up on my site, so if you want the more
+detailed version with the talks and examples, I will link that below.
 
 And if you are building agent workflows in your own team, I would be curious
 which of these is the biggest gap for you: skills, context, harnesses, security,
@@ -285,9 +288,9 @@ Visual cue: end on the blog post, then comments prompt on screen.
 
 ## Description draft
 
-I spent two days at AI Native DevCon London 2026. These are the ideas I am
-taking forward: skills as code, harness engineering, context ownership, agent
-experience, sandboxing, evals, and earlier review.
+Most AI agent trend videos focus on models and demos. These are the trends I
+think engineers should actually care about: skills as code, harness engineering,
+context ownership, agent experience, sandboxing, evals, and earlier review.
 
 Full notes:
 https://danielbeck.dev/blog/ai-native-devcon-2026-notes/
@@ -302,8 +305,9 @@ agent setup right now?
 
 ## Thumbnail ideas
 
-- Text: `The model is not the bottleneck`
-- Text: `Useful agents need better systems`
+- Text: `AI agent trends that matter`
+- Text: `Stop watching the model`
+- Text: `Agents need systems`
 - Visual: model in the centre, surrounded by context, harness, skills, evals,
   security, and review.
 

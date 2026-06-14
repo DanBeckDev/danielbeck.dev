@@ -20,7 +20,7 @@
     "content_schemas": "src/content.config.ts",
     "blog_posts": "src/content/blog/*.mdx",
     "videos": "src/data/videos.yaml",
-    "youtube_scripts": "docs/content/youtube-scripts/*.md",
+    "youtube_packages": "docs/content/youtube-scripts/*/",
     "speaking": "src/content/speaking/*.md",
     "global_styles": "src/styles/global.css"
   },

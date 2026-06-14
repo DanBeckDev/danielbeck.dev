@@ -47,7 +47,9 @@ const focus = ['Micro-Frontends', 'Design Systems', 'Developer Experience', 'AI 
   .hero__grid {
     display: grid;
     gap: 2.5rem;
-    align-items: center;
+    /* Top-aligned, not centered: the decorative graph must not re-center (and
+       visibly shift) when the hero text reflows as web fonts load. Fixes CLS. */
+    align-items: start;
     grid-template-columns: 1fr;
   }
   .hero__title {

@@ -30,11 +30,41 @@ Gather the facts first.
 - Who is it for?
 - What code, repo, talk, or demo is the source of truth?
 - What is the source-facing frame, and what is the reader-facing frame?
+- What are the 3 to 6 source-specific mechanisms or ideas that make this worth
+  reading?
 - Does it need a `video`, `repo`, `talk`, or `discussion` cross-link?
 - Is there a real example, benchmark, or bug that proves the point?
 
 If any of those are unclear, pause and ask. Do not fill the gaps with invented
 details.
+
+## Extract the real mechanisms
+
+For repo-based posts, do not stop at "what this project is". Find the moving
+parts that explain why it is interesting.
+
+Before drafting, write a short source map for yourself:
+
+- **Surface claim**: how the project describes itself.
+- **Actual shape**: what the repo is when you inspect it.
+- **Mechanisms**: the specific code paths, generated files, workflows, or data
+  flows that make it work.
+- **Proof**: the files, commands, tests, or docs that back each mechanism.
+- **Caveats**: claims that should be framed as marketing, self-reporting, or
+  interpretation.
+
+The section outline should come from those mechanisms. If the draft reads like a
+tidy product overview, but the source material contains sharper implementation
+ideas, rewrite around the sharper ideas.
+
+Example:
+
+```md
+Surface claim: Garry Tan's exact Claude Code setup
+Actual shape: skills monorepo plus browser daemon and memory layer
+Mechanisms: generated skill files, file handoffs, CI evals, persistent browser
+daemon, cross-model review, repo-scoped memory
+```
 
 ## Choose the reader-facing frame
 

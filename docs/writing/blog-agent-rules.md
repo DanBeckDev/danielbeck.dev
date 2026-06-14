@@ -174,6 +174,35 @@ Better shape:
 - source or example
 - consequence for the reader or author
 
+## Do not flatten repo analysis
+
+When writing from a repo, the first draft should not be a neutral list of
+features. A good repo post separates the public framing from the actual
+mechanisms in the code.
+
+Before drafting, identify:
+
+- What the repo says it is.
+- What it actually is when you inspect the tree.
+- The mechanisms that make it work.
+- The caveats around claims, numbers, or marketing language.
+
+Then make the mechanisms the structure of the post.
+
+Weak:
+
+```md
+The repo includes skills, browser automation, evals, and memory.
+```
+
+Better:
+
+```md
+The interesting part is that the skill files are generated from templates and
+TypeScript metadata, so the agent instructions can be checked against the
+runtime.
+```
+
 ## Add information gain
 
 Add the author's judgment instead of only restating what happened.

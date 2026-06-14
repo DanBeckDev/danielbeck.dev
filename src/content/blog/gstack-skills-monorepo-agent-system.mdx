@@ -1,0 +1,211 @@
+---
+title: 'How gstack Turns Claude Code Into an Agent System'
+description: >-
+  A code-level look at garrytan/gstack: dynamic skill files, file-based
+  handoffs, CI evals, browser infrastructure, cross-model review, and memory.
+pubDate: 2026-06-14
+category: AI Engineering
+tags: [ai-engineering, agents, skills, claude-code, gstack]
+draft: false
+repo:
+  url: https://github.com/garrytan/gstack
+  name: garrytan/gstack
+  description: 'Claude Code skills, browser automation, and memory for agentic engineering workflows.'
+  language: TypeScript
+---
+
+[gstack](https://github.com/garrytan/gstack) is getting attention because it is
+Garry Tan's exact Claude Code setup, published as an open-source repo.
+
+That context matters. Garry is the President and CEO of Y Combinator, and he
+has been unusually public about using agents to ship more of his own software.
+It gives the repo a bit more weight than another random prompt pack on GitHub.
+
+The bigger reason it is worth reading is technical. gstack is not a framework
+or an app in the usual sense. It is a skills monorepo, a generated prompt
+system, a browser automation runtime, and a memory layer wrapped around Claude
+Code.
+
+The main takeaways:
+
+- The product is the delivery process, not a UI.
+- The skill files are dynamic build artifacts, generated from templates and
+  TypeScript source.
+- Skills hand work to each other through files and repo-scoped state, not only
+  through chat history.
+- Browser automation runs through a long-lived local Chromium daemon.
+- Codex is used as an independent second opinion in review flows.
+- gbrain adds persistent memory with per-repo trust levels.
+
+Strip away the launch story and the interesting thing is this: gstack treats
+agent workflow as software that can be versioned, generated, tested, and
+secured.
+
+## The product is the delivery process
+
+The top level of the repo tells you the model.
+
+There are folders like `office-hours`, `plan-eng-review`, `review`, `qa`,
+`ship`, `canary`, `retro`, `learn`, `codex`, and `setup-gbrain`. Each one has a
+`SKILL.md` file. In the current repo I counted 54 skill files within two
+directory levels.
+
+The unit of design is not "ask Claude to code". It is the work stage.
+
+`/office-hours` shapes an idea before implementation. `/plan-eng-review` pushes
+on architecture, data flow, and tests. `/review` checks the diff before
+landing. `/qa` drives a browser against a running app. `/ship` handles the
+release path. `/retro` turns finished work back into learning.
+
+That is the conceptual leap. gstack turns a software delivery process into a
+set of agent roles. One Claude Code instance can behave like a product partner,
+engineering manager, reviewer, QA lead, release engineer, and retrospective
+facilitator, depending on the skill loaded.
+
+You may not want that exact org chart. The useful pattern is that the workflow
+has been made explicit.
+
+## The dynamic skill files are the clever bit
+
+The generated `SKILL.md` files are not hand-edited prompt files.
+
+Every one I checked starts with this warning:
+
+```md
+<!-- AUTO-GENERATED from SKILL.md.tmpl - do not edit directly -->
+<!-- Regenerate: bun run gen:skill-docs -->
+```
+
+The source is a `SKILL.md.tmpl` file plus resolver code. The generator in
+`scripts/gen-skill-docs.ts` reads templates, finds placeholders, resolves them
+from source, and writes the final Markdown that the agent host consumes.
+
+That matters most in the browser skill. The generator imports real TypeScript
+metadata from `browse/src/commands` and `browse/src/snapshot`. In other words,
+parts of the agent-facing instructions are derived from the implementation.
+
+If a browser command changes, the docs can be regenerated from the same source
+the runtime uses. The repo then checks that with `.github/workflows/skill-docs.yml`,
+which runs `bun run gen:skill-docs` and fails when generated files are stale.
+
+That is the strongest takeaway for me. Prompt drift is one of the easiest ways
+agent systems rot. gstack attacks that by making the prompt files generated
+artifacts, not handwritten documentation that slowly falls behind the code.
+
+## The handoff is files, not vibes
+
+The skills do not rely only on whatever the model remembers in the current chat
+window.
+
+The generated skill preambles create session state under `~/.gstack/sessions`.
+They derive the current repo slug. They look for project learnings under
+`~/.gstack/projects/<repo>/learnings.jsonl`. Some skills also load recent design
+docs, analytics, or prior sessions before they start.
+
+That gives the workflow a visible memory surface. Markdown files, JSONL logs,
+and repo-scoped state are not glamorous, but they are easy to grep, review,
+back up, and delete.
+
+This is what lets a multi-step agent workflow hold together. A plan can become
+a document. A review can become a report. A release skill can read what the
+planning skill produced. The handoff is on disk instead of buried in a giant
+context window.
+
+For agents, that is often the difference between a demo and a workflow.
+
+## Evals keep the skills honest
+
+gstack also tests the prompts.
+
+The `.github/workflows/evals.yml` workflow runs a matrix of eval suites on pull
+requests. The matrix includes LLM judging, browser evals, planning evals, deploy
+evals, design evals, QA evals, review evals, routing evals, Codex evals, and
+Gemini evals.
+
+There are eval helper scripts under `scripts/`, test fixtures under
+`test/fixtures`, and CI uploads eval results as artifacts.
+
+This is another part worth copying. If a skill controls how an agent plans,
+reviews, tests, or ships, it needs tests of its own. Otherwise the agent can
+look productive while the instructions quietly degrade.
+
+I would still treat the productivity numbers in the README as the project
+author's claim, not an independent benchmark. The architecture is more useful
+than the headline number.
+
+## The browser daemon is real systems engineering
+
+The `browse` package is where gstack becomes more than Markdown.
+
+According to `BROWSER.md`, the browser layer is a compiled CLI binary that talks
+to a persistent local Chromium daemon over HTTP. The daemon uses Playwright. The
+CLI reads a state file, sends a command, and prints the result to stdout.
+
+The architecture is practical:
+
+```txt
+Agent -> browse CLI -> Bun HTTP daemon -> Playwright -> Chromium
+```
+
+The first call starts the daemon. Later calls reuse it, which avoids launching a
+new browser for every command. Each workspace gets its own daemon, port, state
+file, cookies, and logs at `.gstack/browse.json`.
+
+The agent-facing interaction model is also interesting. gstack uses
+Playwright's accessibility tree to assign refs like `@e1` and `@e2`. Later
+commands can click or inspect those refs. That gives the agent a more stable
+surface than raw DOM selectors, and it avoids mutating the page just to mark
+elements.
+
+The security work is not just a warning in a README either. Pair-agent mode uses
+a dual-listener architecture. The local listener has the full command surface.
+The tunnel listener gets only the pairing flow and a scoped command surface for
+remote agents. gstack also uses scoped tokens, command allowlists, deny-default
+CDP access, canary token checks, content marking, hidden element stripping, and
+classifier checks for prompt-injection risk.
+
+That is the part that feels like systems engineering rather than prompt craft.
+If an agent can browse, click, submit, and read page content, the browser
+harness is part of the trust boundary.
+
+## It brings in outside voices and memory
+
+gstack also has a `/codex` skill. It is not just a joke about asking another
+model.
+
+The skill supports review, challenge, and consult modes. The review path can
+call `codex review` with a pass/fail gate. The challenge and consult paths use
+`codex exec` in read-only mode, with JSONL output for longer-running work and
+session continuity for follow-ups.
+
+That is useful because it gives the Claude-led workflow an independent check.
+The point is not that Codex is magically right. The point is that a second model
+with a separate prompt path can catch different failures.
+
+The memory side is handled through gbrain. The `setup-gbrain` skill supports a
+local PGLite path, a Supabase/Postgres path, and a remote HTTP MCP path. It also
+asks for per-repo policy: `read-write`, `read-only`, or `deny`.
+
+That policy matters. Not every repo should write to memory. Not every agent
+should see every project. Once memory becomes shared infrastructure, it needs
+the same controls as the rest of the system.
+
+## The takeaway is not to copy it exactly
+
+gstack is intentionally maximalist. That is part of why it is useful to read.
+
+You may want fewer skills, stricter human approval, a simpler browser setup, or
+no shared memory at all. The exact package is less important than the design
+move underneath it.
+
+The parts I would copy are:
+
+- Make the workflow explicit.
+- Treat skills as generated, reviewed, tested software artifacts.
+- Move long-lived handoffs onto disk.
+- Give browser agents a real harness and a real security boundary.
+- Use evals to test the instructions, not only the code the agent writes.
+- Add memory with trust levels, not as an invisible global bucket.
+
+That is why gstack is worth reading as code. It shows what happens when a
+personal Claude Code setup grows into a full agent system.

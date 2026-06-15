@@ -47,7 +47,7 @@ npm run format   # Prettier
 - Collections and schemas: `src/content.config.ts`
 - Posts: `src/content/blog/*.mdx`
 - Videos: `src/data/videos.yaml`
-- Working YouTube packages: `docs/content/youtube-scripts/<video-slug>/`
+- Working YouTube packages: `../danielbeck-video-studio/content/youtube-scripts/<video-slug>/`
 - Talks: `src/content/speaking/*.md`
 - Design tokens and theming: `src/styles/global.css`
 - Social sharing docs: `docs/social/`
@@ -88,3 +88,20 @@ future and `draft: false`. A campaign is scheduled only after the approved
 LinkedIn and X posts also exist in Buffer and have been verified.
 
 See [`docs/`](./docs/README.md) for the full guide to each.
+
+## If you are creating YouTube material
+
+Work in the sibling repo `../danielbeck-video-studio`, not inside this website
+repo. Read `../danielbeck-video-studio/AGENTS.md` and
+`../danielbeck-video-studio/docs/workflow.md`.
+
+Treat each video as a production package, not only a script. For substantial
+videos, create:
+
+- `script.md` for the spoken structure.
+- `scenes.json` for generated on-screen visuals.
+- `production-notes.md` for the Remotion handoff.
+- `thumbnails/` for concepts and upload-ready exports.
+
+The website repo should only be updated when a finished public video needs to be
+added to `src/data/videos.yaml` or embedded in site content.

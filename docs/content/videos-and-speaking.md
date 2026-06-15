@@ -4,10 +4,10 @@ Both are small content collections. Videos are one YAML file; talks are one
 markdown file each. The YouTube page shows two sections: a curated **Featured**
 list (from `videos.yaml`) and an automatic **Latest from the channel** feed.
 
-Working YouTube scripts live in
-[`docs/content/youtube-scripts/`](./youtube-scripts/README.md). They are planning
-documents, not public site content. Use them when turning a post, talk, or notes
-file into a recording script.
+Working YouTube production packages live in the sibling repo
+`../danielbeck-video-studio/content/youtube-scripts/`. They are production
+documents, not public site content. Use that repo when turning a post, talk, or
+notes file into a script, scene plan, thumbnail set, or generated video.
 
 ## Latest from the channel (automatic)
 

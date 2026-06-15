@@ -26,11 +26,18 @@ const { page } = Astro.props;
 const { category: categorySlug } = Astro.params;
 const cat = getCategoryBySlug(categorySlug!);
 const title = cat ? cat.name : 'Category';
+
+// Distinct title and description per pagination page so page 2+ are not
+// duplicate-content of page 1.
+const pageSuffix = page.currentPage > 1 ? ` (page ${page.currentPage})` : '';
+const baseDesc = cat?.blurb ?? `Articles in ${title} by Daniel Beck.`;
+const metaDesc =
+  page.currentPage > 1 ? `${baseDesc} Page ${page.currentPage} of ${page.lastPage}.` : baseDesc;
 ---
 
 <BaseLayout
-  title={`${title} articles`}
-  description={cat?.blurb ?? `Articles in ${title} by Daniel Beck.`}
+  title={`${title} articles${pageSuffix}`}
+  description={metaDesc}
   image={ogImageUrl('writing')}
 >
   <PageHeader eyebrow="Category" title={title} lead={cat?.blurb} />

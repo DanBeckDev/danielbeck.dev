@@ -29,6 +29,18 @@ export function personJsonLd() {
   };
 }
 
+export function websiteJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
+    inLanguage: siteConfig.locale,
+    author: { '@type': 'Person', name: siteConfig.name, url: siteConfig.url },
+  };
+}
+
 export function articleJsonLd(post: Post, canonical: string) {
   return {
     '@context': 'https://schema.org',
@@ -44,6 +56,8 @@ export function articleJsonLd(post: Post, canonical: string) {
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
     keywords: post.data.tags.join(', '),
     articleSection: post.data.category,
+    inLanguage: siteConfig.locale,
+    isAccessibleForFree: true,
   };
 }
 

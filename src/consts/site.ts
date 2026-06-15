@@ -10,7 +10,7 @@ export const siteConfig = {
   role: 'Senior Software Engineer',
   tagline: 'Building Reliable Systems at Scale',
   url: 'https://danielbeck.dev',
-  locale: 'en',
+  locale: 'en-GB',
   description:
     'Daniel Beck is a senior software engineer specialising in frontend architecture at scale: micro-frontends, design systems, and developer experience. He also builds AI-augmented engineering systems, where autonomous agents implement, test, and ship code.',
 

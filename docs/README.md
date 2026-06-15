@@ -39,7 +39,7 @@ copy, and follow it exactly.
 | Schedule a post for a future date      | [content/scheduling-posts.md](./content/scheduling-posts.md)             |
 | Share a post or video on social        | [social/sharing-playbook.md](./social/sharing-playbook.md)               |
 | Write social copy                      | [social/social-posting-conventions.md](./social/social-posting-conventions.md) |
-| Draft a YouTube script                 | [content/youtube-scripts/README.md](./content/youtube-scripts/README.md) |
+| Produce a YouTube video                | Use sibling repo `../danielbeck-video-studio`                            |
 | Edit a specific page's content         | [content/pages.md](./content/pages.md)                                   |
 | Add an open-source contribution        | [content/open-source.md](./content/open-source.md)                       |
 | Add a video or a talk                  | [content/videos-and-speaking.md](./content/videos-and-speaking.md)       |

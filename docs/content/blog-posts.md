@@ -26,8 +26,8 @@ category: Frontend Architecture # required, one of the 9 in consts/categories.ts
 tags: [react, javascript, jsx] # optional, lower-case and hyphenated
 draft: false # optional, default false. true hides it in production.
 featured: true # optional. Featured posts surface on the home page.
-heroImage: ./hero.png # optional, co-located image
-heroImageAlt: 'Description' # required if heroImage is set
+heroImage: ./hero.png # optional, co-located image. Renders as a banner at the top of the post.
+heroImageAlt: 'Description' # required if heroImage is set (the build fails without it)
 canonicalUrl: 'https://...' # optional. Set if cross-posted elsewhere.
 series: 'react-internals' # optional. Groups related posts.
 

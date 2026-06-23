@@ -2,9 +2,10 @@
 title: 'The AI Agent Trends Engineers Should Actually Care About'
 description: >-
   AI agent trends from AI Native DevCon London 2026: skills as code, harness
-  engineering, context ownership, agent experience, sandboxing, and earlier
-  review.
+  engineering, context ownership, agent experience, sandboxing, WebMCP, and
+  earlier review.
 pubDate: 2026-06-13
+updatedDate: 2026-06-23
 category: AI Engineering
 tags: [ai-engineering, agents, skills, context-engineering, harness-engineering]
 draft: false
@@ -23,7 +24,8 @@ The ideas I am taking forward:
 - Treat skills like code: version them, review them, test them, and retire them.
 - Put reliability in the harness: context, tools, feedback loops, and checks.
 - Make context owned and inspectable, not scattered across meetings and notes.
-- Design for agents as real users of your logs, APIs, CLIs, and CI.
+- Design for agents as real users of your logs, APIs, CLIs, CI, and browser
+  surfaces.
 - Give autonomous agents real security boundaries.
 - Move review upstream, before the agent generates a large diff.
 
@@ -138,13 +140,30 @@ people.
 ## Sandboxing is becoming part of the product
 
 The same theme showed up in Oleg Selajev's Docker talk from the security side:
-prompts are not security boundaries. If agents can run commands, edit files,
-call tools, and move between repos, isolation is part of the product. Not a
-policy paragraph. Not a "click yes to continue" prompt. The product.
+prompts are not security boundaries.
 
-That means hard isolation, controlled file sharing, network policy, secret
-isolation, sandbox policy, and audit logs. None of that is glamorous. It is just
-what makes speed survivable.
+Once an agent can run commands, install packages, edit files, call tools, and
+start containers, the useful question is not only "do I trust the model?" It is
+"where is this agent allowed to act?"
+
+That is why the Docker Sandboxes example matters. Docker describes
+[Sandboxes](https://docs.docker.com/ai/sandboxes/) as isolated microVMs for AI
+coding agents. Each sandbox gets its own Docker daemon, filesystem, and network,
+so the agent can build containers, install packages, and modify files without
+touching the host system.
+
+That changes the product surface. The sandbox is no longer an implementation
+detail. It is where you decide what files are mounted, what network access is
+allowed, what credentials are available, and what policies apply across every
+developer's machine.
+
+A permission prompt is not the same thing as a boundary. If the agent can read
+your home directory, reach the network, and see secrets, then a prompt has
+already lost too much ground. The safer shape is to give the agent real autonomy
+inside a smaller world.
+
+That is the part I want to carry forward. Agent speed is useful, but speed
+without boundaries just moves mistakes faster.
 
 ## Review is moving before the diff
 
@@ -171,26 +190,41 @@ This maps directly to a problem I keep seeing: context loss between meetings,
 docs, tickets, transcripts, and skills. If every person and every agent carries
 a different version of the truth, agent speed just spreads confusion faster.
 
-## Agent infrastructure is becoming normal infrastructure
+<span id="agent-infrastructure-is-becoming-normal-infrastructure" />
 
-Shaun Smith's MCP talk was the infrastructure reminder. MCP, the Model Context
-Protocol, is how agents connect to tools and data. His point was that the
-current plumbing still has too much connection setup, repeated tool discovery,
-and stateful protocol work.
+## Browser surfaces are becoming agent surfaces
 
-The direction he described felt like normal web infrastructure catching up:
-stateless HTTP transport, shared tool lists, routing through headers, and one
-authorised URL for a scoped set of tools.
+The browser version of the same idea is WebMCP.
 
-Less exciting than an agent demo. More important if agents are going to fit into
-real infrastructure.
+Chrome's [WebMCP docs](https://developer.chrome.com/docs/ai/webmcp) describe it
+as a proposed web standard for exposing structured tools to AI agents. Instead
+of asking an agent to look at screenshots, scrape the DOM, or guess what a
+button means, a page can declare the actions it supports.
 
-The line from the Q&A was blunt: what separates real agent infrastructure from
-wrapping LLM APIs? Testing, mostly.
+That is the interesting shift. Browser automation today often means imitation:
+move the mouse, click the button, read pixels, infer state. WebMCP points at a
+different model. The site exposes tools, input schemas, outputs, and page state.
+The agent calls those tools through the browser.
 
-That was a useful place to end, because testing was the subtext of the whole
-conference. Skills need evals. Harnesses need verification. Context updates need
-review. Sandboxes need audit logs. Teams need earlier checks on intent.
+For engineers, that makes the web part of the agent interface. A docs site might
+expose search and page lookup. An admin dashboard might expose filter, inspect,
+and approve actions. A deploy UI might expose diagnostics. A support tool might
+expose the exact form flow instead of hoping an agent understands the visual
+layout.
+
+The tooling around it matters too. The GoogleChromeLabs
+[webmcp-tools](https://github.com/GoogleChromeLabs/webmcp-tools) repo includes
+an inspector extension and eval tooling, which is a good signal. This should be
+testable, not just a new annotation trick.
+
+The Chrome docs are clear that WebMCP is still a proposed standard and under
+active discussion. That is fine. The direction matters now: agent-facing browser
+surfaces should have structured actions, permissions, typed results, and
+inspectable state.
+
+It also connects back to AX. If agents are going to use the products we build,
+the browser cannot only be a human visual surface. It needs to become a
+capability surface too.
 
 ## What I am changing
 
@@ -203,8 +237,12 @@ For me, that means:
 - Add small eval suites next to the skills we rely on.
 - Make context packets explicit: goal, constraints, decisions, acceptance
   criteria, and owner.
-- Design logs, APIs, CLIs, and CI output for agents as real users.
-- Sandbox agent work by default.
+- Design logs, APIs, CLIs, CI output, and browser surfaces for agents as real
+  users.
+- Sandbox agent work by default, with filesystem, network, credential, and audit
+  boundaries.
+- Look for places where structured browser tools would be better than asking an
+  agent to imitate a person clicking around.
 - Review the spec before the agent creates the diff.
 - Move team knowledge into one shared, inspectable place.
 
